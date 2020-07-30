@@ -1,6 +1,9 @@
 #[macro_use]
 extern crate diesel;
 
+#[macro_use]
+extern crate juniper;
+
 use actix_web::{get, web, App, HttpServer, Responder};
 use log::{info};
 use std::{env::Args, sync::Arc};
