@@ -11,14 +11,34 @@ pub struct Person {
     pub date_added: NaiveDateTime,
 }
 
-#[derive(Insertable, GraphQLInputObject)]
+#[derive(Insertable)]
 #[table_name = "persons"]
-pub struct NewPerson {
+pub struct NewPerson<'a> {
+    pub name: &'a str,
+    pub email: Option<String>,
+    pub phone: Option<String>,
+    pub tags: &'a Vec<String>,
+    pub date_added: NaiveDateTime,
+}
+
+impl<'a> NewPerson<'a> {
+    pub fn from_input(input: &InputPerson) -> NewPerson {
+        NewPerson {
+            name: &input.name,
+            email: input.email.clone(),
+            phone: input.phone.clone(),
+            tags: &input.tags,
+            date_added: chrono::Utc::now().naive_utc()
+        }
+    }
+}
+
+#[derive(GraphQLInputObject)]
+pub struct InputPerson {
     pub name: String,
     pub email: Option<String>,
     pub phone: Option<String>,
     pub tags: Vec<String>,
-    pub date_added: NaiveDateTime,
 }
 
 #[derive(AsChangeset, GraphQLInputObject)]
