@@ -4,21 +4,24 @@ use crate::{
 };
 use diesel::prelude::*;
 
-pub async fn all(conn: &PgConnection) -> QueryResult<Vec<Person>> {
+pub fn all(conn: &PgConnection) -> QueryResult<Vec<Person>> {
     person_query.order(persons::id.desc()).load::<Person>(conn)
 }
 
-pub async fn by_id(id: i32, conn: &PgConnection) -> QueryResult<Person> {
+pub fn by_id(conn: &PgConnection, id: i32) -> QueryResult<Person> {
     person_query.find(id).get_result::<Person>(conn)
 }
 
-pub async fn new(person: NewPerson, conn: &PgConnection) -> QueryResult<Person> {
+pub fn new(conn: &PgConnection, person: NewPerson) -> QueryResult<Person> {
     diesel::insert_into(persons::table)
         .values(person)
         .get_result::<Person>(conn)
 }
 
-pub async fn update(id: i32, person: UpdatePerson, conn: &PgConnection) -> QueryResult<Person> {
+pub fn update(conn: &PgConnection, person: UpdatePerson, id: i32) -> QueryResult<Person> {
     diesel::update(person_query.find(id)).set(person).get_result::<Person>(conn)
+}
 
+pub fn delete(conn: &PgConnection, id: i32) -> QueryResult<Person> {
+    diesel::delete(person_query.find(id)).get_result::<Person>(conn)
 }
