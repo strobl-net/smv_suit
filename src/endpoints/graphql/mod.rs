@@ -2,10 +2,10 @@ use crate::db::PgPool;
 use crate::graphql;
 use crate::graphql::context::Context;
 use crate::graphql::Schema;
-use actix_web::{web, Error, HttpResponse, get, post};
+use actix_web::{get, post, web, Error, HttpResponse};
+use juniper::http::playground::playground_source;
 use juniper::http::GraphQLRequest;
 use std::sync::Arc;
-use juniper::http::playground::playground_source;
 
 pub fn graphql_endpoints(config: &mut web::ServiceConfig) {
     let schema = Arc::new(graphql::create_schema());

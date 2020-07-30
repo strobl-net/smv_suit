@@ -1,23 +1,11 @@
-#[macro_use]
-extern crate diesel;
-
-#[macro_use]
-extern crate juniper;
-
-use crate::{
+use actix_web::{middleware, App, HttpServer};
+use log::info;
+use smv_suit::{
     config::Config,
     db::{new_pool, PgPool},
+    endpoints, setup_logger,
 };
-use actix_web::{App, HttpServer, middleware};
-use log::info;
 use std::{env::Args, sync::Arc};
-
-mod config;
-mod db;
-mod endpoints;
-mod graphql;
-mod models;
-mod schema;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -46,22 +34,4 @@ async fn main() -> std::io::Result<()> {
     .bind(server_address)?
     .run()
     .await
-}
-
-fn setup_logger() -> Result<(), fern::InitError> {
-    fern::Dispatch::new()
-        .format(|out, message, record| {
-            out.finish(format_args!(
-                "{}[{}][{}] {}",
-                chrono::Local::now().format("[%Y-%m-%d][%H:%M:%S]"),
-                record.target(),
-                record.level(),
-                message
-            ))
-        })
-        .level(log::LevelFilter::Debug)
-        .chain(std::io::stdout())
-        .chain(fern::log_file("output.log")?)
-        .apply()?;
-    Ok(())
 }
