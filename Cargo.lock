@@ -1426,6 +1426,7 @@ dependencies = [
  "chrono",
  "diesel",
  "juniper",
+ "r2d2",
 ]
 
 [[package]]

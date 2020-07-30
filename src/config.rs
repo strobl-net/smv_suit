@@ -3,27 +3,45 @@ use std::env::Args;
 // DB_ADDRESS=<ADDRESS>
 #[derive(Debug, Clone)]
 pub struct Config {
-    db_address: String,
-    db_user: String,
-    db_password: String,
+    pub db_address: String,
+    pub db_link: String,
+    pub pool_limit: Option<u32>,
 }
 
 impl Config {
     //TODO: impl optional arguments!
     pub fn new(_args: Args) -> Self {
         let env_values: Vec<String> = read_env();
+        let pool_limit_num: u32 = env_values.get(2).unwrap_or(&"0".to_string()).parse().unwrap();
+        let mut pool_limit: Option<u32> = None;
+        if pool_limit_num != 0 {
+            pool_limit = Some(pool_limit_num);
+        }
+
         Self {
             db_address: env_values.get(0).unwrap().to_string(),
-            db_user: env_values.get(1).unwrap().to_string(),
-            db_password: env_values.get(2).unwrap().to_string(),
+            db_link: env_values.get(1).unwrap().to_string(),
+            pool_limit,
         }
     }
 }
 // ENV values or default values if ENV Value undefined
 fn read_env() -> Vec<String> {
     let mut values: Vec<String> = Vec::new();
-    values.push(std::env::var("DB_ADDRESS").unwrap_or_else(|_| "127.0.0.1:5432".to_string()));
-    values.push(std::env::var("DB_USER").unwrap_or_else(|_| "admin".to_string()));
-    values.push(std::env::var("DB_PASSWORD").unwrap_or_else(|_| "admin".to_string()));
+    // read all env variables
+    let db_ip = std::env::var("DB_ADDRESS").unwrap_or_else(|_| "127.0.0.1".to_string());
+    let db_port = std::env::var("DB_PORT").unwrap_or_else(|_| "5432".to_string());
+    let db_name = std::env::var("DB_NAME").unwrap_or_else(|_| "smv".to_string());
+    let db_user = std::env::var("DB_USER").unwrap_or_else(|_| "admin".to_string());
+    let db_password = std::env::var("DB_PASSWORD").unwrap_or_else(|_| "admin".to_string());
+    let pool_limit = std::env::var("POOL_LIMIT").unwrap_or_else(|_| "0".to_string());
+
+    // format
+    let db_address = format!("{}:{}", db_ip, db_port);
+    let db_link = format!("postgres://{}:{}@{}:{}/{}", db_user, db_password, db_ip, db_port, db_name);
+
+    values.push(db_address);
+    values.push(db_link);
+    values.push(pool_limit);
     values
 }

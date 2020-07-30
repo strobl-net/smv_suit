@@ -2,6 +2,7 @@ use actix_web::{get, web, App, HttpServer, Responder};
 use std::env::Args;
 use crate::config::Config;
 use std::sync::Arc;
+use crate::db::{PgPool, new_pool};
 
 mod db;
 mod graphql;
@@ -16,8 +17,10 @@ async fn index(info: web::Path<(u32, String)>) -> impl Responder {
 async fn main() -> std::io::Result<()> {
     let args: Args = std::env::args();
     let config: Arc<Config> = Arc::new(Config::new(args));
+    let pool: PgPool = new_pool(&config);
     HttpServer::new(move || App::new()
-        .app_data(config.clone())
+        .data(config.clone())
+        .data(pool.clone())
         .service(index))
         .bind("127.0.0.1:8080")?
         .run()
