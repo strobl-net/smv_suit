@@ -19,7 +19,9 @@ pub fn new(conn: &PgConnection, person: NewPerson) -> QueryResult<Person> {
 }
 
 pub fn update(conn: &PgConnection, person: UpdatePerson, id: i32) -> QueryResult<Person> {
-    diesel::update(person_query.find(id)).set(person).get_result::<Person>(conn)
+    diesel::update(person_query.find(id))
+        .set(person)
+        .get_result::<Person>(conn)
 }
 
 pub fn delete(conn: &PgConnection, id: i32) -> QueryResult<Person> {

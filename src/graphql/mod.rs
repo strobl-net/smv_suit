@@ -1,15 +1,13 @@
 pub mod context;
 pub mod person;
 
-use person::{PersonQuery, PersonMutation};
-use crate::models::person::{Person, NewPerson, UpdatePerson};
 use crate::graphql::context::Context;
+use crate::models::person::{NewPerson, Person, UpdatePerson};
 use juniper::{FieldResult, RootNode};
-use std::thread;
+use person::{PersonMutation, PersonQuery};
 
 pub struct Query;
 pub struct Mutation;
-
 
 pub type Schema = RootNode<'static, Query, Mutation>;
 

@@ -8,20 +8,16 @@ use crate::{
     config::Config,
     db::{new_pool, PgPool},
 };
-use actix_web::{get, web, App, HttpServer, Responder};
+use actix_web::{App, HttpServer, middleware};
 use log::info;
 use std::{env::Args, sync::Arc};
 
 mod config;
 mod db;
+mod endpoints;
 mod graphql;
 mod models;
 mod schema;
-
-#[get("/{id}/{name}/")]
-async fn index(info: web::Path<(u32, String)>) -> impl Responder {
-    format!("Hello {}! id:{}", info.1, info.0)
-}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -44,7 +40,8 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .data(config.clone())
             .data(pool.clone())
-            .service(index)
+            .wrap(middleware::Logger::default())
+            .configure(endpoints::graphql_endpoints)
     })
     .bind(server_address)?
     .run()

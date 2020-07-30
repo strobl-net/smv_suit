@@ -21,7 +21,7 @@ pub struct NewPerson {
     pub date_added: NaiveDateTime,
 }
 
-#[derive(AsChangeset)]
+#[derive(AsChangeset, GraphQLInputObject)]
 #[table_name = "persons"]
 pub struct UpdatePerson {
     pub name: Option<String>,

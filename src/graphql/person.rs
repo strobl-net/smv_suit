@@ -1,10 +1,8 @@
-use crate::db::persons;
-use crate::models::person::{Person, NewPerson, UpdatePerson};
 use super::context::Context;
-use juniper::{FieldResult, FieldError};
+use crate::db::persons;
+use crate::models::person::{NewPerson, Person, UpdatePerson};
 use diesel::PgConnection;
-use diesel::result::Error;
-use std::thread;
+use juniper::{FieldError, FieldResult};
 
 pub struct PersonQuery;
 pub struct PersonMutation;
@@ -12,20 +10,20 @@ pub struct PersonMutation;
 impl PersonQuery {
     pub fn all(ctx: &Context) -> FieldResult<Vec<Person>> {
         let conn: &PgConnection = &ctx.pool.get().unwrap();
-            match persons::all(conn) {
-                Ok(persons) => Ok(persons),
-                Err(err) => FieldResult::Err(FieldError::from(err)),
-            }
+        match persons::all(conn) {
+            Ok(persons) => Ok(persons),
+            Err(err) => FieldResult::Err(FieldError::from(err)),
+        }
     }
 
-    pub async fn by_id(ctx: &Context, id: i32) -> FieldResult<Option<Person>> {
+    pub fn by_id(ctx: &Context, id: i32) -> FieldResult<Option<Person>> {
         let conn: &PgConnection = &ctx.pool.get().unwrap();
         match persons::by_id(conn, id) {
             Ok(person) => Ok(Some(person)),
             Err(err) => match err {
                 diesel::result::Error::NotFound => FieldResult::Ok(None),
                 _ => FieldResult::Err(FieldError::from(err)),
-            }
+            },
         }
     }
 }
