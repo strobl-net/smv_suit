@@ -4,14 +4,17 @@ extern crate diesel;
 #[macro_use]
 extern crate juniper;
 
+use crate::{
+    config::Config,
+    db::{new_pool, PgPool},
+};
 use actix_web::{get, web, App, HttpServer, Responder};
-use log::{info};
+use log::info;
 use std::{env::Args, sync::Arc};
-use crate::{config::Config, db::{PgPool, new_pool}};
 
+mod config;
 mod db;
 mod graphql;
-mod config;
 mod models;
 mod schema;
 
@@ -27,8 +30,8 @@ async fn main() -> std::io::Result<()> {
     std::fs::remove_file("output.log")?;
 
     match setup_logger() {
-        Ok(()) => {},
-        Err(err) => println!("Error: {}, while configuring logger", err)
+        Ok(()) => {}
+        Err(err) => println!("Error: {}, while configuring logger", err),
     };
 
     let args: Args = std::env::args();
@@ -37,13 +40,15 @@ async fn main() -> std::io::Result<()> {
     let server_address = config.server_address.clone();
 
     info!("Starting Server with following configuration \n {}", config);
-    HttpServer::new(move || App::new()
-        .data(config.clone())
-        .data(pool.clone())
-        .service(index))
-        .bind(server_address)?
-        .run()
-        .await
+    HttpServer::new(move || {
+        App::new()
+            .data(config.clone())
+            .data(pool.clone())
+            .service(index)
+    })
+    .bind(server_address)?
+    .run()
+    .await
 }
 
 fn setup_logger() -> Result<(), fern::InitError> {
