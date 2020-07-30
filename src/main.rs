@@ -1,3 +1,6 @@
+#[macro_use]
+extern crate diesel;
+
 use actix_web::{get, web, App, HttpServer, Responder};
 use log::{info};
 use std::{env::Args, sync::Arc};
@@ -6,6 +9,8 @@ use crate::{config::Config, db::{PgPool, new_pool}};
 mod db;
 mod graphql;
 mod config;
+mod models;
+mod schema;
 
 #[get("/{id}/{name}/")]
 async fn index(info: web::Path<(u32, String)>) -> impl Responder {
