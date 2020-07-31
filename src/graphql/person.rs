@@ -1,4 +1,4 @@
-use super::context::Context;
+use super::Context;
 use crate::db::persons;
 use crate::models::person::{NewPerson, Person, UpdatePerson};
 use diesel::PgConnection;

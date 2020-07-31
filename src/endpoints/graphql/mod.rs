@@ -1,12 +1,14 @@
 use crate::db::PgPool;
 use crate::graphql;
-use crate::graphql::context::Context;
+use crate::graphql::Context;
 use crate::graphql::Schema;
 use actix_web::{get, post, web, Error, HttpResponse};
 use juniper::http::playground::playground_source;
 use juniper::http::GraphQLRequest;
 use std::sync::Arc;
 
+// Configure all GraphQL endpoints
+// called by the actix-web server builder
 pub fn graphql_endpoints(config: &mut web::ServiceConfig) {
     let schema = Arc::new(graphql::create_schema());
     config
@@ -15,6 +17,7 @@ pub fn graphql_endpoints(config: &mut web::ServiceConfig) {
         .service(graphql_playground_service);
 }
 
+// GraphQL API
 #[post("/graphql")]
 pub async fn graphql_service(
     pool: web::Data<PgPool>,
@@ -37,6 +40,7 @@ pub async fn graphql_service(
         .body(result))
 }
 
+// Graphical GraphQL web-interface
 #[get("/graphql")]
 pub async fn graphql_playground_service() -> HttpResponse {
     HttpResponse::Ok()

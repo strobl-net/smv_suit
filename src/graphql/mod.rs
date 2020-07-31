@@ -1,16 +1,32 @@
-pub mod context;
+//! GraphQL Backend Module
 pub mod person;
 
-use crate::graphql::context::Context;
-use crate::models::person::{NewPerson, Person, UpdatePerson, InputPerson};
+use crate::db::PgPool;
+use crate::models::person::{InputPerson, NewPerson, Person, UpdatePerson};
 use juniper::{FieldResult, RootNode};
 use person::{PersonMutation, PersonQuery};
 
+// Context / relevant data for GraphQL to operate
+pub struct Context {
+    pub pool: PgPool,
+}
+
+impl juniper::Context for Context {}
+
+/// Query holds all queryable objects and operations
+/// e.g. getAll, getByID
+/// e.g. Model
 pub struct Query;
+
+/// Mutation holds all data changing objects and operations
+/// e.g. newModel, updateModel, removeModel
+/// e.g. InputModel, UpdateModel
 pub struct Mutation;
 
+// new schema
 pub type Schema = RootNode<'static, Query, Mutation>;
 
+// small helper function to create a new schema
 pub fn create_schema() -> Schema {
     Schema::new(Query, Mutation)
 }

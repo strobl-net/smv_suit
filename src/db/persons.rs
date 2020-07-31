@@ -5,7 +5,7 @@ use crate::{
 use diesel::prelude::*;
 
 pub fn all(conn: &PgConnection) -> QueryResult<Vec<Person>> {
-    person_query.order(persons::id.desc()).load::<Person>(conn)
+    person_query.order(persons::id.asc()).load::<Person>(conn)
 }
 
 pub fn by_id(conn: &PgConnection, id: i32) -> QueryResult<Person> {

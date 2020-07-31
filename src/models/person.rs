@@ -28,7 +28,7 @@ impl<'a> NewPerson<'a> {
             email: input.email.clone(),
             phone: input.phone.clone(),
             tags: &input.tags,
-            date_added: chrono::Utc::now().naive_utc()
+            date_added: chrono::Utc::now().naive_utc(),
         }
     }
 }

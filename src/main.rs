@@ -11,6 +11,7 @@ use std::{env::Args, sync::Arc};
 async fn main() -> std::io::Result<()> {
     // Delete latest logging file
     // Disable this in production!
+    // TODO: move latest log file into a logfile directory with timestamps.
     std::fs::remove_file("output.log")?;
 
     match setup_logger() {
@@ -18,12 +19,15 @@ async fn main() -> std::io::Result<()> {
         Err(err) => println!("Error: {}, while configuring logger", err),
     };
 
+    // Extract environment variables and setup config
     let args: Args = std::env::args();
     let config: Arc<Config> = Arc::new(Config::new(args));
-    let pool: PgPool = new_pool(&config);
     let server_address = config.server_address.clone();
-
+    // log the config
     info!("Starting Server with following configuration \n {}", config);
+
+    let pool: PgPool = new_pool(&config);
+
     HttpServer::new(move || {
         App::new()
             .data(config.clone())

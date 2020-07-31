@@ -1,11 +1,14 @@
+//! Module for all things concerning the database
 use crate::config::Config;
 use diesel::{pg::PgConnection, r2d2::ConnectionManager};
 use r2d2::Pool;
 
 pub mod persons;
 
+// no one wants to write a type out this long
 pub type PgPool = Pool<ConnectionManager<PgConnection>>;
 
+// creates a new connection manager pool for async database calls
 pub fn new_pool(config: &Config) -> PgPool {
     let manager = ConnectionManager::<PgConnection>::new(&config.db_link);
     match config.pool_limit {

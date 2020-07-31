@@ -1,6 +1,6 @@
 use std::{env::Args, fmt};
 
-// DB_ADDRESS=<ADDRESS>
+/// The config reads the environment variables and saves the values to configure the server
 #[derive(Debug, Clone)]
 pub struct Config {
     pub db_address: String,
@@ -13,6 +13,10 @@ impl Config {
     //TODO: impl optional arguments!
     pub fn new(_args: Args) -> Self {
         let env_values: Vec<String> = read_env();
+
+        // extract the pool limit num
+        // string -> u32 -> Option<u32>
+        // TODO: the conversion looks a bit weird, maybe change it in the future
         let pool_limit_num: u32 = env_values
             .get(2)
             .unwrap_or(&"0".to_string())
@@ -31,21 +35,24 @@ impl Config {
         }
     }
 }
+
 impl fmt::Display for Config {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
             "DB_LINK: {} \n \
-                 SERVER_ADDRESS: {} \n \
-                 POOL_LIMIT: {:?} \n ",
+            SERVER_ADDRESS: {} \n \
+            POOL_LIMIT: {:?} \n ",
             self.db_link, self.server_address, self.pool_limit
         )
     }
 }
-// ENV values or default values if ENV Value undefined
+
+// Extracts the environment variables or supplies default values used in the docker-compose.yml if environment variables were not set
+// Not all environment variables are saved to the config, as they get combined
 fn read_env() -> Vec<String> {
     let mut values: Vec<String> = Vec::new();
-    // read all env variables
+    // read all environment variables
     let db_ip = std::env::var("DB_ADDRESS").unwrap_or_else(|_| "127.0.0.1".to_string());
     let db_port = std::env::var("DB_PORT").unwrap_or_else(|_| "5432".to_string());
     let db_name = std::env::var("DB_NAME").unwrap_or_else(|_| "smv".to_string());
@@ -55,7 +62,7 @@ fn read_env() -> Vec<String> {
     let server_ip = std::env::var("SERVER_IP").unwrap_or_else(|_| "127.0.0.1".to_string());
     let server_port = std::env::var("SERVER_PORT").unwrap_or_else(|_| "8080".to_string());
 
-    // format
+    // format / combine environment variables
     let db_address = format!("{}:{}", db_ip, db_port);
     let db_link = format!(
         "postgres://{}:{}@{}:{}/{}",

@@ -11,6 +11,10 @@ pub mod graphql;
 pub mod models;
 pub mod schema;
 
+// Configure logger format to the following
+// [YYYY-MM-DD][HH:mm:ss][library][type] message
+// where library = name of the library
+// and type = {info, error, trace, warn}
 pub fn setup_logger() -> Result<(), fern::InitError> {
     fern::Dispatch::new()
         .format(|out, message, record| {
