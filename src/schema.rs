@@ -1,10 +1,129 @@
 table! {
+    bills (id) {
+        id -> Int4,
+        received -> Timestamp,
+        processed -> Nullable<Timestamp>,
+        products -> Nullable<Array<Int4>>,
+        responsible -> Nullable<Int4>,
+        organisation -> Nullable<Int4>,
+        change -> Int8,
+        currency -> Currency,
+        transaction -> Int4,
+        added -> Timestamp,
+        changed -> Nullable<Timestamp>,
+    }
+}
+
+table! {
+    depodraw (id) {
+        id -> Int4,
+        description -> Nullable<Text>,
+        transaction -> Nullable<Int4>,
+        added -> Timestamp,
+        changed -> Nullable<Timestamp>,
+    }
+}
+
+table! {
+    money_nodes (id) {
+        id -> Int4,
+        branch -> Branch,
+        change -> Int8,
+        currency -> Currency,
+        added -> Timestamp,
+        changed -> Nullable<Timestamp>,
+    }
+}
+
+table! {
+    organisations (id) {
+        id -> Int4,
+        name -> Text,
+        description -> Nullable<Text>,
+        site -> Nullable<Text>,
+        location -> Nullable<Text>,
+        added -> Timestamp,
+        changed -> Nullable<Timestamp>,
+    }
+}
+
+table! {
     persons (id) {
         id -> Int4,
         name -> Text,
         email -> Nullable<Text>,
         phone -> Nullable<Varchar>,
         tags -> Array<Text>,
-        date_added -> Timestamp,
+        added -> Timestamp,
+        changed -> Nullable<Timestamp>,
     }
 }
+
+table! {
+    products (id) {
+        id -> Int4,
+        name -> Nullable<Text>,
+        description -> Nullable<Text>,
+        change -> Nullable<Int8>,
+        currency -> Nullable<Currency>,
+        provider -> Nullable<Int4>,
+        tags -> Nullable<Array<Text>>,
+        added -> Timestamp,
+        changed -> Nullable<Timestamp>,
+    }
+}
+
+table! {
+    statement_of_accounts (id) {
+        id -> Int4,
+        description -> Nullable<Text>,
+        starting -> Nullable<Timestamp>,
+        ending -> Nullable<Timestamp>,
+        added -> Timestamp,
+        changed -> Nullable<Timestamp>,
+    }
+}
+
+table! {
+    transaction_entities (id) {
+        id -> Int4,
+        description -> Nullable<Text>,
+        organisation -> Nullable<Int4>,
+        person -> Nullable<Int4>,
+        iban -> Nullable<Varchar>,
+        bic -> Nullable<Varchar>,
+        added -> Timestamp,
+        changed -> Nullable<Timestamp>,
+    }
+}
+
+table! {
+    transactions (id) {
+        id -> Int4,
+        description -> Nullable<Text>,
+        sender -> Int4,
+        sender_local -> Bool,
+        receiver -> Int4,
+        receiver_local -> Bool,
+        money_node -> Int4,
+        added -> Timestamp,
+        changed -> Nullable<Timestamp>,
+    }
+}
+
+joinable!(bills -> persons (responsible));
+joinable!(products -> organisations (provider));
+joinable!(transaction_entities -> persons (person));
+joinable!(transactions -> money_nodes (money_node));
+
+allow_tables_to_appear_in_same_query!(
+    bills,
+    depodraw,
+    money_nodes,
+    organisations,
+    persons,
+    products,
+    statement_of_accounts,
+    transaction_entities,
+    transactions,
+);
