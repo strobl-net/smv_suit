@@ -14,17 +14,6 @@ services:
       - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,postgis_raster,pgrouting
     ports:
     - 5432:5432
-  graphql-engine:
-    image: hasura/graphql-engine:v1.3.0
-    ports:
-      - 5434:5434
-    depends_on:
-      - postgres
-    restart: always
-    environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://admin:admin@postgres:5432/postgres
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
-      HASURA_GRAPHQL_DEV_MODE: "true"
   pgadmin:
     image: dpage/pgadmin4
     restart: always
