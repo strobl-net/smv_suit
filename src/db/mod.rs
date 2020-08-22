@@ -4,6 +4,7 @@ use diesel::{pg::PgConnection, r2d2::ConnectionManager};
 use r2d2::Pool;
 
 pub mod persons;
+pub mod types;
 
 // no one wants to write a type out this long
 pub type PgPool = Pool<ConnectionManager<PgConnection>>;

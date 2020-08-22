@@ -1,7 +1,5 @@
--- Your SQL goes here
--- TODO: add currency and location TYPE. write own cate?
-CREATE TYPE currency AS ENUM ('EUR', 'USD');
-CREATE TYPE branch AS ENUM ('DIGITAL', 'CASH');
+CREATE TYPE currency AS ENUM ('eur', 'usd');
+CREATE TYPE branch AS ENUM ('digital', 'cash');
 
 CREATE TABLE persons (
     id              SERIAL                  ,
@@ -14,7 +12,6 @@ CREATE TABLE persons (
     PRIMARY KEY (id)
 );
 
--- TODO: add location type. write own crate?
 CREATE TABLE organisations (
     id              SERIAL                  ,
     name            TEXT        NOT NULL    ,

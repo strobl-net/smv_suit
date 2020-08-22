@@ -8,7 +8,8 @@ pub struct Person {
     pub email: Option<String>,
     pub phone: Option<String>,
     pub tags: Vec<String>,
-    pub date_added: NaiveDateTime,
+    pub added: NaiveDateTime,
+    pub changed: Option<NaiveDateTime>,
 }
 
 #[derive(Insertable)]
@@ -18,7 +19,8 @@ pub struct NewPerson<'a> {
     pub email: Option<String>,
     pub phone: Option<String>,
     pub tags: &'a Vec<String>,
-    pub date_added: NaiveDateTime,
+    pub added: NaiveDateTime,
+    pub changed: Option<NaiveDateTime>,
 }
 
 impl<'a> NewPerson<'a> {
@@ -28,7 +30,8 @@ impl<'a> NewPerson<'a> {
             email: input.email.clone(),
             phone: input.phone.clone(),
             tags: &input.tags,
-            date_added: chrono::Utc::now().naive_utc(),
+            added: chrono::Utc::now().naive_utc(),
+            changed: None,
         }
     }
 }

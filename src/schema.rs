@@ -1,4 +1,7 @@
 table! {
+    use diesel::sql_types::*;
+    use crate::db::types::exports::*;
+
     bills (id) {
         id -> Int4,
         received -> Timestamp,
@@ -15,6 +18,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::db::types::exports::*;
+
     depodraw (id) {
         id -> Int4,
         description -> Nullable<Text>,
@@ -25,6 +31,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::db::types::exports::*;
+
     money_nodes (id) {
         id -> Int4,
         branch -> Branch,
@@ -36,6 +45,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::db::types::exports::*;
+
     organisations (id) {
         id -> Int4,
         name -> Text,
@@ -48,6 +60,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::db::types::exports::*;
+
     persons (id) {
         id -> Int4,
         name -> Text,
@@ -60,6 +75,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::db::types::exports::*;
+
     products (id) {
         id -> Int4,
         name -> Nullable<Text>,
@@ -74,6 +92,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::db::types::exports::*;
+
     statement_of_accounts (id) {
         id -> Int4,
         description -> Nullable<Text>,
@@ -85,6 +106,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::db::types::exports::*;
+
     transaction_entities (id) {
         id -> Int4,
         description -> Nullable<Text>,
@@ -98,6 +122,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::db::types::exports::*;
+
     transactions (id) {
         id -> Int4,
         description -> Nullable<Text>,
