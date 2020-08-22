@@ -99,8 +99,8 @@ table! {
     statement_of_accounts (id) {
         id -> Int4,
         description -> Nullable<Text>,
-        starting -> Nullable<Timestamp>,
-        ending -> Nullable<Timestamp>,
+        starting -> Timestamp,
+        ending -> Timestamp,
         added -> Timestamp,
         changed -> Nullable<Timestamp>,
     }

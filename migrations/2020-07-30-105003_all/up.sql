@@ -143,8 +143,8 @@ CREATE TABLE bills (
 CREATE TABLE statement_of_accounts (
     id              SERIAL                  ,
     description     TEXT                    ,
-    starting        TIMESTAMP               ,
-    ending          TIMESTAMP               ,
+    starting        TIMESTAMP   NOT NULL    ,
+    ending          TIMESTAMP   NOT NULL    ,
     added           TIMESTAMP   NOT NULL    ,
     changed         TIMESTAMP               ,
     PRIMARY KEY (id)
