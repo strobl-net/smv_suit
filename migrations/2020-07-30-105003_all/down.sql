@@ -1,5 +1,5 @@
 DROP TABLE bills;
-DROP TABLE depodraw;
+DROP TABLE depodraws;
 DROP TABLE transactions;
 DROP TABLE transaction_entities;
 DROP TABLE persons;

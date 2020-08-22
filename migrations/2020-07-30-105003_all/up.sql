@@ -25,9 +25,9 @@ CREATE TABLE organisations (
 
 CREATE TABLE products (
     id              SERIAL                  ,
-    name            TEXT                    ,
+    name            TEXT        NOT NULL    ,
     description     TEXT                    ,
-    change          BIGINT                  ,
+    change          INT                     ,
     currency        CURRENCY                ,
     provider        INT                     ,
     tags            TEXT[]                  ,
@@ -63,7 +63,7 @@ CREATE TABLE transaction_entities (
 CREATE TABLE money_nodes (
     id              SERIAL                  ,
     branch          BRANCH      NOT NULL    ,
-    change          BIGINT      NOT NULL    ,
+    change          INT         NOT NULL    ,
     currency        CURRENCY    NOT NULL    ,
     added           TIMESTAMP   NOT NULL    ,
     changed         TIMESTAMP               ,
@@ -95,7 +95,7 @@ CREATE TABLE transactions (
                 ON DELETE SET NULL
 );
 
-CREATE TABLE depodraw (
+CREATE TABLE depodraws (
     id              SERIAL                  ,
     description     TEXT                    ,
     transaction     INT                     ,
@@ -115,7 +115,7 @@ CREATE TABLE bills (
     products        INT[]                   ,
     responsible     INT                     ,
     organisation    INT                     ,
-    change          BIGINT      NOT NULL    ,
+    change          INT         NOT NULL    ,
     currency        CURRENCY    NOT NULL    ,
     transaction     INT         NOT NULL    ,
     added           TIMESTAMP   NOT NULL    ,

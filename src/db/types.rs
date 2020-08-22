@@ -17,7 +17,7 @@ pub struct CurrencyType;
 #[postgres(type_name = "Branch")]
 pub struct BranchType;
 
-#[derive(Debug, AsExpression, FromSqlRow)]
+#[derive(Debug, AsExpression, FromSqlRow, GraphQLEnum)]
 #[sql_type = "CurrencyType"]
 pub enum Currency {
     EUR,

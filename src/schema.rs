@@ -9,7 +9,7 @@ table! {
         products -> Nullable<Array<Int4>>,
         responsible -> Nullable<Int4>,
         organisation -> Nullable<Int4>,
-        change -> Int8,
+        change -> Int4,
         currency -> Currency,
         transaction -> Int4,
         added -> Timestamp,
@@ -21,7 +21,7 @@ table! {
     use diesel::sql_types::*;
     use crate::db::types::exports::*;
 
-    depodraw (id) {
+    depodraws (id) {
         id -> Int4,
         description -> Nullable<Text>,
         transaction -> Nullable<Int4>,
@@ -37,7 +37,7 @@ table! {
     money_nodes (id) {
         id -> Int4,
         branch -> Branch,
-        change -> Int8,
+        change -> Int4,
         currency -> Currency,
         added -> Timestamp,
         changed -> Nullable<Timestamp>,
@@ -80,9 +80,9 @@ table! {
 
     products (id) {
         id -> Int4,
-        name -> Nullable<Text>,
+        name -> Text,
         description -> Nullable<Text>,
-        change -> Nullable<Int8>,
+        change -> Nullable<Int4>,
         currency -> Nullable<Currency>,
         provider -> Nullable<Int4>,
         tags -> Nullable<Array<Text>>,
@@ -145,7 +145,7 @@ joinable!(transactions -> money_nodes (money_node));
 
 allow_tables_to_appear_in_same_query!(
     bills,
-    depodraw,
+    depodraws,
     money_nodes,
     organisations,
     persons,

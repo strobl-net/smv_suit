@@ -1,5 +1,14 @@
 //! GraphQL Backend Module
+
+pub mod bill;
+pub mod depodraw;
+pub mod money_node;
+pub mod organisation;
 pub mod person;
+pub mod product;
+pub mod statement_of_account;
+pub mod transaction;
+pub mod transaction_entity;
 
 use crate::db::PgPool;
 use crate::models::person::{InputPerson, NewPerson, Person, UpdatePerson};
@@ -48,7 +57,7 @@ impl Query {
 impl Mutation {
     #[graphql(name = "personNew")]
     pub fn persons_new(ctx: &Context, person: InputPerson) -> FieldResult<Person> {
-        let person = NewPerson::from_input(&person);
+        let person = NewPerson::from_input(person);
         PersonMutation::new(ctx, person)
     }
 

@@ -14,22 +14,22 @@ pub struct Person {
 
 #[derive(Insertable)]
 #[table_name = "persons"]
-pub struct NewPerson<'a> {
-    pub name: &'a str,
+pub struct NewPerson {
+    pub name: String,
     pub email: Option<String>,
     pub phone: Option<String>,
-    pub tags: &'a Vec<String>,
+    pub tags: Vec<String>,
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,
 }
 
-impl<'a> NewPerson<'a> {
-    pub fn from_input(input: &InputPerson) -> NewPerson {
-        NewPerson {
-            name: &input.name,
+impl NewPerson {
+    pub fn from_input(input: InputPerson) -> Self {
+        Self {
+            name: input.name,
             email: input.email.clone(),
             phone: input.phone.clone(),
-            tags: &input.tags,
+            tags: input.tags,
             added: chrono::Utc::now().naive_utc(),
             changed: None,
         }
