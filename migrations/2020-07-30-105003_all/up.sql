@@ -96,14 +96,19 @@ CREATE TABLE transactions (
 );
 
 CREATE TABLE depodraws (
-    id              SERIAL                  ,
-    description     TEXT                    ,
-    transaction     INT                     ,
-    added           TIMESTAMP   NOT NULL    ,
-    changed         TIMESTAMP               ,
-    PRIMARY KEY (id)                        ,
-    CONSTRAINT fk_transaction
-        FOREIGN KEY (transaction)
+    id               SERIAL                  ,
+    description      TEXT                    ,
+    transaction_up   INT                     ,
+    transaction_down INT                     ,
+    added            TIMESTAMP   NOT NULL    ,
+    changed          TIMESTAMP               ,
+    PRIMARY KEY (id)                         ,
+    CONSTRAINT fk_transaction_up
+        FOREIGN KEY (transaction_up)
+            REFERENCES transactions(id)
+            ON DELETE SET NULL               ,
+    CONSTRAINT fk_transaction_down
+        FOREIGN KEY (transaction_down)
             REFERENCES transactions(id)
             ON DELETE SET NULL
 );

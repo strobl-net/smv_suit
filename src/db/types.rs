@@ -24,7 +24,7 @@ pub enum Currency {
     USD,
 }
 
-#[derive(Debug, AsExpression, FromSqlRow)]
+#[derive(Debug, AsExpression, FromSqlRow, GraphQLEnum)]
 #[sql_type = "BranchType"]
 pub enum Branch {
     Digital,
