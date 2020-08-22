@@ -36,9 +36,9 @@ dependencies = [
 
 [[package]]
 name = "actix-http"
-version = "2.0.0-beta.2"
+version = "2.0.0-beta.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "44529cd6813ebf4a2f2a6ea36ffe88a0e4b0bc08b26ad0b8f7f4581d4d4f3247"
+checksum = "ab2f035e3f5b0e336abf92a78097c430b7781d2b032ded1142d77ab62ed0b786"
 dependencies = [
  "actix-codec",
  "actix-connect",
@@ -180,9 +180,9 @@ dependencies = [
 
 [[package]]
 name = "actix-tls"
-version = "2.0.0-alpha.1"
+version = "2.0.0-alpha.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd2d9f3e70cbad0f06c6922950c5997ba0fd44c82e143d1c374023eb50457588"
+checksum = "28b661e9c27e48b6f7ef4673359ac1c6d4eed503c1170c874cc05ea2cca3952a"
 dependencies = [
  "actix-codec",
  "actix-rt",
@@ -190,7 +190,7 @@ dependencies = [
  "actix-utils",
  "derive_more",
  "either",
- "futures",
+ "futures-util",
  "log",
 ]
 
@@ -214,9 +214,9 @@ dependencies = [
 
 [[package]]
 name = "actix-web"
-version = "3.0.0-beta.1"
+version = "3.0.0-beta.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9125c29b7d9911bfdb4d0d4d8f1cf4fee4f21515cf2a405a423c30c245364297"
+checksum = "9522b04c5a43b806d8a445946bd2b9906d2948cf8b439521236afd49898dae96"
 dependencies = [
  "actix-codec",
  "actix-http",
@@ -311,9 +311,9 @@ checksum = "f8aac770f1885fd7e387acedd76065302551364496e46b3dd00860b2f8359b9d"
 
 [[package]]
 name = "awc"
-version = "2.0.0-beta.2"
+version = "2.0.0-beta.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eafb5c150b1dc89bf6aa5907ed6900534320c41920b5d6f13ff3ddb40f14dfac"
+checksum = "4f5ab128e1a3336cec127edf2631d23503dce2141a9e4670b796b3136b9f21ea"
 dependencies = [
  "actix-codec",
  "actix-http",
@@ -434,9 +434,9 @@ checksum = "4785bdd1c96b2a846b2bd7cc02e86b6b3dbf14e7e53446c4f54c92a361040822"
 
 [[package]]
 name = "chrono"
-version = "0.4.13"
+version = "0.4.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c74d84029116787153e02106bf53e66828452a4b325cc8652b788b5967c0a0b6"
+checksum = "942f72db697d8767c22d46a598e01f2d3b475501ea43d0db4f16d90259182d0b"
 dependencies = [
  "num-integer",
  "num-traits",
@@ -497,23 +497,22 @@ dependencies = [
 
 [[package]]
 name = "diesel"
-version = "1.4.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3e2de9deab977a153492a1468d1b1c0662c1cf39e5ea87d0c060ecd59ef18d8c"
+version = "2.0.0"
+source = "git+https://github.com/diesel-rs/diesel#44d0096ae99d135a644a2cb26da11b6a5135de90"
 dependencies = [
  "bitflags",
  "byteorder",
  "chrono",
  "diesel_derives",
+ "itoa",
  "pq-sys",
  "r2d2",
 ]
 
 [[package]]
 name = "diesel_derives"
-version = "1.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "45f5098f628d02a7a0f68ddba586fb61e80edec3bdc1be3b921f4ceec60858d3"
+version = "2.0.0"
+source = "git+https://github.com/diesel-rs/diesel#44d0096ae99d135a644a2cb26da11b6a5135de90"
 dependencies = [
  "proc-macro2",
  "quote",
