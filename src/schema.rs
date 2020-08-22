@@ -24,7 +24,8 @@ table! {
     depodraws (id) {
         id -> Int4,
         description -> Nullable<Text>,
-        transaction -> Nullable<Int4>,
+        transaction_up -> Nullable<Int4>,
+        transaction_down -> Nullable<Int4>,
         added -> Timestamp,
         changed -> Nullable<Timestamp>,
     }
@@ -139,6 +140,7 @@ table! {
 }
 
 joinable!(bills -> persons (responsible));
+joinable!(bills -> transactions (transaction));
 joinable!(products -> organisations (provider));
 joinable!(transaction_entities -> persons (person));
 joinable!(transactions -> money_nodes (money_node));
