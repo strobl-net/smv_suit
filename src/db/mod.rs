@@ -3,8 +3,16 @@ use crate::config::Config;
 use diesel::{pg::PgConnection, r2d2::ConnectionManager};
 use r2d2::Pool;
 
-pub mod persons;
 pub mod types;
+pub mod bill;
+pub mod depodraw;
+pub mod money_node;
+pub mod organisations;
+pub mod persons;
+pub mod products;
+pub mod statement_of_accounts;
+pub mod transactions;
+pub mod transaction_entities;
 
 // no one wants to write a type out this long
 pub type PgPool = Pool<ConnectionManager<PgConnection>>;
