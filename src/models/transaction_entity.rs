@@ -26,7 +26,7 @@ pub struct NewTransactionEntity {
 }
 
 impl NewTransactionEntity {
-    pub fn from_input(input: &InputTransactionEntity) -> Self {
+    pub fn from_input(input: InputTransactionEntity) -> Self {
         Self {
             description: input.description.clone(),
             organisation: input.organisation,
