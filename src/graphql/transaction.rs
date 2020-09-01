@@ -1,5 +1,5 @@
-use crate::graphql::Context;
 use crate::db::transactions;
+use crate::graphql::Context;
 use crate::models::transaction::{NewTransaction, Transaction, UpdateTransaction};
 use diesel::PgConnection;
 use juniper::{FieldError, FieldResult};
@@ -37,7 +37,11 @@ impl TransactionMutation {
         }
     }
 
-    pub fn update(ctx: &Context, transaction: UpdateTransaction, id: i32) -> FieldResult<Transaction> {
+    pub fn update(
+        ctx: &Context,
+        transaction: UpdateTransaction,
+        id: i32,
+    ) -> FieldResult<Transaction> {
         let conn: &PgConnection = &ctx.pool.get().unwrap();
         match transactions::update(conn, transaction, id) {
             Ok(transaction) => Ok(transaction),

@@ -5,7 +5,7 @@ use chrono::NaiveDateTime;
 pub struct Depodraw {
     pub id: i32,
     pub description: Option<String>,
-    pub transaction_up: i32, // Transaction ID
+    pub transaction_up: i32,   // Transaction ID
     pub transaction_down: i32, // Transaction ID
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,
@@ -15,7 +15,7 @@ pub struct Depodraw {
 #[table_name = "depodraws"]
 pub struct NewDepodraw {
     pub description: Option<String>,
-    pub transaction_up: i32, // Transaction ID
+    pub transaction_up: i32,   // Transaction ID
     pub transaction_down: i32, // Transaction ID
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,
@@ -36,7 +36,7 @@ impl NewDepodraw {
 #[derive(GraphQLInputObject)]
 pub struct InputDepodraw {
     pub description: Option<String>,
-    pub transaction_up: i32, // Transaction ID
+    pub transaction_up: i32,   // Transaction ID
     pub transaction_down: i32, // Transaction ID
 }
 
@@ -44,6 +44,6 @@ pub struct InputDepodraw {
 #[table_name = "depodraws"]
 pub struct UpdateDepodraw {
     pub description: Option<String>,
-    pub transaction_up: Option<i32>, // Transaction ID
+    pub transaction_up: Option<i32>,   // Transaction ID
     pub transaction_down: Option<i32>, // Transaction ID
 }

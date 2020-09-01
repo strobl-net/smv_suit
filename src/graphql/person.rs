@@ -1,5 +1,5 @@
-use crate::graphql::Context;
 use crate::db::persons;
+use crate::graphql::Context;
 use crate::models::person::{NewPerson, Person, UpdatePerson};
 use diesel::PgConnection;
 use juniper::{FieldError, FieldResult};

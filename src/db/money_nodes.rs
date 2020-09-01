@@ -1,11 +1,13 @@
-use diesel::prelude::*;
 use crate::{
-    models::money_node::{NewMoneyNode, MoneyNode, UpdateMoneyNode},
+    models::money_node::{MoneyNode, NewMoneyNode, UpdateMoneyNode},
     schema::{money_nodes, money_nodes::dsl::money_nodes as money_nodes_query},
 };
+use diesel::prelude::*;
 
 pub fn all(conn: &PgConnection) -> QueryResult<Vec<MoneyNode>> {
-    money_nodes_query.order(money_nodes::id.asc()).load::<MoneyNode>(conn)
+    money_nodes_query
+        .order(money_nodes::id.asc())
+        .load::<MoneyNode>(conn)
 }
 
 pub fn by_id(conn: &PgConnection, id: i32) -> QueryResult<MoneyNode> {

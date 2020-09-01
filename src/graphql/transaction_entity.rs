@@ -1,6 +1,8 @@
-use crate::graphql::Context;
 use crate::db::transaction_entities;
-use crate::models::transaction_entity::{NewTransactionEntity, TransactionEntity, UpdateTransactionEntity};
+use crate::graphql::Context;
+use crate::models::transaction_entity::{
+    NewTransactionEntity, TransactionEntity, UpdateTransactionEntity,
+};
 use diesel::PgConnection;
 use juniper::{FieldError, FieldResult};
 
@@ -29,7 +31,10 @@ impl TransactionEntityQuery {
 }
 
 impl TransactionEntityMutation {
-    pub fn new(ctx: &Context, transaction_entity: NewTransactionEntity) -> FieldResult<TransactionEntity> {
+    pub fn new(
+        ctx: &Context,
+        transaction_entity: NewTransactionEntity,
+    ) -> FieldResult<TransactionEntity> {
         let conn: &PgConnection = &ctx.pool.get().unwrap();
         match transaction_entities::new(conn, transaction_entity) {
             Ok(transaction_entity) => Ok(transaction_entity),
@@ -37,7 +42,11 @@ impl TransactionEntityMutation {
         }
     }
 
-    pub fn update(ctx: &Context, transaction_entity: UpdateTransactionEntity, id: i32) -> FieldResult<TransactionEntity> {
+    pub fn update(
+        ctx: &Context,
+        transaction_entity: UpdateTransactionEntity,
+        id: i32,
+    ) -> FieldResult<TransactionEntity> {
         let conn: &PgConnection = &ctx.pool.get().unwrap();
         match transaction_entities::update(conn, transaction_entity, id) {
             Ok(transaction_entity) => Ok(transaction_entity),

@@ -1,6 +1,6 @@
+use crate::db::types::Currency;
 use crate::schema::products;
 use chrono::NaiveDateTime;
-use crate::db::types::Currency;
 
 #[derive(Queryable, GraphQLObject, Debug)]
 pub struct Product {

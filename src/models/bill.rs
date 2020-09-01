@@ -1,6 +1,6 @@
+use crate::db::types::Currency;
 use crate::schema::bills;
 use chrono::NaiveDateTime;
-use crate::db::types::Currency;
 
 #[derive(Queryable, GraphQLObject, Debug)]
 pub struct Bill {
@@ -8,7 +8,7 @@ pub struct Bill {
     pub received: NaiveDateTime,
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
-    pub responsible: Option<i32>, // User ID
+    pub responsible: Option<i32>,  // User ID
     pub organisation: Option<i32>, // Organisation ID
     pub change: i32,
     pub currency: Currency,
@@ -23,7 +23,7 @@ pub struct NewBill {
     pub received: NaiveDateTime,
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
-    pub responsible: Option<i32>, // User ID
+    pub responsible: Option<i32>,  // User ID
     pub organisation: Option<i32>, // Organisation ID
     pub change: i32,
     pub currency: Currency,
@@ -54,7 +54,7 @@ pub struct InputBill {
     pub received: NaiveDateTime,
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
-    pub responsible: Option<i32>, // User ID
+    pub responsible: Option<i32>,  // User ID
     pub organisation: Option<i32>, // Organisation ID
     pub change: i32,
     pub currency: Currency,
@@ -67,7 +67,7 @@ pub struct UpdateBill {
     pub received: Option<NaiveDateTime>,
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
-    pub responsible: Option<i32>, // User ID
+    pub responsible: Option<i32>,  // User ID
     pub organisation: Option<i32>, // Organisation ID
     pub change: Option<i32>,
     pub currency: Option<Currency>,

@@ -1,6 +1,6 @@
-use crate::graphql::Context;
 use crate::db::depodraws;
-use crate::models::depodraw::{NewDepodraw, Depodraw, UpdateDepodraw};
+use crate::graphql::Context;
+use crate::models::depodraw::{Depodraw, NewDepodraw, UpdateDepodraw};
 use diesel::PgConnection;
 use juniper::{FieldError, FieldResult};
 

@@ -11,25 +11,33 @@ pub mod transaction;
 pub mod transaction_entity;
 
 use crate::db::PgPool;
+use crate::graphql::bill::{BillMutation, BillQuery};
+use crate::graphql::depodraw::{DepodrawMutation, DepodrawQuery};
+use crate::graphql::money_node::{MoneyNodeMutation, MoneyNodeQuery};
+use crate::graphql::organisation::{OrganisationMutation, OrganisationQuery};
+use crate::graphql::product::{ProductMutation, ProductQuery};
+use crate::graphql::statement_of_account::{StatementOfAccountMutation, StatementOfAccountQuery};
+use crate::graphql::transaction::{TransactionMutation, TransactionQuery};
+use crate::graphql::transaction_entity::{TransactionEntityMutation, TransactionEntityQuery};
+use crate::models::bill::{Bill, InputBill, NewBill, UpdateBill};
+use crate::models::depodraw::{Depodraw, InputDepodraw, NewDepodraw, UpdateDepodraw};
+use crate::models::money_node::{InputMoneyNode, MoneyNode, NewMoneyNode, UpdateMoneyNode};
+use crate::models::organisation::{
+    InputOrganisation, NewOrganisation, Organisation, UpdateOrganisation,
+};
 use crate::models::person::{InputPerson, NewPerson, Person, UpdatePerson};
+use crate::models::product::{InputProduct, NewProduct, Product, UpdateProduct};
+use crate::models::statement_of_account::{
+    InputStatementOfAccount, NewStatementOfAccount, StatementOfAccount, UpdateStatementOfAccount,
+};
+use crate::models::transaction::{
+    InputTransaction, NewTransaction, Transaction, UpdateTransaction,
+};
+use crate::models::transaction_entity::{
+    InputTransactionEntity, NewTransactionEntity, TransactionEntity, UpdateTransactionEntity,
+};
 use juniper::{FieldResult, RootNode};
 use person::{PersonMutation, PersonQuery};
-use crate::graphql::bill::{BillQuery, BillMutation};
-use crate::models::bill::{Bill, InputBill, UpdateBill, NewBill};
-use crate::models::depodraw::{Depodraw, UpdateDepodraw, NewDepodraw, InputDepodraw};
-use crate::graphql::depodraw::{DepodrawQuery, DepodrawMutation};
-use crate::graphql::money_node::{MoneyNodeQuery, MoneyNodeMutation};
-use crate::models::money_node::{MoneyNode, InputMoneyNode, UpdateMoneyNode, NewMoneyNode};
-use crate::graphql::organisation::{OrganisationQuery, OrganisationMutation};
-use crate::models::organisation::{Organisation, NewOrganisation, InputOrganisation, UpdateOrganisation};
-use crate::models::product::{Product, NewProduct, InputProduct, UpdateProduct};
-use crate::models::statement_of_account::{StatementOfAccount, UpdateStatementOfAccount, InputStatementOfAccount, NewStatementOfAccount};
-use crate::models::transaction::{Transaction, InputTransaction, NewTransaction, UpdateTransaction};
-use crate::models::transaction_entity::{TransactionEntity, NewTransactionEntity, UpdateTransactionEntity, InputTransactionEntity};
-use crate::graphql::product::{ProductQuery, ProductMutation};
-use crate::graphql::statement_of_account::{StatementOfAccountQuery, StatementOfAccountMutation};
-use crate::graphql::transaction::{TransactionQuery, TransactionMutation};
-use crate::graphql::transaction_entity::{TransactionEntityQuery, TransactionEntityMutation};
 
 // Context / relevant data for GraphQL to operate
 pub struct Context {
@@ -124,7 +132,10 @@ impl Query {
     }
 
     #[graphql(name = "statementOfAccountsById")]
-    pub fn statement_of_accounts_by_id(ctx: &Context, id: i32) -> FieldResult<Option<StatementOfAccount>> {
+    pub fn statement_of_accounts_by_id(
+        ctx: &Context,
+        id: i32,
+    ) -> FieldResult<Option<StatementOfAccount>> {
         StatementOfAccountQuery::by_id(ctx, id)
     }
 
@@ -144,7 +155,10 @@ impl Query {
     }
 
     #[graphql(name = "transactionEntitiesById")]
-    pub fn transaction_entities_by_id(ctx: &Context, id: i32) -> FieldResult<Option<TransactionEntity>> {
+    pub fn transaction_entities_by_id(
+        ctx: &Context,
+        id: i32,
+    ) -> FieldResult<Option<TransactionEntity>> {
         TransactionEntityQuery::by_id(ctx, id)
     }
 }
@@ -167,7 +181,6 @@ impl Mutation {
         BillMutation::delete(ctx, id)
     }
 
-
     #[graphql(name = "depodrawNew")]
     pub fn depodraws_new(ctx: &Context, depodraw: InputDepodraw) -> FieldResult<Depodraw> {
         let depodraw = NewDepodraw::from_input(depodraw);
@@ -175,7 +188,11 @@ impl Mutation {
     }
 
     #[graphql(name = "depodrawUpdate")]
-    pub fn depodraws_update(ctx: &Context, depodraw: UpdateDepodraw, id: i32) -> FieldResult<Depodraw> {
+    pub fn depodraws_update(
+        ctx: &Context,
+        depodraw: UpdateDepodraw,
+        id: i32,
+    ) -> FieldResult<Depodraw> {
         DepodrawMutation::update(ctx, depodraw, id)
     }
 
@@ -184,7 +201,6 @@ impl Mutation {
         DepodrawMutation::delete(ctx, id)
     }
 
-
     #[graphql(name = "moneyNodeNew")]
     pub fn money_nodes_new(ctx: &Context, money_node: InputMoneyNode) -> FieldResult<MoneyNode> {
         let money_node = NewMoneyNode::from_input(money_node);
@@ -192,7 +208,11 @@ impl Mutation {
     }
 
     #[graphql(name = "moneyNodeUpdate")]
-    pub fn money_nodes_update(ctx: &Context, money_node: UpdateMoneyNode, id: i32) -> FieldResult<MoneyNode> {
+    pub fn money_nodes_update(
+        ctx: &Context,
+        money_node: UpdateMoneyNode,
+        id: i32,
+    ) -> FieldResult<MoneyNode> {
         MoneyNodeMutation::update(ctx, money_node, id)
     }
 
@@ -201,15 +221,21 @@ impl Mutation {
         MoneyNodeMutation::delete(ctx, id)
     }
 
-
     #[graphql(name = "organisationNew")]
-    pub fn organisations_new(ctx: &Context, organisation: InputOrganisation) -> FieldResult<Organisation> {
+    pub fn organisations_new(
+        ctx: &Context,
+        organisation: InputOrganisation,
+    ) -> FieldResult<Organisation> {
         let organisation = NewOrganisation::from_input(organisation);
         OrganisationMutation::new(ctx, organisation)
     }
 
     #[graphql(name = "organisationUpdate")]
-    pub fn organisations_update(ctx: &Context, organisation: UpdateOrganisation, id: i32) -> FieldResult<Organisation> {
+    pub fn organisations_update(
+        ctx: &Context,
+        organisation: UpdateOrganisation,
+        id: i32,
+    ) -> FieldResult<Organisation> {
         OrganisationMutation::update(ctx, organisation, id)
     }
 
@@ -217,7 +243,6 @@ impl Mutation {
     pub fn organisations_delete(ctx: &Context, id: i32) -> FieldResult<Organisation> {
         OrganisationMutation::delete(ctx, id)
     }
-
 
     #[graphql(name = "personNew")]
     pub fn persons_new(ctx: &Context, person: InputPerson) -> FieldResult<Person> {
@@ -235,7 +260,6 @@ impl Mutation {
         PersonMutation::delete(ctx, id)
     }
 
-
     #[graphql(name = "productNew")]
     pub fn products_new(ctx: &Context, product: InputProduct) -> FieldResult<Product> {
         let product = NewProduct::from_input(product);
@@ -252,15 +276,21 @@ impl Mutation {
         ProductMutation::delete(ctx, id)
     }
 
-
     #[graphql(name = "statementOfAccountNew")]
-    pub fn statement_of_accounts_new(ctx: &Context, statement_of_account: InputStatementOfAccount) -> FieldResult<StatementOfAccount> {
+    pub fn statement_of_accounts_new(
+        ctx: &Context,
+        statement_of_account: InputStatementOfAccount,
+    ) -> FieldResult<StatementOfAccount> {
         let statement_of_account = NewStatementOfAccount::from_input(statement_of_account);
         StatementOfAccountMutation::new(ctx, statement_of_account)
     }
 
     #[graphql(name = "statementOfAccountUpdate")]
-    pub fn statement_of_accounts_update(ctx: &Context, statement_of_account: UpdateStatementOfAccount, id: i32) -> FieldResult<StatementOfAccount> {
+    pub fn statement_of_accounts_update(
+        ctx: &Context,
+        statement_of_account: UpdateStatementOfAccount,
+        id: i32,
+    ) -> FieldResult<StatementOfAccount> {
         StatementOfAccountMutation::update(ctx, statement_of_account, id)
     }
 
@@ -269,15 +299,21 @@ impl Mutation {
         StatementOfAccountMutation::delete(ctx, id)
     }
 
-
     #[graphql(name = "transactionNew")]
-    pub fn transactions_new(ctx: &Context, transaction: InputTransaction) -> FieldResult<Transaction> {
+    pub fn transactions_new(
+        ctx: &Context,
+        transaction: InputTransaction,
+    ) -> FieldResult<Transaction> {
         let transaction = NewTransaction::from_input(transaction);
         TransactionMutation::new(ctx, transaction)
     }
 
     #[graphql(name = "transactionUpdate")]
-    pub fn transactions_update(ctx: &Context, transaction: UpdateTransaction, id: i32) -> FieldResult<Transaction> {
+    pub fn transactions_update(
+        ctx: &Context,
+        transaction: UpdateTransaction,
+        id: i32,
+    ) -> FieldResult<Transaction> {
         TransactionMutation::update(ctx, transaction, id)
     }
 
@@ -286,15 +322,21 @@ impl Mutation {
         TransactionMutation::delete(ctx, id)
     }
 
-
     #[graphql(name = "transactionEntityNew")]
-    pub fn transaction_entities_new(ctx: &Context, transaction_entity: InputTransactionEntity) -> FieldResult<TransactionEntity> {
+    pub fn transaction_entities_new(
+        ctx: &Context,
+        transaction_entity: InputTransactionEntity,
+    ) -> FieldResult<TransactionEntity> {
         let transaction_entity = NewTransactionEntity::from_input(transaction_entity);
         TransactionEntityMutation::new(ctx, transaction_entity)
     }
 
     #[graphql(name = "transactionEntityUpdate")]
-    pub fn transaction_entities_update(ctx: &Context, transaction_entity: UpdateTransactionEntity, id: i32) -> FieldResult<TransactionEntity> {
+    pub fn transaction_entities_update(
+        ctx: &Context,
+        transaction_entity: UpdateTransactionEntity,
+        id: i32,
+    ) -> FieldResult<TransactionEntity> {
         TransactionEntityMutation::update(ctx, transaction_entity, id)
     }
 
@@ -302,5 +344,4 @@ impl Mutation {
     pub fn transaction_entities_delete(ctx: &Context, id: i32) -> FieldResult<TransactionEntity> {
         TransactionEntityMutation::delete(ctx, id)
     }
-
 }

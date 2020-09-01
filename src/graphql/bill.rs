@@ -1,6 +1,6 @@
-use crate::graphql::Context;
 use crate::db::bills;
-use crate::models::bill::{NewBill, Bill, UpdateBill};
+use crate::graphql::Context;
+use crate::models::bill::{Bill, NewBill, UpdateBill};
 use diesel::PgConnection;
 use juniper::{FieldError, FieldResult};
 

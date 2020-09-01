@@ -1,5 +1,5 @@
-use crate::graphql::Context;
 use crate::db::products;
+use crate::graphql::Context;
 use crate::models::product::{NewProduct, Product, UpdateProduct};
 use diesel::PgConnection;
 use juniper::{FieldError, FieldResult};

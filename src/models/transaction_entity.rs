@@ -6,7 +6,7 @@ pub struct TransactionEntity {
     pub id: i32,
     pub description: Option<String>,
     pub organisation: Option<i32>, // Organisation ID
-    pub person: Option<i32>, // Person ID
+    pub person: Option<i32>,       // Person ID
     pub iban: Option<String>,
     pub bic: Option<String>,
     pub added: NaiveDateTime,
@@ -18,7 +18,7 @@ pub struct TransactionEntity {
 pub struct NewTransactionEntity {
     pub description: Option<String>,
     pub organisation: Option<i32>, // Organisation ID
-    pub person: Option<i32>, // Person ID
+    pub person: Option<i32>,       // Person ID
     pub iban: Option<String>,
     pub bic: Option<String>,
     pub added: NaiveDateTime,
@@ -43,7 +43,7 @@ impl NewTransactionEntity {
 pub struct InputTransactionEntity {
     pub description: Option<String>,
     pub organisation: Option<i32>, // Organisation ID
-    pub person: Option<i32>, // Person ID
+    pub person: Option<i32>,       // Person ID
     pub iban: Option<String>,
     pub bic: Option<String>,
 }
@@ -53,7 +53,7 @@ pub struct InputTransactionEntity {
 pub struct UpdateTransactionEntity {
     pub description: Option<String>,
     pub organisation: Option<i32>, // Organisation ID
-    pub person: Option<i32>, // Person ID
+    pub person: Option<i32>,       // Person ID
     pub iban: Option<String>,
     pub bic: Option<String>,
 }

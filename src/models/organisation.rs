@@ -1,6 +1,6 @@
 use crate::schema::organisations;
-use chrono::NaiveDateTime;
 use crate::schema::organisations::columns::location;
+use chrono::NaiveDateTime;
 
 #[derive(Queryable, GraphQLObject, Debug)]
 pub struct Organisation {

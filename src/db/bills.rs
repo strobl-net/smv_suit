@@ -1,8 +1,8 @@
-use diesel::prelude::*;
 use crate::{
-    models::bill::{NewBill, Bill, UpdateBill},
+    models::bill::{Bill, NewBill, UpdateBill},
     schema::{bills, bills::dsl::bills as bills_query},
 };
+use diesel::prelude::*;
 
 pub fn all(conn: &PgConnection) -> QueryResult<Vec<Bill>> {
     bills_query.order(bills::id.asc()).load::<Bill>(conn)

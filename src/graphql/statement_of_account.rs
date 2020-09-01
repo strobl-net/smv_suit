@@ -1,6 +1,8 @@
-use crate::graphql::Context;
 use crate::db::statement_of_accounts;
-use crate::models::statement_of_account::{NewStatementOfAccount, StatementOfAccount, UpdateStatementOfAccount};
+use crate::graphql::Context;
+use crate::models::statement_of_account::{
+    NewStatementOfAccount, StatementOfAccount, UpdateStatementOfAccount,
+};
 use diesel::PgConnection;
 use juniper::{FieldError, FieldResult};
 
@@ -29,7 +31,10 @@ impl StatementOfAccountQuery {
 }
 
 impl StatementOfAccountMutation {
-    pub fn new(ctx: &Context, statement_of_account: NewStatementOfAccount) -> FieldResult<StatementOfAccount> {
+    pub fn new(
+        ctx: &Context,
+        statement_of_account: NewStatementOfAccount,
+    ) -> FieldResult<StatementOfAccount> {
         let conn: &PgConnection = &ctx.pool.get().unwrap();
         match statement_of_accounts::new(conn, statement_of_account) {
             Ok(statement_of_account) => Ok(statement_of_account),
@@ -37,7 +42,11 @@ impl StatementOfAccountMutation {
         }
     }
 
-    pub fn update(ctx: &Context, statement_of_account: UpdateStatementOfAccount, id: i32) -> FieldResult<StatementOfAccount> {
+    pub fn update(
+        ctx: &Context,
+        statement_of_account: UpdateStatementOfAccount,
+        id: i32,
+    ) -> FieldResult<StatementOfAccount> {
         let conn: &PgConnection = &ctx.pool.get().unwrap();
         match statement_of_accounts::update(conn, statement_of_account, id) {
             Ok(statement_of_account) => Ok(statement_of_account),

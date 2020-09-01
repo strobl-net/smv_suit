@@ -1,6 +1,6 @@
+use crate::db::types::{Branch, Currency};
 use crate::schema::money_nodes;
 use chrono::NaiveDateTime;
-use crate::db::types::{Branch, Currency};
 
 #[derive(Queryable, GraphQLObject, Debug)]
 pub struct MoneyNode {

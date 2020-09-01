@@ -1,5 +1,5 @@
-use crate::graphql::Context;
 use crate::db::organisations;
+use crate::graphql::Context;
 use crate::models::organisation::{NewOrganisation, Organisation, UpdateOrganisation};
 use diesel::PgConnection;
 use juniper::{FieldError, FieldResult};
@@ -37,7 +37,11 @@ impl OrganisationMutation {
         }
     }
 
-    pub fn update(ctx: &Context, organisation: UpdateOrganisation, id: i32) -> FieldResult<Organisation> {
+    pub fn update(
+        ctx: &Context,
+        organisation: UpdateOrganisation,
+        id: i32,
+    ) -> FieldResult<Organisation> {
         let conn: &PgConnection = &ctx.pool.get().unwrap();
         match organisations::update(conn, organisation, id) {
             Ok(organisation) => Ok(organisation),

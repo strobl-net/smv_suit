@@ -1,6 +1,6 @@
-use crate::graphql::Context;
 use crate::db::money_nodes;
-use crate::models::money_node::{NewMoneyNode, MoneyNode, UpdateMoneyNode};
+use crate::graphql::Context;
+use crate::models::money_node::{MoneyNode, NewMoneyNode, UpdateMoneyNode};
 use diesel::PgConnection;
 use juniper::{FieldError, FieldResult};
 

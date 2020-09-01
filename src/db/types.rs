@@ -1,12 +1,12 @@
 use diesel::deserialize::{self, FromSql, FromSqlRow};
+use diesel::pg::{Pg, PgValue};
 use diesel::serialize::{self, IsNull, Output, ToSql};
 use diesel::sql_types::HasSqlType;
-use diesel::pg::{Pg, PgValue};
 use std::io::Write;
 
 pub mod exports {
-    pub use super::CurrencyType as Currency;
     pub use super::BranchType as Branch;
+    pub use super::CurrencyType as Currency;
 }
 
 #[derive(SqlType, Debug)]
@@ -46,11 +46,10 @@ impl FromSql<CurrencyType, Pg> for Currency {
         match bytes.as_bytes() {
             b"eur" => Ok(Currency::EUR),
             b"usd" => Ok(Currency::USD),
-            _ => Err("Unrecognized enum variant".into())
+            _ => Err("Unrecognized enum variant".into()),
         }
     }
 }
-
 
 impl ToSql<BranchType, Pg> for Branch {
     fn to_sql<W: Write>(&self, out: &mut Output<W, Pg>) -> serialize::Result {
@@ -67,7 +66,7 @@ impl FromSql<BranchType, Pg> for Branch {
         match bytes.as_bytes() {
             b"digital" => Ok(Branch::Digital),
             b"cash" => Ok(Branch::Cash),
-            _ => Err("Unrecognized enum variant".into())
+            _ => Err("Unrecognized enum variant".into()),
         }
     }
 }

@@ -1,11 +1,13 @@
-use diesel::prelude::*;
 use crate::{
-    models::depodraw::{NewDepodraw, Depodraw, UpdateDepodraw},
+    models::depodraw::{Depodraw, NewDepodraw, UpdateDepodraw},
     schema::{depodraws, depodraws::dsl::depodraws as depodraws_query},
 };
+use diesel::prelude::*;
 
 pub fn all(conn: &PgConnection) -> QueryResult<Vec<Depodraw>> {
-    depodraws_query.order(depodraws::id.asc()).load::<Depodraw>(conn)
+    depodraws_query
+        .order(depodraws::id.asc())
+        .load::<Depodraw>(conn)
 }
 
 pub fn by_id(conn: &PgConnection, id: i32) -> QueryResult<Depodraw> {
