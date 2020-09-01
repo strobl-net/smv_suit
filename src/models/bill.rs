@@ -7,6 +7,7 @@ pub struct Bill {
     pub id: i32,
     pub received: NaiveDateTime,
     pub processed: Option<NaiveDateTime>,
+    pub products: Option<Vec<i32>>,
     pub responsible: Option<i32>, // User ID
     pub organisation: Option<i32>, // Organisation ID
     pub change: i32,
@@ -21,6 +22,7 @@ pub struct Bill {
 pub struct NewBill {
     pub received: NaiveDateTime,
     pub processed: Option<NaiveDateTime>,
+    pub products: Option<Vec<i32>>,
     pub responsible: Option<i32>, // User ID
     pub organisation: Option<i32>, // Organisation ID
     pub change: i32,
@@ -35,6 +37,7 @@ impl NewBill {
         Self {
             received: input.received,
             processed: input.processed,
+            products: input.products,
             responsible: input.responsible,
             organisation: input.organisation,
             change: input.change,
@@ -50,6 +53,7 @@ impl NewBill {
 pub struct InputBill {
     pub received: NaiveDateTime,
     pub processed: Option<NaiveDateTime>,
+    pub products: Option<Vec<i32>>,
     pub responsible: Option<i32>, // User ID
     pub organisation: Option<i32>, // Organisation ID
     pub change: i32,
@@ -62,6 +66,7 @@ pub struct InputBill {
 pub struct UpdateBill {
     pub received: Option<NaiveDateTime>,
     pub processed: Option<NaiveDateTime>,
+    pub products: Option<Vec<i32>>,
     pub responsible: Option<i32>, // User ID
     pub organisation: Option<i32>, // Organisation ID
     pub change: Option<i32>,

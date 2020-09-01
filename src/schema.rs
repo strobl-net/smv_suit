@@ -24,8 +24,8 @@ table! {
     depodraws (id) {
         id -> Int4,
         description -> Nullable<Text>,
-        transaction_up -> Nullable<Int4>,
-        transaction_down -> Nullable<Int4>,
+        transaction_up -> Int4,
+        transaction_down -> Int4,
         added -> Timestamp,
         changed -> Nullable<Timestamp>,
     }

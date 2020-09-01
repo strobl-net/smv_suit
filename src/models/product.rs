@@ -7,10 +7,10 @@ pub struct Product {
     pub id: i32,
     pub name: String,
     pub description: Option<String>,
-    pub change: i32,
-    pub currency: Currency,
-    pub provider: i32, // Organisation ID
-    pub tags: Vec<String>,
+    pub change: Option<i32>,
+    pub currency: Option<Currency>,
+    pub provider: Option<i32>, // Organisation ID
+    pub tags: Option<Vec<String>>,
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,
 }
@@ -20,10 +20,10 @@ pub struct Product {
 pub struct NewProduct {
     pub name: String,
     pub description: Option<String>,
-    pub change: i32,
-    pub currency: Currency,
-    pub provider: i32, // Organisation ID
-    pub tags: Vec<String>,
+    pub change: Option<i32>,
+    pub currency: Option<Currency>,
+    pub provider: Option<i32>, // Organisation ID
+    pub tags: Option<Vec<String>>,
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,
 }
@@ -47,18 +47,19 @@ impl NewProduct {
 pub struct InputProduct {
     pub name: String,
     pub description: Option<String>,
-    pub change: i32,
-    pub currency: Currency,
-    pub provider: i32,
-    pub tags: Vec<String>,
+    pub change: Option<i32>,
+    pub currency: Option<Currency>,
+    pub provider: Option<i32>, // Organisation ID
+    pub tags: Option<Vec<String>>,
 }
 
 #[derive(AsChangeset, GraphQLInputObject)]
 #[table_name = "products"]
 pub struct UpdateProduct {
-    pub name: String,
+    pub name: Option<String>,
     pub description: Option<String>,
-    pub change: i32,
-    pub currency: Currency,
-    pub tags: Vec<String>,
+    pub change: Option<i32>,
+    pub currency: Option<Currency>,
+    pub provider: Option<i32>, // Organisation ID
+    pub tags: Option<Vec<String>>,
 }

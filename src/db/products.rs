@@ -18,7 +18,7 @@ pub fn new(conn: &PgConnection, product: NewProduct) -> QueryResult<Product> {
         .get_result::<Product>(conn)
 }
 
-pub fn update(conn: &PgConnection, product: NewProduct, id: i32) -> QueryResult<Product> {
+pub fn update(conn: &PgConnection, product: UpdateProduct, id: i32) -> QueryResult<Product> {
     diesel::update(products_query.find(id))
         .set(product)
         .get_result::<Product>(conn)

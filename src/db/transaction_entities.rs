@@ -18,7 +18,7 @@ pub fn new(conn: &PgConnection, transaction_entity: NewTransactionEntity) -> Que
         .get_result::<TransactionEntity>(conn)
 }
 
-pub fn update(conn: &PgConnection, person: UpdateTransactionEntity, id: i32) -> QueryResult<TransactionEntity> {
+pub fn update(conn: &PgConnection, transaction_entity: UpdateTransactionEntity, id: i32) -> QueryResult<TransactionEntity> {
     diesel::update(transaction_entities_query.find(id))
         .set(transaction_entity)
         .get_result::<TransactionEntity>(conn)

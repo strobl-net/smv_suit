@@ -98,8 +98,8 @@ CREATE TABLE transactions (
 CREATE TABLE depodraws (
     id               SERIAL                  ,
     description      TEXT                    ,
-    transaction_up   INT                     ,
-    transaction_down INT                     ,
+    transaction_up   INT         NOT NULL    ,
+    transaction_down INT         NOT NULL    ,
     added            TIMESTAMP   NOT NULL    ,
     changed          TIMESTAMP               ,
     PRIMARY KEY (id)                         ,

@@ -4,9 +4,9 @@ use diesel::{pg::PgConnection, r2d2::ConnectionManager};
 use r2d2::Pool;
 
 pub mod types;
-pub mod bill;
-pub mod depodraw;
-pub mod money_node;
+pub mod bills;
+pub mod depodraws;
+pub mod money_nodes;
 pub mod organisations;
 pub mod persons;
 pub mod products;
