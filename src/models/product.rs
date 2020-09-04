@@ -9,7 +9,7 @@ pub struct Product {
     pub description: Option<String>,
     pub change: Option<i32>,
     pub currency: Option<Currency>,
-    pub provider: Option<i32>, // Organisation ID
+    pub provider: Option<i32>, // TransactionEntity ID
     pub tags: Option<Vec<String>>,
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,
@@ -22,7 +22,7 @@ pub struct NewProduct {
     pub description: Option<String>,
     pub change: Option<i32>,
     pub currency: Option<Currency>,
-    pub provider: Option<i32>, // Organisation ID
+    pub provider: Option<i32>, // TransactionEntity ID
     pub tags: Option<Vec<String>>,
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,

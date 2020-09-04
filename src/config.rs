@@ -11,7 +11,7 @@ pub struct Config {
 
 impl Config {
     //TODO: impl optional arguments!
-    pub fn new(_args: Args) -> Self {
+    pub fn new() -> Self {
         let env_values: Vec<String> = read_env();
 
         // extract the pool limit num
@@ -60,7 +60,7 @@ fn read_env() -> Vec<String> {
     let db_password = std::env::var("DB_PASSWORD").unwrap_or_else(|_| "admin".to_string());
     let pool_limit = std::env::var("POOL_LIMIT").unwrap_or_else(|_| "0".to_string());
     let server_ip = std::env::var("SERVER_IP").unwrap_or_else(|_| "127.0.0.1".to_string());
-    let server_port = std::env::var("SERVER_PORT").unwrap_or_else(|_| "8080".to_string());
+    let server_port = std::env::var("SERVER_PORT").unwrap_or_else(|_| "8000".to_string());
 
     // format / combine environment variables
     let db_address = format!("{}:{}", db_ip, db_port);

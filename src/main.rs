@@ -21,7 +21,7 @@ async fn main() -> std::io::Result<()> {
 
     // Extract environment variables and setup config
     let args: Args = std::env::args();
-    let config: Arc<Config> = Arc::new(Config::new(args));
+    let config: Arc<Config> = Arc::new(Config::new());
     let server_address = config.server_address.clone();
     // log the config
     info!("Starting Server with following configuration \n {}", config);

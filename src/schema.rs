@@ -8,9 +8,6 @@ table! {
         processed -> Nullable<Timestamp>,
         products -> Nullable<Array<Int4>>,
         responsible -> Nullable<Int4>,
-        organisation -> Nullable<Int4>,
-        change -> Int4,
-        currency -> Currency,
         transaction -> Int4,
         added -> Timestamp,
         changed -> Nullable<Timestamp>,
@@ -40,6 +37,7 @@ table! {
         branch -> Branch,
         change -> Int4,
         currency -> Currency,
+        processed -> Bool,
         added -> Timestamp,
         changed -> Nullable<Timestamp>,
     }
@@ -141,7 +139,8 @@ table! {
 
 joinable!(bills -> persons (responsible));
 joinable!(bills -> transactions (transaction));
-joinable!(products -> organisations (provider));
+joinable!(products -> transaction_entities (provider));
+joinable!(transaction_entities -> organisations (organisation));
 joinable!(transaction_entities -> persons (person));
 joinable!(transactions -> money_nodes (money_node));
 

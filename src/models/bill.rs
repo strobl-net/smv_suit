@@ -9,9 +9,6 @@ pub struct Bill {
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
     pub responsible: Option<i32>,  // User ID
-    pub organisation: Option<i32>, // Organisation ID
-    pub change: i32,
-    pub currency: Currency,
     pub transaction: i32, // Transaction ID
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,
@@ -24,9 +21,6 @@ pub struct NewBill {
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
     pub responsible: Option<i32>,  // User ID
-    pub organisation: Option<i32>, // Organisation ID
-    pub change: i32,
-    pub currency: Currency,
     pub transaction: i32, // Transaction ID
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,
@@ -39,9 +33,6 @@ impl NewBill {
             processed: input.processed,
             products: input.products,
             responsible: input.responsible,
-            organisation: input.organisation,
-            change: input.change,
-            currency: input.currency,
             transaction: input.transaction,
             added: chrono::Utc::now().naive_utc(),
             changed: None,
@@ -55,9 +46,6 @@ pub struct InputBill {
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
     pub responsible: Option<i32>,  // User ID
-    pub organisation: Option<i32>, // Organisation ID
-    pub change: i32,
-    pub currency: Currency,
     pub transaction: i32, // Transaction ID
 }
 
@@ -68,8 +56,5 @@ pub struct UpdateBill {
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
     pub responsible: Option<i32>,  // User ID
-    pub organisation: Option<i32>, // Organisation ID
-    pub change: Option<i32>,
-    pub currency: Option<Currency>,
     pub transaction: Option<i32>, // Transaction ID
 }

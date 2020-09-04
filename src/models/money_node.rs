@@ -8,6 +8,7 @@ pub struct MoneyNode {
     pub branch: Branch,
     pub change: i32,
     pub currency: Currency,
+    pub processed: bool,
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,
 }
@@ -18,6 +19,7 @@ pub struct NewMoneyNode {
     pub branch: Branch,
     pub change: i32,
     pub currency: Currency,
+    pub processed: bool,
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,
 }
@@ -28,6 +30,7 @@ impl NewMoneyNode {
             branch: input.branch,
             change: input.change,
             currency: input.currency,
+            processed: input.processed,
             added: chrono::Utc::now().naive_utc(),
             changed: None,
         }
@@ -39,6 +42,7 @@ pub struct InputMoneyNode {
     pub branch: Branch,
     pub change: i32,
     pub currency: Currency,
+    pub processed: bool,
 }
 
 #[derive(AsChangeset, GraphQLInputObject)]
@@ -47,4 +51,5 @@ pub struct UpdateMoneyNode {
     pub branch: Option<Branch>,
     pub change: Option<i32>,
     pub currency: Option<Currency>,
+    pub processed: Option<bool>,
 }
