@@ -1,0 +1,4 @@
+enum Branch {
+  Digital,
+  Cash,
+}
