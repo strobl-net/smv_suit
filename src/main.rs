@@ -5,22 +5,24 @@ use smv_suit::{
     db::{new_pool, PgPool},
     endpoints, setup_logger,
 };
-use std::{env::Args, sync::Arc};
+use std::{sync::Arc};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     // Delete latest logging file
     // Disable this in production!
     // TODO: move latest log file into a logfile directory with timestamps.
-    std::fs::remove_file("output.log")?;
+    match std::fs::read("output.log") {
+        Ok(_) => std::fs::remove_file("output.log").unwrap(),
+        Err(_) => { println!("no log file")}
+    };
 
     match setup_logger() {
         Ok(()) => {}
         Err(err) => println!("Error: {}, while configuring logger", err),
     };
 
-    // Extract environment variables and setup config
-    let args: Args = std::env::args();
+    // Setup Config
     let config: Arc<Config> = Arc::new(Config::new());
     let server_address = config.server_address.clone();
     // log the config

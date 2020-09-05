@@ -1,4 +1,4 @@
-use std::{env::Args, fmt};
+use std::{fmt};
 
 /// The config reads the environment variables and saves the values to configure the server
 #[derive(Debug, Clone)]
