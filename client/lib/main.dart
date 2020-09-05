@@ -1,7 +1,13 @@
-import 'package:client/views/home.dart';
+import 'package:client/client.dart';
+import 'package:client/views/home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
-void main() => runApp(App());
+void main() async {
+  final client = await initClient();
+  GetIt.I.registerLazySingleton(() => client);
+  runApp(App());
+}
 
 class App extends StatelessWidget {
   @override
@@ -11,6 +17,9 @@ class App extends StatelessWidget {
       home: Home(),
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme: Theme.of(context).textTheme.apply(
+          fontFamily: 'Open Sans',
+        ),
       ),
     );
   }
