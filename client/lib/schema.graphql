@@ -1,0 +1,292 @@
+type Bill {
+  id: Int!
+  received: NaiveDateTime!
+  processed: NaiveDateTime
+  products: [Int!]
+  responsible: Int
+  transaction: Int!
+  added: NaiveDateTime!
+  changed: NaiveDateTime
+}
+
+enum Branch {
+  DIGITAL
+  CASH
+}
+
+enum Currency {
+  EUR
+  USD
+}
+
+type Depodraw {
+  id: Int!
+  description: String
+  transactionUp: Int!
+  transactionDown: Int!
+  added: NaiveDateTime!
+  changed: NaiveDateTime
+}
+
+input InputBill {
+  received: NaiveDateTime!
+  processed: NaiveDateTime
+  products: [Int!]
+  responsible: Int
+  transaction: Int!
+}
+
+input InputDepodraw {
+  description: String
+  transactionUp: Int!
+  transactionDown: Int!
+}
+
+input InputMoneyNode {
+  branch: Branch!
+  change: Int!
+  currency: Currency!
+  processed: Boolean!
+}
+
+input InputOrganisation {
+  name: String!
+  description: String
+  site: String
+  location: String
+}
+
+input InputPerson {
+  name: String!
+  email: String
+  phone: String
+  tags: [String!]!
+}
+
+input InputProduct {
+  name: String!
+  description: String
+  change: Int
+  currency: Currency
+  provider: Int
+  tags: [String!]
+}
+
+input InputStatementOfAccount {
+  description: String
+  starting: NaiveDateTime!
+  ending: NaiveDateTime!
+}
+
+input InputTransaction {
+  description: String
+  sender: Int!
+  senderLocal: Boolean!
+  receiver: Int!
+  receiverLocal: Boolean!
+  moneyNode: Int!
+}
+
+input InputTransactionEntity {
+  description: String
+  organisation: Int
+  person: Int
+  iban: String
+  bic: String
+}
+
+type MoneyNode {
+  id: Int!
+  branch: Branch!
+  change: Int!
+  currency: Currency!
+  processed: Boolean!
+  added: NaiveDateTime!
+  changed: NaiveDateTime
+}
+
+type Mutation {
+  billNew(bill: InputBill!): Bill!
+  billUpdate(bill: UpdateBill!, id: Int!): Bill!
+  billDelete(id: Int!): Bill!
+  depodrawNew(depodraw: InputDepodraw!): Depodraw!
+  depodrawUpdate(depodraw: UpdateDepodraw!, id: Int!): Depodraw!
+  depodrawDelete(id: Int!): Depodraw!
+  moneyNodeNew(moneyNode: InputMoneyNode!): MoneyNode!
+  moneyNodeUpdate(moneyNode: UpdateMoneyNode!, id: Int!): MoneyNode!
+  moneyNodeDelete(id: Int!): MoneyNode!
+  organisationNew(organisation: InputOrganisation!): Organisation!
+  organisationUpdate(organisation: UpdateOrganisation!, id: Int!): Organisation!
+  organisationDelete(id: Int!): Organisation!
+  personNew(person: InputPerson!): Person!
+  personUpdate(person: UpdatePerson!, id: Int!): Person!
+  personDelete(id: Int!): Person!
+  productNew(product: InputProduct!): Product!
+  productUpdate(product: UpdateProduct!, id: Int!): Product!
+  productDelete(id: Int!): Product!
+  statementOfAccountNew(statementOfAccount: InputStatementOfAccount!): StatementOfAccount!
+  statementOfAccountUpdate(statementOfAccount: UpdateStatementOfAccount!, id: Int!): StatementOfAccount!
+  statementOfAccountDelete(id: Int!): StatementOfAccount!
+  transactionNew(transaction: InputTransaction!): Transaction!
+  transactionUpdate(transaction: UpdateTransaction!, id: Int!): Transaction!
+  transactionDelete(id: Int!): Transaction!
+  transactionEntityNew(transactionEntity: InputTransactionEntity!): TransactionEntity!
+  transactionEntityUpdate(transactionEntity: UpdateTransactionEntity!, id: Int!): TransactionEntity!
+  transactionEntityDelete(id: Int!): TransactionEntity!
+}
+
+"""NaiveDateTime"""
+scalar NaiveDateTime
+
+type Organisation {
+  id: Int!
+  name: String!
+  description: String
+  site: String
+  location: String
+  added: NaiveDateTime!
+  changed: NaiveDateTime
+}
+
+type Person {
+  id: Int!
+  name: String!
+  email: String
+  phone: String
+  tags: [String!]!
+  added: NaiveDateTime!
+  changed: NaiveDateTime
+}
+
+type Product {
+  id: Int!
+  name: String!
+  description: String
+  change: Int
+  currency: Currency
+  provider: Int
+  tags: [String!]
+  added: NaiveDateTime!
+  changed: NaiveDateTime
+}
+
+type Query {
+  bills: [Bill!]!
+  billById(id: Int!): Bill
+  depodraws: [Depodraw!]!
+  depodrawsById(id: Int!): Depodraw
+  moneyNodes: [MoneyNode!]!
+  moneyNodesById(id: Int!): MoneyNode
+  organisations: [Organisation!]!
+  organisationsById(id: Int!): Organisation
+  persons: [Person!]!
+  personById(id: Int!): Person
+  products: [Product!]!
+  productsById(id: Int!): Product
+  statementOfAccounts: [StatementOfAccount!]!
+  statementOfAccountsById(id: Int!): StatementOfAccount
+  transactions: [Transaction!]!
+  transactionsById(id: Int!): Transaction
+  transactionsEntities: [TransactionEntity!]!
+  transactionEntitiesById(id: Int!): TransactionEntity
+}
+
+type StatementOfAccount {
+  id: Int!
+  description: String
+  starting: NaiveDateTime!
+  ending: NaiveDateTime!
+  added: NaiveDateTime!
+  changed: NaiveDateTime
+}
+
+type Transaction {
+  id: Int!
+  description: String
+  sender: Int!
+  senderLocal: Boolean!
+  receiver: Int!
+  receiverLocal: Boolean!
+  moneyNode: Int!
+  added: NaiveDateTime!
+  changed: NaiveDateTime
+}
+
+type TransactionEntity {
+  id: Int!
+  description: String
+  organisation: Int
+  person: Int
+  iban: String
+  bic: String
+  added: NaiveDateTime!
+  changed: NaiveDateTime
+}
+
+input UpdateBill {
+  received: NaiveDateTime
+  processed: NaiveDateTime
+  products: [Int!]
+  responsible: Int
+  transaction: Int
+}
+
+input UpdateDepodraw {
+  description: String
+  transactionUp: Int
+  transactionDown: Int
+}
+
+input UpdateMoneyNode {
+  branch: Branch
+  change: Int
+  currency: Currency
+  processed: Boolean
+}
+
+input UpdateOrganisation {
+  name: String
+  description: String
+  site: String
+  location: String
+}
+
+input UpdatePerson {
+  name: String
+  email: String
+  phone: String
+  tags: [String!]
+}
+
+input UpdateProduct {
+  name: String
+  description: String
+  change: Int
+  currency: Currency
+  provider: Int
+  tags: [String!]
+}
+
+input UpdateStatementOfAccount {
+  description: String
+  starting: NaiveDateTime
+  ending: NaiveDateTime
+}
+
+input UpdateTransaction {
+  description: String
+  sender: Int
+  senderLocal: Boolean
+  receiver: Int
+  receiverLocal: Boolean
+  moneyNode: Int
+}
+
+input UpdateTransactionEntity {
+  description: String
+  organisation: Int
+  person: Int
+  iban: String
+  bic: String
+}
+
