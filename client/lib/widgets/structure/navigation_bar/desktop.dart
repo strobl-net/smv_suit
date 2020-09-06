@@ -1,3 +1,4 @@
+import 'package:client/services/navigation/routing/route_names.dart';
 import 'package:flutter/material.dart';
 import 'item.dart';
 
@@ -15,9 +16,17 @@ class NavigationBarDesktop extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              NavBarItem("Hello"),
+              NavBarItem("Home", HomeRoute),
               SizedBox(width: 60),
-              NavBarItem("World"),
+              NavBarItem("News", NewsRoute),
+              SizedBox(width: 60),
+              NavBarItem("About", AboutRoute),
+              SizedBox(width: 60),
+              NavBarItem("Admin", AdminRoute),
+              SizedBox(width: 60),
+              NavBarItem("Account", AccountRoute),
+              SizedBox(width: 60),
+              NavBarItem("Settings", SettingsRoute),
             ],
           ),
         ],
