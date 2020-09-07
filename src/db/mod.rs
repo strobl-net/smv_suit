@@ -19,7 +19,7 @@ pub type PgPool = Pool<ConnectionManager<PgConnection>>;
 
 // creates a new connection manager pool for async database calls
 pub fn new_pool(config: &Config) -> PgPool {
-    let manager = ConnectionManager::<PgConnection>::new(&config.db_link);
+    let manager = ConnectionManager::<PgConnection>::new(&config.db_address);
     match config.pool_limit {
         Some(limit) => r2d2::Pool::builder()
             .max_size(limit)

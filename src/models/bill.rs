@@ -8,8 +8,8 @@ pub struct Bill {
     pub received: NaiveDateTime,
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
-    pub responsible: Option<i32>,  // User ID
-    pub transaction: i32, // Transaction ID
+    pub responsible: Option<i32>, // User ID
+    pub transaction: i32,         // Transaction ID
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,
 }
@@ -20,8 +20,8 @@ pub struct NewBill {
     pub received: NaiveDateTime,
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
-    pub responsible: Option<i32>,  // User ID
-    pub transaction: i32, // Transaction ID
+    pub responsible: Option<i32>, // User ID
+    pub transaction: i32,         // Transaction ID
     pub added: NaiveDateTime,
     pub changed: Option<NaiveDateTime>,
 }
@@ -45,8 +45,8 @@ pub struct InputBill {
     pub received: NaiveDateTime,
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
-    pub responsible: Option<i32>,  // User ID
-    pub transaction: i32, // Transaction ID
+    pub responsible: Option<i32>, // User ID
+    pub transaction: i32,         // Transaction ID
 }
 
 #[derive(AsChangeset, GraphQLInputObject)]
@@ -55,6 +55,6 @@ pub struct UpdateBill {
     pub received: Option<NaiveDateTime>,
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
-    pub responsible: Option<i32>,  // User ID
+    pub responsible: Option<i32>, // User ID
     pub transaction: Option<i32>, // Transaction ID
 }

@@ -5,7 +5,7 @@ use smv_suit::{
     db::{new_pool, PgPool},
     endpoints, setup_logger,
 };
-use std::{sync::Arc};
+use std::sync::Arc;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -14,7 +14,7 @@ async fn main() -> std::io::Result<()> {
     // TODO: move latest log file into a logfile directory with timestamps.
     match std::fs::read("output.log") {
         Ok(_) => std::fs::remove_file("output.log").unwrap(),
-        Err(_) => { println!("no log file")}
+        Err(_) => println!("no log file"),
     };
 
     match setup_logger() {
