@@ -20,11 +20,14 @@ class NavigationDrawer extends StatelessWidget {
         children: <Widget>[
           NavigationDrawerHeader(),
           NavBarItem("Home", HomeRoute, icon: Icons.house),
+          SizedBox(height: 30),
           NavBarItem("News", NewsRoute, icon: Icons.fiber_new),
+          SizedBox(height: 30),
           NavBarItem("About", AboutRoute, icon: Icons.description),
+          SizedBox(height: 30),
           NavBarItem("Admin", AdminRoute, icon: Icons.person),
+          SizedBox(height: 30),
           NavBarItem("Account", AccountRoute, icon: Icons.person),
-          NavBarItem("Settings", SettingsRoute, icon: Icons.settings),
         ],
       ),
     );

@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:stacked/stacked.dart';
 
 class NavBarItem extends StatelessWidget {
   final String title;
   final String navigationPath;
   final IconData icon;
-  const NavBarItem(this.title, this.navigationPath, {this.icon});
+  final double fontSize;
+  const NavBarItem(this.title, this.navigationPath, {this.icon, this.fontSize});
 
   @override
   Widget build(BuildContext context) {
@@ -22,35 +24,31 @@ class NavBarItem extends StatelessWidget {
         onTap: () {
           GetIt.I<NavigationService>().navigateTo(navigationPath);
         },
-      child: ScreenTypeLayout(
-          tablet: NavBarItemDesktop(model: model),
-          mobile: NavBarItemMobile(model: model),
+      child: Provider.value(
+        value: model,
+        child: ScreenTypeLayout(
+          tablet: NavBarItemDesktop(),
+          mobile: NavBarItemMobile(),
         ),
+      )
     );
   }
 }
 
-class NavBarItemDesktop extends StatelessWidget {
-  final NavBarItemModel model;
-  NavBarItemDesktop({this.model});
-
+class NavBarItemDesktop extends ViewModelWidget<NavBarItemModel> {
   @override
-  Widget build(
-      BuildContext context,
-      ) {
+  Widget build(BuildContext context, NavBarItemModel model) {
+    final fontSize = model.fontSize == null ? 18 : model.fontSize;
     return Text(
       model.title,
-      style: TextStyle(fontSize: 18),
+      style: TextStyle(fontSize: fontSize),
     );
   }
 }
 
-class NavBarItemMobile extends StatelessWidget {
-  final NavBarItemModel model;
-  NavBarItemMobile({this.model});
-
+class NavBarItemMobile extends ViewModelWidget<NavBarItemModel> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, NavBarItemModel model) {
     return Padding(
       padding: const EdgeInsets.only(left: 30, top: 60),
       child: Row(

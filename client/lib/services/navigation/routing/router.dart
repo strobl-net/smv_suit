@@ -4,8 +4,8 @@ import 'package:client/views/account/account.dart';
 import 'package:client/views/admin/admin.dart';
 import 'package:client/views/home/home.dart';
 import 'package:client/views/news/news.dart';
+import 'package:client/views/person/persons.dart';
 import 'package:client/views/settings/settings.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -18,6 +18,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return getPageRoute(About());
     case AdminRoute:
       return getPageRoute(Admin());
+      // TODO: Move into Admin
+    case PersonsRoute:
+      return getPageRoute(Persons());
     case AccountRoute:
       return getPageRoute(Account());
     case SettingsRoute:
