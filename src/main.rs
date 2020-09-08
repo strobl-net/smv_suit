@@ -6,6 +6,8 @@ use smv_suit::{
     endpoints, setup_logger,
 };
 use std::sync::Arc;
+use actix_cors::Cors;
+use actix_web::http::header;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -30,8 +32,15 @@ async fn main() -> std::io::Result<()> {
 
     let pool: PgPool = new_pool(&config);
 
+    // Edit Cors for production
     HttpServer::new(move || {
         App::new()
+            .wrap(
+                Cors::new()
+                    .supports_credentials()
+                    .max_age(3600)
+                    .finish()
+            )
             .data(config.clone())
             .data(pool.clone())
             .wrap(middleware::Logger::default())

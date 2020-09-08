@@ -144,3 +144,10 @@ CREATE TABLE statement_of_accounts (
     PRIMARY KEY (id)
 );
 
+-- DEFAULT VALUES
+-- TODO
+
+-- TEST VALUES, COMMENT THIS IN PRODUCTION!
+INSERT INTO persons (name, email, phone, tags, added) VALUES ('Sebastian', 'Sebastian@Test.com', '020-74023-234', '{admin, developer, smv}', NOW());
+INSERT INTO persons (name, email, phone, tags, added) VALUES ('Max Mustermann', 'Max@Mustermann.de', '020-23436-123', '{smv}', NOW());
+INSERT INTO persons (name, email, phone, tags, added) VALUES ('Maxina Mustermann', 'Maxina@Mustermann.de', '020-76562-123', '{smv, party_leader}', NOW());
