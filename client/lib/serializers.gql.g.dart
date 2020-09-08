@@ -7,7 +7,15 @@ part of 'serializers.gql.dart';
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(GAllPersonsCompleteData.serializer)
+      ..add(GAllPersonsCompleteData_persons.serializer)
+      ..add(GAllPersonsCompleteReq.serializer)
+      ..add(GAllPersonsCompleteVars.serializer)
       ..add(GBranch.serializer)
+      ..add(GByIdPersonCompleteData.serializer)
+      ..add(GByIdPersonCompleteData_personById.serializer)
+      ..add(GByIdPersonCompleteReq.serializer)
+      ..add(GByIdPersonCompleteVars.serializer)
       ..add(GCurrency.serializer)
       ..add(GInputBill.serializer)
       ..add(GInputDepodraw.serializer)
@@ -28,6 +36,16 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUpdateStatementOfAccount.serializer)
       ..add(GUpdateTransaction.serializer)
       ..add(GUpdateTransactionEntity.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(GAllPersonsCompleteData_persons)]),
+          () => new ListBuilder<GAllPersonsCompleteData_persons>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

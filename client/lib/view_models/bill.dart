@@ -1,28 +1,19 @@
 import 'package:client/models/data/person.dart';
+import 'package:client/services/api/api.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class BillViewModel extends ChangeNotifier {
 }
 
 class PersonViewModel extends ChangeNotifier {
-  final _persons = [
-    Person(
-        id: 0,
-        name: "sebastian",
-        email: "sebastian@test.com",
-        phone: "037-234-2713",
-        tags: ["admin", "developer", "smv"],
-        added: DateTime.now()
-    ),
-    Person(
-        id: 1,
-        name: "Max Mustermann",
-        email: "sebastian@test.com",
-        phone: "037-234-2713",
-        tags: ["test", "student"],
-        added: DateTime.now()
-    )
-  ];
-
+  final _api = GetIt.I<API>();
+  List<Person> _persons;
   List<Person> get persons => _persons;
+
+  Future getPersons() async {
+    _api.getPersons();
+    // _persons = personResults;
+    notifyListeners();
+  }
 }

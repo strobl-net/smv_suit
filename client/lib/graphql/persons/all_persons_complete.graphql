@@ -1,0 +1,11 @@
+query AllPersonsComplete {
+    persons {
+        id
+        name
+        email
+        phone
+        tags
+        added
+        changed
+    }
+}

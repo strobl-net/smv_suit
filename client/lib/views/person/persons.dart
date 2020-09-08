@@ -10,7 +10,7 @@ class Persons extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<PersonViewModel>.reactive(
       viewModelBuilder: () => PersonViewModel(),
-      onModelReady: (model) => {},
+      onModelReady: (model) => model.getPersons(),
       builder: (context, model, child) => SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

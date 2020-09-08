@@ -1,0 +1,11 @@
+query ByIdPersonComplete($id: Int!) {
+    personById(id: $id) {
+        id
+        name
+        email
+        phone
+        tags
+        added
+        changed
+    }
+}
