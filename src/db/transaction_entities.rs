@@ -1,6 +1,6 @@
 use crate::{
     models::transaction_entity::{
-        NewTransactionEntity, TransactionEntity, UpdateTransactionEntity,
+        NewTransactionEntity, TransactionEntity, UpdateTransactionEntity, ExpandedTransactionEntity,
     },
     schema::{
         transaction_entities,
@@ -8,6 +8,7 @@ use crate::{
     },
 };
 use diesel::prelude::*;
+use crate::models::Expandable;
 
 pub fn all(conn: &PgConnection) -> QueryResult<Vec<TransactionEntity>> {
     transaction_entities_query
@@ -19,6 +20,11 @@ pub fn by_id(conn: &PgConnection, id: i32) -> QueryResult<TransactionEntity> {
     transaction_entities_query
         .find(id)
         .get_result::<TransactionEntity>(conn)
+}
+
+pub fn by_id_expanded(conn: &PgConnection, id: i32) -> ExpandedTransactionEntity {
+    let transaction_entity = by_id(conn, id).unwrap();
+    transaction_entity.expand(&conn)
 }
 
 pub fn new(

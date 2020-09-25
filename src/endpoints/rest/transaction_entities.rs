@@ -10,7 +10,8 @@ pub fn endpoints(config: &mut ServiceConfig) {
         .service(get_by_id)
         .service(put_new)
         .service(update_by_id)
-        .service(delete_by_id);
+        .service(delete_by_id)
+        .service(get_by_id_expanded);
 }
 
 #[get("/transaction_entities")]
@@ -31,6 +32,7 @@ pub async fn get_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -
 pub async fn put_new(pool: web::Data<PgPool>, web::Path(item): web::Path<NewItem>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::new(&conn, item).unwrap();
+
     Ok(HttpResponse::Ok().json(item))
 }
 
@@ -45,5 +47,12 @@ pub async fn update_by_id(pool: web::Data<PgPool>, web::Path((item, id)): web::P
 pub async fn delete_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::delete(&conn, id).unwrap();
+    Ok(HttpResponse::Ok().json(item))
+}
+
+#[get("/transaction_entities/e/{id}")]
+pub async fn get_by_id_expanded(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -> Result<HttpResponse, Error> {
+    let conn = pool.get().unwrap();
+    let item = db_items::by_id_expanded(&conn, id);
     Ok(HttpResponse::Ok().json(item))
 }
