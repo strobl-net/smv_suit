@@ -1,49 +1,49 @@
 use crate::db::PgPool;
-use crate::db::persons;
-use crate::models::person::{NewPerson, UpdatePerson};
+use crate::db::persons as db_items;
+use crate::models::person::{NewPerson as NewItem, UpdatePerson as UpdateItem};
 use actix_web::{HttpResponse, Error, web, get, delete, put};
 use actix_web::web::ServiceConfig;
 
 pub fn person_rest_endpoints(config: &mut ServiceConfig) {
     config
-        .service(get_persons_all)
-        .service(get_person_by_id)
-        .service(new_person)
-        .service(update_person_by_id)
-        .service(delete_person_by_id);
+        .service(get_all)
+        .service(get_by_id)
+        .service(put_new)
+        .service(update_by_id)
+        .service(delete_by_id);
 }
 
 #[get("/persons")]
-pub async fn get_persons_all(pool: web::Data<PgPool>) -> Result<HttpResponse, Error> {
+pub async fn get_all(pool: web::Data<PgPool>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
-    let person_list = persons::all(&conn).unwrap();
-    Ok(HttpResponse::Ok().json(person_list))
+    let item_list = db_items::all(&conn).unwrap();
+    Ok(HttpResponse::Ok().json(item_list))
 }
 
 #[get("/persons/{id}")]
-pub async fn get_person_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -> Result<HttpResponse, Error> {
+pub async fn get_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
-    let person = persons::by_id(&conn, id).unwrap();
-    Ok(HttpResponse::Ok().json(person))
+    let item = db_items::by_id(&conn, id).unwrap();
+    Ok(HttpResponse::Ok().json(item))
 }
 
 #[put("/persons")]
-pub async fn new_person(pool: web::Data<PgPool>, web::Path(person): web::Path<NewPerson>) -> Result<HttpResponse, Error> {
+pub async fn put_new(pool: web::Data<PgPool>, web::Path(item): web::Path<NewItem>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
-    let person = persons::new(&conn, person).unwrap();
-    Ok(HttpResponse::Ok().json(person))
+    let item = db_items::new(&conn, item).unwrap();
+    Ok(HttpResponse::Ok().json(item))
 }
 
 #[get("/persons/{id}")]
-pub async fn update_person_by_id(pool: web::Data<PgPool>, web::Path((person, id)): web::Path<(UpdatePerson, i32)>) -> Result<HttpResponse, Error> {
+pub async fn update_by_id(pool: web::Data<PgPool>, web::Path((item, id)): web::Path<(UpdateItem, i32)>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
-    let person = persons::update(&conn, person, id).unwrap();
-    Ok(HttpResponse::Ok().json(person))
+    let item = db_items::update(&conn, item, id).unwrap();
+    Ok(HttpResponse::Ok().json(item))
 }
 
 #[delete("/persons/{id}")]
-pub async fn delete_person_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -> Result<HttpResponse, Error> {
+pub async fn delete_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
-    let person = persons::delete(&conn, id).unwrap();
-    Ok(HttpResponse::Ok().json(person))
+    let item = db_items::delete(&conn, id).unwrap();
+    Ok(HttpResponse::Ok().json(item))
 }
