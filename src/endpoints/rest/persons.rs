@@ -4,7 +4,7 @@ use crate::models::person::{NewPerson as NewItem, UpdatePerson as UpdateItem};
 use actix_web::{HttpResponse, Error, web, get, delete, put};
 use actix_web::web::ServiceConfig;
 
-pub fn person_rest_endpoints(config: &mut ServiceConfig) {
+pub fn endpoints(config: &mut ServiceConfig) {
     config
         .service(get_all)
         .service(get_by_id)
