@@ -1,5 +1,4 @@
 use crate::schema::organisations;
-use crate::schema::organisations::columns::location;
 use chrono::NaiveDateTime;
 
 #[derive(Queryable, GraphQLObject, Debug)]

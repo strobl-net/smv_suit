@@ -1,7 +1,8 @@
 use crate::schema::persons;
 use chrono::NaiveDateTime;
+use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, GraphQLObject, Debug)]
+#[derive(Queryable, GraphQLObject, Debug, Serialize, Deserialize)]
 pub struct Person {
     pub id: i32,
     pub name: String,
@@ -12,7 +13,7 @@ pub struct Person {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Serialize, Deserialize)]
 #[table_name = "persons"]
 pub struct NewPerson {
     pub name: String,
@@ -44,7 +45,7 @@ pub struct InputPerson {
     pub tags: Vec<String>,
 }
 
-#[derive(AsChangeset, GraphQLInputObject)]
+#[derive(AsChangeset, GraphQLInputObject, Serialize, Deserialize)]
 #[table_name = "persons"]
 pub struct UpdatePerson {
     pub name: Option<String>,

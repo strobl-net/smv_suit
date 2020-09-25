@@ -7,7 +7,6 @@ use smv_suit::{
 };
 use std::sync::Arc;
 use actix_cors::Cors;
-use actix_web::http::header;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -45,6 +44,7 @@ async fn main() -> std::io::Result<()> {
             .data(pool.clone())
             .wrap(middleware::Logger::default())
             .configure(endpoints::graphql_endpoints)
+            .configure(endpoints::rest_endpoints)
     })
     .bind(server_address)?
     .run()

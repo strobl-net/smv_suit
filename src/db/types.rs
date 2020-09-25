@@ -1,7 +1,6 @@
 use diesel::deserialize::{self, FromSql, FromSqlRow};
 use diesel::pg::{Pg, PgValue};
 use diesel::serialize::{self, IsNull, Output, ToSql};
-use diesel::sql_types::HasSqlType;
 use std::io::Write;
 
 pub mod exports {

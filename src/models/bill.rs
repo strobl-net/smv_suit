@@ -1,4 +1,3 @@
-use crate::db::types::Currency;
 use crate::schema::bills;
 use chrono::NaiveDateTime;
 
