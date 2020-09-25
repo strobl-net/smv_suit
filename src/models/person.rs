@@ -37,7 +37,7 @@ impl NewPerson {
     }
 }
 
-#[derive(GraphQLInputObject)]
+#[derive(GraphQLInputObject, Serialize, Deserialize)]
 pub struct InputPerson {
     pub name: String,
     pub email: Option<String>,

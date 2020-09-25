@@ -1,7 +1,8 @@
 use crate::schema::transactions;
 use chrono::NaiveDateTime;
+use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, GraphQLObject, Debug)]
+#[derive(Queryable, GraphQLObject, Debug, Serialize, Deserialize)]
 pub struct Transaction {
     pub id: i32,
     pub description: Option<String>,
@@ -14,7 +15,7 @@ pub struct Transaction {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Serialize, Deserialize)]
 #[table_name = "transactions"]
 pub struct NewTransaction {
     pub description: Option<String>,
@@ -42,7 +43,7 @@ impl NewTransaction {
     }
 }
 
-#[derive(GraphQLInputObject)]
+#[derive(GraphQLInputObject, Serialize, Deserialize)]
 pub struct InputTransaction {
     pub description: Option<String>,
     pub sender: i32, // TransactionEntity ID
@@ -52,7 +53,7 @@ pub struct InputTransaction {
     pub money_node: i32, // MoneyNode ID
 }
 
-#[derive(AsChangeset, GraphQLInputObject)]
+#[derive(AsChangeset, GraphQLInputObject, Serialize, Deserialize)]
 #[table_name = "transactions"]
 pub struct UpdateTransaction {
     pub description: Option<String>,

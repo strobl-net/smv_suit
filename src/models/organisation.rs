@@ -1,7 +1,8 @@
 use crate::schema::organisations;
 use chrono::NaiveDateTime;
+use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, GraphQLObject, Debug)]
+#[derive(Queryable, GraphQLObject, Debug, Serialize, Deserialize)]
 pub struct Organisation {
     pub id: i32,
     pub name: String,
@@ -12,7 +13,7 @@ pub struct Organisation {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Serialize, Deserialize)]
 #[table_name = "organisations"]
 pub struct NewOrganisation {
     pub name: String,
@@ -36,7 +37,7 @@ impl NewOrganisation {
     }
 }
 
-#[derive(GraphQLInputObject)]
+#[derive(GraphQLInputObject, Serialize, Deserialize)]
 pub struct InputOrganisation {
     pub name: String,
     pub description: Option<String>,
@@ -44,7 +45,7 @@ pub struct InputOrganisation {
     pub location: Option<String>,
 }
 
-#[derive(AsChangeset, GraphQLInputObject)]
+#[derive(AsChangeset, GraphQLInputObject, Serialize, Deserialize)]
 #[table_name = "organisations"]
 pub struct UpdateOrganisation {
     pub name: Option<String>,

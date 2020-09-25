@@ -1,7 +1,8 @@
 use crate::schema::bills;
 use chrono::NaiveDateTime;
+use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, GraphQLObject, Debug)]
+#[derive(Queryable, GraphQLObject, Debug, Serialize, Deserialize)]
 pub struct Bill {
     pub id: i32,
     pub received: NaiveDateTime,
@@ -13,7 +14,7 @@ pub struct Bill {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Serialize, Deserialize)]
 #[table_name = "bills"]
 pub struct NewBill {
     pub received: NaiveDateTime,
@@ -39,7 +40,7 @@ impl NewBill {
     }
 }
 
-#[derive(GraphQLInputObject)]
+#[derive(GraphQLInputObject, Serialize, Deserialize)]
 pub struct InputBill {
     pub received: NaiveDateTime,
     pub processed: Option<NaiveDateTime>,
@@ -48,7 +49,7 @@ pub struct InputBill {
     pub transaction: i32,         // Transaction ID
 }
 
-#[derive(AsChangeset, GraphQLInputObject)]
+#[derive(AsChangeset, GraphQLInputObject, Serialize, Deserialize)]
 #[table_name = "bills"]
 pub struct UpdateBill {
     pub received: Option<NaiveDateTime>,

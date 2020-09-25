@@ -1,8 +1,9 @@
 use crate::db::types::Currency;
 use crate::schema::products;
 use chrono::NaiveDateTime;
+use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, GraphQLObject, Debug)]
+#[derive(Queryable, GraphQLObject, Debug, Serialize, Deserialize)]
 pub struct Product {
     pub id: i32,
     pub name: String,
@@ -15,7 +16,7 @@ pub struct Product {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Serialize, Deserialize)]
 #[table_name = "products"]
 pub struct NewProduct {
     pub name: String,
@@ -43,7 +44,7 @@ impl NewProduct {
     }
 }
 
-#[derive(GraphQLInputObject)]
+#[derive(GraphQLInputObject, Serialize, Deserialize)]
 pub struct InputProduct {
     pub name: String,
     pub description: Option<String>,
@@ -53,7 +54,7 @@ pub struct InputProduct {
     pub tags: Option<Vec<String>>,
 }
 
-#[derive(AsChangeset, GraphQLInputObject)]
+#[derive(AsChangeset, GraphQLInputObject, Serialize, Deserialize)]
 #[table_name = "products"]
 pub struct UpdateProduct {
     pub name: Option<String>,

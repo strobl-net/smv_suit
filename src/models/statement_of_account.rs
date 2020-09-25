@@ -1,7 +1,8 @@
 use crate::schema::statement_of_accounts;
 use chrono::NaiveDateTime;
+use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, GraphQLObject, Debug)]
+#[derive(Queryable, GraphQLObject, Debug, Serialize, Deserialize)]
 pub struct StatementOfAccount {
     pub id: i32,
     pub description: Option<String>,
@@ -11,7 +12,7 @@ pub struct StatementOfAccount {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Serialize, Deserialize)]
 #[table_name = "statement_of_accounts"]
 pub struct NewStatementOfAccount {
     pub description: Option<String>,
@@ -33,14 +34,14 @@ impl NewStatementOfAccount {
     }
 }
 
-#[derive(GraphQLInputObject)]
+#[derive(GraphQLInputObject, Serialize, Deserialize)]
 pub struct InputStatementOfAccount {
     pub description: Option<String>,
     pub starting: NaiveDateTime,
     pub ending: NaiveDateTime,
 }
 
-#[derive(AsChangeset, GraphQLInputObject)]
+#[derive(AsChangeset, GraphQLInputObject, Serialize, Deserialize)]
 #[table_name = "statement_of_accounts"]
 pub struct UpdateStatementOfAccount {
     pub description: Option<String>,

@@ -2,6 +2,7 @@ use diesel::deserialize::{self, FromSql, FromSqlRow};
 use diesel::pg::{Pg, PgValue};
 use diesel::serialize::{self, IsNull, Output, ToSql};
 use std::io::Write;
+use serde::{Deserialize, Serialize};
 
 pub mod exports {
     pub use super::BranchType as Branch;
@@ -16,14 +17,14 @@ pub struct CurrencyType;
 #[postgres(type_name = "Branch")]
 pub struct BranchType;
 
-#[derive(Debug, AsExpression, FromSqlRow, GraphQLEnum)]
+#[derive(Debug, AsExpression, FromSqlRow, GraphQLEnum, Serialize, Deserialize)]
 #[sql_type = "CurrencyType"]
 pub enum Currency {
     EUR,
     USD,
 }
 
-#[derive(Debug, AsExpression, FromSqlRow, GraphQLEnum)]
+#[derive(Debug, AsExpression, FromSqlRow, GraphQLEnum, Serialize, Deserialize)]
 #[sql_type = "BranchType"]
 pub enum Branch {
     Digital,
