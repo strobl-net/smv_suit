@@ -14,7 +14,7 @@ pub struct MoneyNode {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Serialize, Deserialize)]
 #[table_name = "money_nodes"]
 pub struct NewMoneyNode {
     pub branch: Branch,
