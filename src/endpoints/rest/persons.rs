@@ -13,35 +13,35 @@ pub fn endpoints(config: &mut ServiceConfig) {
         .service(delete_by_id);
 }
 
-#[get("/persons")]
+#[get("/api/persons")]
 pub async fn get_all(pool: web::Data<PgPool>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item_list = db_items::all(&conn).unwrap();
     Ok(HttpResponse::Ok().json(item_list))
 }
 
-#[get("/persons/{id}")]
+#[get("/api/persons/{id}")]
 pub async fn get_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::by_id(&conn, id).unwrap();
     Ok(HttpResponse::Ok().json(item))
 }
 
-#[put("/persons")]
+#[put("/api/persons")]
 pub async fn put_new(pool: web::Data<PgPool>, web::Path(item): web::Path<NewItem>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::new(&conn, item).unwrap();
     Ok(HttpResponse::Ok().json(item))
 }
 
-#[get("/persons/{id}")]
+#[get("/api/persons/{id}")]
 pub async fn update_by_id(pool: web::Data<PgPool>, web::Path((item, id)): web::Path<(UpdateItem, i32)>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::update(&conn, item, id).unwrap();
     Ok(HttpResponse::Ok().json(item))
 }
 
-#[delete("/persons/{id}")]
+#[delete("/api/persons/{id}")]
 pub async fn delete_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::delete(&conn, id).unwrap();
