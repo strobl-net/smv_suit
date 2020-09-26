@@ -1,6 +1,6 @@
 use crate::db::transactions;
 use crate::graphql::Context;
-use crate::models::transaction::{NewTransaction, Transaction, UpdateTransaction, NewInputTransaction};
+use crate::models::transaction::{NewTransaction, Transaction, UpdateTransaction};
 use diesel::PgConnection;
 use juniper::{FieldError, FieldResult};
 

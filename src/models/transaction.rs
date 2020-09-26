@@ -1,10 +1,10 @@
+use crate::db::types::{Branch, Currency};
+use crate::models::money_node::InputMoneyNode;
 use crate::schema::transactions;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
-use crate::db::types::{Currency, Branch};
-use crate::models::money_node::{NewMoneyNode, InputMoneyNode};
 
-#[derive(Queryable, GraphQLObject, Debug, Serialize, Deserialize)]
+#[derive(GraphQLObject, Queryable, Debug, Serialize, Deserialize)]
 pub struct Transaction {
     pub id: i32,
     pub description: Option<String>,
@@ -17,7 +17,7 @@ pub struct Transaction {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(Insertable, Serialize, Deserialize)]
+#[derive(Insertable)]
 #[table_name = "transactions"]
 pub struct NewTransaction {
     pub description: Option<String>,
@@ -46,7 +46,7 @@ impl NewTransaction {
 }
 
 // Combination of Transaction and MoneyNode
-#[derive(GraphQLInputObject, Debug, Clone, Serialize, Deserialize)]
+#[derive(GraphQLInputObject, Debug, Clone, Deserialize)]
 pub struct NewInputTransaction {
     pub description: Option<String>,
     pub sender: i32, // TransactionEntity ID
@@ -66,7 +66,7 @@ impl From<NewInputTransaction> for InputTransaction {
             sender_local: input.sender_local,
             receiver: input.receiver,
             receiver_local: input.receiver_local,
-            money_node: -1
+            money_node: -1,
         }
     }
 }
@@ -81,7 +81,7 @@ impl From<NewInputTransaction> for InputMoneyNode {
     }
 }
 
-#[derive(GraphQLInputObject, Debug, Clone, Serialize, Deserialize)]
+#[derive(GraphQLInputObject, Debug, Clone, Deserialize)]
 pub struct InputTransaction {
     pub description: Option<String>,
     pub sender: i32, // TransactionEntity ID
@@ -91,7 +91,7 @@ pub struct InputTransaction {
     pub money_node: i32, // MoneyNode ID
 }
 
-#[derive(AsChangeset, GraphQLInputObject, Serialize, Deserialize)]
+#[derive(GraphQLInputObject, AsChangeset, Deserialize)]
 #[table_name = "transactions"]
 pub struct UpdateTransaction {
     pub description: Option<String>,

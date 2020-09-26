@@ -1,8 +1,8 @@
 use diesel::deserialize::{self, FromSql, FromSqlRow};
 use diesel::pg::{Pg, PgValue};
 use diesel::serialize::{self, IsNull, Output, ToSql};
-use std::io::Write;
 use serde::{Deserialize, Serialize};
+use std::io::Write;
 
 pub mod exports {
     pub use super::BranchType as Branch;

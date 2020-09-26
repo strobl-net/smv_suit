@@ -2,7 +2,7 @@ use crate::schema::depodraws;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, GraphQLObject, Debug, Serialize, Deserialize)]
+#[derive(GraphQLObject, Queryable, Debug, Serialize, Deserialize)]
 pub struct Depodraw {
     pub id: i32,
     pub description: Option<String>,
@@ -12,7 +12,7 @@ pub struct Depodraw {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(Insertable, Serialize, Deserialize)]
+#[derive(Insertable)]
 #[table_name = "depodraws"]
 pub struct NewDepodraw {
     pub description: Option<String>,
@@ -34,14 +34,14 @@ impl NewDepodraw {
     }
 }
 
-#[derive(GraphQLInputObject, Serialize, Deserialize)]
+#[derive(GraphQLInputObject, Deserialize)]
 pub struct InputDepodraw {
     pub description: Option<String>,
     pub transaction_up: i32,   // Transaction ID
     pub transaction_down: i32, // Transaction ID
 }
 
-#[derive(AsChangeset, GraphQLInputObject, Serialize, Deserialize)]
+#[derive(AsChangeset, GraphQLInputObject, Deserialize)]
 #[table_name = "depodraws"]
 pub struct UpdateDepodraw {
     pub description: Option<String>,

@@ -1,14 +1,14 @@
 use actix_web::web::ServiceConfig;
 
-mod persons;
-mod organisations;
-mod transaction_entities;
-mod products;
-mod money_nodes;
-mod transactions;
 mod bills;
 mod depodraws;
+mod money_nodes;
+mod organisations;
+mod persons;
+mod products;
 mod statement_of_accounts;
+mod transaction_entities;
+mod transactions;
 
 pub fn rest_endpoints(config: &mut ServiceConfig) {
     persons::endpoints(config);

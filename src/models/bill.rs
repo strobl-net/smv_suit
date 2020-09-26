@@ -1,11 +1,10 @@
+use crate::db::types::{Branch, Currency};
+use crate::models::transaction::NewInputTransaction;
 use crate::schema::bills;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
-use crate::db::types::{Branch, Currency};
-use crate::models::money_node::NewMoneyNode;
-use crate::models::transaction::{NewTransaction, NewInputTransaction};
 
-#[derive(Queryable, GraphQLObject, Debug, Serialize, Deserialize)]
+#[derive(GraphQLObject, Queryable, Debug, Serialize, Deserialize)]
 pub struct Bill {
     pub id: i32,
     pub received: NaiveDateTime,
@@ -17,7 +16,7 @@ pub struct Bill {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(Insertable, Serialize, Deserialize)]
+#[derive(Insertable)]
 #[table_name = "bills"]
 pub struct NewBill {
     pub received: NaiveDateTime,
@@ -44,7 +43,7 @@ impl NewBill {
 }
 
 // Combination of Bill, Transaction and MoneyNode
-#[derive(GraphQLInputObject, Debug, Clone, Serialize, Deserialize)]
+#[derive(GraphQLInputObject, Debug, Clone, Deserialize)]
 pub struct NewInputBill {
     pub received: NaiveDateTime,
     pub processed_datetime: Option<NaiveDateTime>,
@@ -70,7 +69,7 @@ impl From<NewInputBill> for InputBill {
             processed: input.processed_datetime,
             products: input.products,
             responsible: input.responsible,
-            transaction: -1
+            transaction: -1,
         }
     }
 }
@@ -86,12 +85,12 @@ impl From<NewInputBill> for NewInputTransaction {
             branch: input.branch,
             change: input.change,
             currency: input.currency,
-            processed: input.processed
+            processed: input.processed,
         }
     }
 }
 
-#[derive(GraphQLInputObject, Serialize, Deserialize)]
+#[derive(GraphQLInputObject, Deserialize)]
 pub struct InputBill {
     pub received: NaiveDateTime,
     pub processed: Option<NaiveDateTime>,
@@ -100,7 +99,7 @@ pub struct InputBill {
     pub transaction: i32,         // Transaction ID
 }
 
-#[derive(AsChangeset, GraphQLInputObject, Serialize, Deserialize)]
+#[derive(GraphQLInputObject, AsChangeset, Deserialize)]
 #[table_name = "bills"]
 pub struct UpdateBill {
     pub received: Option<NaiveDateTime>,

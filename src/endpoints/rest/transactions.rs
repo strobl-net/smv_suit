@@ -1,8 +1,8 @@
-use crate::db::PgPool;
 use crate::db::transactions as db_items;
+use crate::db::PgPool;
 use crate::models::transaction::{NewInputTransaction as NewItem, UpdateTransaction as UpdateItem};
-use actix_web::{HttpResponse, Error, web, get, delete, post, patch};
 use actix_web::web::ServiceConfig;
+use actix_web::{delete, get, patch, post, web, Error, HttpResponse};
 
 pub fn endpoints(config: &mut ServiceConfig) {
     config
@@ -21,28 +21,40 @@ pub async fn get_all(pool: web::Data<PgPool>) -> Result<HttpResponse, Error> {
 }
 
 #[get("/api/transactions/{id}")]
-pub async fn get_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -> Result<HttpResponse, Error> {
+pub async fn get_by_id(
+    pool: web::Data<PgPool>,
+    web::Path(id): web::Path<i32>,
+) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::by_id(&conn, id).unwrap();
     Ok(HttpResponse::Ok().json(item))
 }
 
 #[post("/api/transactions")]
-pub async fn new(pool: web::Data<PgPool>, web::Path(item): web::Path<NewItem>) -> Result<HttpResponse, Error> {
+pub async fn new(
+    pool: web::Data<PgPool>,
+    web::Path(item): web::Path<NewItem>,
+) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::new(&conn, item).unwrap();
     Ok(HttpResponse::Ok().json(item))
 }
 
 #[patch("/api/transactions/{id}")]
-pub async fn update_by_id(pool: web::Data<PgPool>, web::Path((item, id)): web::Path<(UpdateItem, i32)>) -> Result<HttpResponse, Error> {
+pub async fn update_by_id(
+    pool: web::Data<PgPool>,
+    web::Path((item, id)): web::Path<(UpdateItem, i32)>,
+) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::update(&conn, item, id).unwrap();
     Ok(HttpResponse::Ok().json(item))
 }
 
 #[delete("/api/transactions/{id}")]
-pub async fn delete_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -> Result<HttpResponse, Error> {
+pub async fn delete_by_id(
+    pool: web::Data<PgPool>,
+    web::Path(id): web::Path<i32>,
+) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::delete(&conn, id).unwrap();
     Ok(HttpResponse::Ok().json(item))

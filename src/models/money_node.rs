@@ -3,7 +3,7 @@ use crate::schema::money_nodes;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, GraphQLObject, Debug, Serialize, Deserialize)]
+#[derive(GraphQLObject, Queryable, Debug, Serialize, Deserialize)]
 pub struct MoneyNode {
     pub id: i32,
     pub branch: Branch,
@@ -14,7 +14,7 @@ pub struct MoneyNode {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(Insertable, Serialize, Deserialize)]
+#[derive(Insertable)]
 #[table_name = "money_nodes"]
 pub struct NewMoneyNode {
     pub branch: Branch,
@@ -38,7 +38,7 @@ impl NewMoneyNode {
     }
 }
 
-#[derive(GraphQLInputObject, Serialize, Deserialize)]
+#[derive(GraphQLInputObject, Deserialize)]
 pub struct InputMoneyNode {
     pub branch: Branch,
     pub change: i32,
@@ -46,7 +46,7 @@ pub struct InputMoneyNode {
     pub processed: bool,
 }
 
-#[derive(AsChangeset, GraphQLInputObject, Serialize, Deserialize)]
+#[derive(GraphQLInputObject, AsChangeset, Deserialize)]
 #[table_name = "money_nodes"]
 pub struct UpdateMoneyNode {
     pub branch: Option<Branch>,

@@ -1,10 +1,10 @@
-use crate::schema::transaction_entities;
-use chrono::NaiveDateTime;
-use serde::{Deserialize, Serialize};
 use crate::models::organisation::Organisation;
 use crate::models::person::Person;
 use crate::models::Expandable;
+use crate::schema::transaction_entities;
+use chrono::NaiveDateTime;
 use diesel::PgConnection;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize)]
 pub struct ExpandedTransactionEntity {
@@ -18,8 +18,7 @@ pub struct ExpandedTransactionEntity {
     pub changed: Option<NaiveDateTime>,
 }
 
-
-#[derive(Queryable, GraphQLObject, Debug, Serialize, Deserialize)]
+#[derive(GraphQLObject, Queryable, Debug, Serialize, Deserialize)]
 pub struct TransactionEntity {
     pub id: i32,
     pub description: Option<String>,
@@ -42,8 +41,7 @@ impl Expandable<ExpandedTransactionEntity> for TransactionEntity {
         }
 
         if let Some(person_id) = self.person {
-            expanded_person =
-                Some(crate::db::persons::by_id(conn, person_id).unwrap());
+            expanded_person = Some(crate::db::persons::by_id(conn, person_id).unwrap());
         }
 
         ExpandedTransactionEntity {
@@ -54,12 +52,12 @@ impl Expandable<ExpandedTransactionEntity> for TransactionEntity {
             iban: self.iban,
             bic: self.bic,
             added: self.added,
-            changed: self.changed
+            changed: self.changed,
         }
     }
 }
 
-#[derive(Insertable, Serialize, Deserialize)]
+#[derive(Insertable)]
 #[table_name = "transaction_entities"]
 pub struct NewTransactionEntity {
     pub description: Option<String>,
@@ -85,7 +83,7 @@ impl NewTransactionEntity {
     }
 }
 
-#[derive(GraphQLInputObject, Serialize, Deserialize)]
+#[derive(GraphQLInputObject, Deserialize)]
 pub struct InputTransactionEntity {
     pub description: Option<String>,
     pub organisation: Option<i32>, // Organisation ID
@@ -94,7 +92,7 @@ pub struct InputTransactionEntity {
     pub bic: Option<String>,
 }
 
-#[derive(AsChangeset, GraphQLInputObject, Serialize, Deserialize)]
+#[derive(GraphQLInputObject, AsChangeset, Deserialize)]
 #[table_name = "transaction_entities"]
 pub struct UpdateTransactionEntity {
     pub description: Option<String>,

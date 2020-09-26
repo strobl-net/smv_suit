@@ -1,10 +1,10 @@
+use crate::models::money_node::NewMoneyNode;
+use crate::models::transaction::NewInputTransaction;
 use crate::{
     models::transaction::{NewTransaction, Transaction, UpdateTransaction},
     schema::{transactions, transactions::dsl::transactions as transactions_query},
 };
 use diesel::prelude::*;
-use crate::models::transaction::{NewInputTransaction};
-use crate::models::money_node::NewMoneyNode;
 
 pub fn all(conn: &PgConnection) -> QueryResult<Vec<Transaction>> {
     transactions_query
@@ -19,7 +19,8 @@ pub fn by_id(conn: &PgConnection, id: i32) -> QueryResult<Transaction> {
 pub fn new(conn: &PgConnection, transaction: NewInputTransaction) -> QueryResult<Transaction> {
     use crate::db::money_nodes as other;
 
-    let money_node = other::new(conn, NewMoneyNode::from_input(transaction.clone().into())).unwrap();
+    let money_node =
+        other::new(conn, NewMoneyNode::from_input(transaction.clone().into())).unwrap();
     let mut new_transaction: NewTransaction = NewTransaction::from_input(transaction.into());
     new_transaction.money_node = money_node.id;
 
