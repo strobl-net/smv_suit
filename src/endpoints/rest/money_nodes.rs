@@ -27,7 +27,7 @@ pub async fn get_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -
     Ok(HttpResponse::Ok().json(item))
 }
 
-#[put("/api/money_nodes")]
+#[put("/api/money-nodes")]
 pub async fn put_new(pool: web::Data<PgPool>, web::Path(item): web::Path<NewItem>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::new(&conn, item).unwrap();

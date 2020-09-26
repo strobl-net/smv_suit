@@ -1,6 +1,6 @@
 use crate::db::transactions;
 use crate::graphql::Context;
-use crate::models::transaction::{NewTransaction, Transaction, UpdateTransaction};
+use crate::models::transaction::{NewTransaction, Transaction, UpdateTransaction, NewInputTransaction};
 use diesel::PgConnection;
 use juniper::{FieldError, FieldResult};
 
@@ -31,7 +31,7 @@ impl TransactionQuery {
 impl TransactionMutation {
     pub fn new(ctx: &Context, transaction: NewTransaction) -> FieldResult<Transaction> {
         let conn: &PgConnection = &ctx.pool.get().unwrap();
-        match transactions::new(conn, transaction) {
+        match transactions::new_debug(conn, transaction) {
             Ok(transaction) => Ok(transaction),
             Err(err) => FieldResult::Err(FieldError::from(err)),
         }

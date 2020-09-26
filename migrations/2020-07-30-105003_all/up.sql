@@ -151,6 +151,13 @@ CREATE TABLE statement_of_accounts (
 INSERT INTO persons (name, email, phone, tags, added) VALUES ('Sebastian', 'Sebastian@Test.com', '020-74023-234', '{admin, developer, smv}', NOW());
 INSERT INTO persons (name, email, phone, tags, added) VALUES ('Max Mustermann', 'Max@Mustermann.de', '020-23436-123', '{smv}', NOW());
 INSERT INTO persons (name, email, phone, tags, added) VALUES ('Maxina Mustermann', 'Maxina@Mustermann.de', '020-76562-123', '{smv, party_leader}', NOW());
+
 INSERT INTO organisations (name, site, added) VALUES ('Amazon', 'amazon.com', NOW());
 INSERT INTO organisations (name, description, site, location, added) VALUES ('Edika X', 'lebensmittel', 'edika.com', '032740 Munich Street X', NOW());
+
+INSERT INTO transaction_entities (description, organisation, added) VALUES ('amazon', 1, NOW());
 INSERT INTO transaction_entities (description, organisation, added) VALUES ('local supermarket', 2, NOW());
+
+INSERT INTO products (name, description, change, currency, provider, added) VALUES ('Flat Screen TV', 'television in 2020 lul', '133372', 'eur', '1', NOW());
+INSERT INTO products (name, description, change, currency, provider, added) VALUES ('Banana', 'A delicious and long fruit', '99', 'eur', '2', NOW());
+INSERT INTO products (name, description, change, currency, provider, added) VALUES ('Apple', 'A round fruit', '69', 'eur', '2', NOW());

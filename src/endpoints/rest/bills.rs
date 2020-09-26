@@ -1,14 +1,14 @@
 use crate::db::PgPool;
 use crate::db::bills as db_items;
-use crate::models::bill::{NewBill as NewItem, UpdateBill as UpdateItem};
-use actix_web::{HttpResponse, Error, web, get, delete, put};
+use crate::models::bill::{NewBill as NewItem, NewInputBill as NewInputItem, UpdateBill as UpdateItem};
+use actix_web::{HttpResponse, Error, web, get, delete, post, patch};
 use actix_web::web::ServiceConfig;
 
 pub fn endpoints(config: &mut ServiceConfig) {
     config
         .service(get_all)
         .service(get_by_id)
-        .service(put_new)
+        .service(new)
         .service(update_by_id)
         .service(delete_by_id);
 }
@@ -27,14 +27,21 @@ pub async fn get_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -
     Ok(HttpResponse::Ok().json(item))
 }
 
-#[put("/api/bills")]
-pub async fn put_new(pool: web::Data<PgPool>, web::Path(item): web::Path<NewItem>) -> Result<HttpResponse, Error> {
+#[post("/api/bills")]
+pub async fn new(pool: web::Data<PgPool>, web::Path(item): web::Path<NewInputItem>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::new(&conn, item).unwrap();
     Ok(HttpResponse::Ok().json(item))
 }
 
-#[get("/api/bills/{id}")]
+#[post("/api/d/bills")]
+pub async fn new_debug(pool: web::Data<PgPool>, web::Path(item): web::Path<NewItem>) -> Result<HttpResponse, Error> {
+    let conn = pool.get().unwrap();
+    let item = db_items::new_debug(&conn, item).unwrap();
+    Ok(HttpResponse::Ok().json(item))
+}
+
+#[patch("/api/bills/{id}")]
 pub async fn update_by_id(pool: web::Data<PgPool>, web::Path((item, id)): web::Path<(UpdateItem, i32)>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::update(&conn, item, id).unwrap();

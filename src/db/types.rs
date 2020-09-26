@@ -17,14 +17,14 @@ pub struct CurrencyType;
 #[postgres(type_name = "Branch")]
 pub struct BranchType;
 
-#[derive(Debug, AsExpression, FromSqlRow, GraphQLEnum, Serialize, Deserialize)]
+#[derive(Debug, AsExpression, FromSqlRow, Copy, Clone, GraphQLEnum, Serialize, Deserialize)]
 #[sql_type = "CurrencyType"]
 pub enum Currency {
     EUR,
     USD,
 }
 
-#[derive(Debug, AsExpression, FromSqlRow, GraphQLEnum, Serialize, Deserialize)]
+#[derive(Debug, AsExpression, FromSqlRow, Copy, Clone, GraphQLEnum, Serialize, Deserialize)]
 #[sql_type = "BranchType"]
 pub enum Branch {
     Digital,

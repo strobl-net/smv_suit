@@ -31,7 +31,7 @@ impl BillQuery {
 impl BillMutation {
     pub fn new(ctx: &Context, bill: NewBill) -> FieldResult<Bill> {
         let conn: &PgConnection = &ctx.pool.get().unwrap();
-        match bills::new(conn, bill) {
+        match bills::new_debug(conn, bill) {
             Ok(bill) => Ok(bill),
             Err(err) => FieldResult::Err(FieldError::from(err)),
         }

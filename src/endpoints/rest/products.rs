@@ -8,6 +8,7 @@ pub fn endpoints(config: &mut ServiceConfig) {
     config
         .service(get_all)
         .service(get_by_id)
+        .service(get_products_by_trent)
         .service(put_new)
         .service(update_by_id)
         .service(delete_by_id);
@@ -25,6 +26,13 @@ pub async fn get_by_id(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -
     let conn = pool.get().unwrap();
     let item = db_items::by_id(&conn, id).unwrap();
     Ok(HttpResponse::Ok().json(item))
+}
+
+#[get("/api/products-by-trent/{id}")]
+pub async fn get_products_by_trent(pool: web::Data<PgPool>, web::Path(id): web::Path<i32>) -> Result<HttpResponse, Error> {
+    let conn = pool.get().unwrap();
+    let item_list = db_items::by_trent_id(&conn, id).unwrap();
+    Ok(HttpResponse::Ok().json(item_list))
 }
 
 #[put("/api/products")]
