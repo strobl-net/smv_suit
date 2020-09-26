@@ -30,6 +30,7 @@ async fn main() -> std::io::Result<()> {
     info!("Starting Server with following configuration \n {}", config);
 
     let pool: PgPool = new_pool(&config);
+    let tera = tera::Tera::new(concat!(env!("CARGO_MANIFEST_DIR"), "/templates/**/*")).unwrap();
 
     // Edit Cors for production
     HttpServer::new(move || {
@@ -37,9 +38,11 @@ async fn main() -> std::io::Result<()> {
             .wrap(Cors::new().supports_credentials().max_age(3600).finish())
             .data(config.clone())
             .data(pool.clone())
+            .data(tera.clone())
             .wrap(middleware::Logger::default())
-            .configure(endpoints::graphql_endpoints)
-            .configure(endpoints::rest_endpoints)
+            .configure(endpoints::graphql::endpoints)
+            .configure(endpoints::rest::endpoints)
+            .configure(endpoints::views::endpoints)
     })
     .bind(server_address)?
     .run()
