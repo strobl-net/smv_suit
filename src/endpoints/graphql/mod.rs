@@ -9,7 +9,7 @@ use std::sync::Arc;
 
 // Configure all GraphQL endpoints
 // called by the actix-web server builder
-pub fn graphql_endpoints(config: &mut web::ServiceConfig) {
+pub fn endpoints(config: &mut web::ServiceConfig) {
     let schema = Arc::new(graphql::create_schema());
     config
         .data(schema)

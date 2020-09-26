@@ -10,7 +10,7 @@ mod statement_of_accounts;
 mod transaction_entities;
 mod transactions;
 
-pub fn rest_endpoints(config: &mut ServiceConfig) {
+pub fn endpoints(config: &mut ServiceConfig) {
     persons::endpoints(config);
     organisations::endpoints(config);
     transaction_entities::endpoints(config);

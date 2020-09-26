@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 table! {
     use diesel::sql_types::*;
     use crate::db::types::exports::*;
