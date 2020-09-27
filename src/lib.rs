@@ -9,7 +9,6 @@ pub mod db;
 pub mod endpoints;
 pub mod graphql;
 pub mod models;
-pub mod views;
 pub mod schema;
 
 // Configure logger format to the following
