@@ -31,6 +31,7 @@ async fn main() -> std::io::Result<()> {
 
     let pool: PgPool = new_pool(&config);
     let tera = tera::Tera::new(concat!(env!("CARGO_MANIFEST_DIR"), "/templates/**/*")).unwrap();
+    let client = reqwest::Client::new();
 
     // Edit Cors for production
     HttpServer::new(move || {
@@ -39,6 +40,7 @@ async fn main() -> std::io::Result<()> {
             .data(config.clone())
             .data(pool.clone())
             .data(tera.clone())
+            .data(client.clone())
             .wrap(middleware::Logger::default())
             .configure(endpoints::graphql::endpoints)
             .configure(endpoints::rest::endpoints)

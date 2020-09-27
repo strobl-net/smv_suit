@@ -4,6 +4,82 @@
 
 {% block content %}
 {{ super() }}
-<h1> Persons API </h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-auto">
+      <h2> Persons API </h2>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newPerson">+</button>
+    </div>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Email</th>
+    <th scope="col">Phone</th>
+    <th scope="col">Tags</th>
+    <th scope="col">Added</th>
+    <th scope="col">Changed</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for person in persons %}
+  <tr>
+    <td>{{person.id}}</td>
+    <td>{{person.name}}</td>
+    <td>{{person.email}}</td>
+    <td>{{person.phone}}</td>
+    <td>{{person.tags}}</td>
+    <td>{{person.added}}</td>
+    <td>{{person.changed}}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class="modal fade" id="newPerson" tabindex="-1" aria-labelledby="newPersonLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newPersonLabel">New Person</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="inputName">Name</label>
+            <input type="text" class="form-control" id="inputName">
+          </div>
+          <div class="form-group">
+            <label for="inputEmail">Email</label>
+            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">We'll never share emails with others</small>
+          </div>
+          <div class="form-group">
+            <label for="inputPhone">Phone</label>
+            <input type="text" class="form-control" id="inputPhone" aria-describedby="phoneHelp">
+            <small id="phoneHelp" class="form-text text-muted">We'll never share phone-numbers with others</small>
+          </div>
+          <div class="form-group">
+            <label for="inputTags">Tags</label>
+            <input type="text" class="form-control" id="inputTags" aria-describedby="tagsHelp">
+            <small id="tagsHelp" class="form-text text-muted">Separate Tags with a ','.  Whitespaces are ignored</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Create Person</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock content %}
