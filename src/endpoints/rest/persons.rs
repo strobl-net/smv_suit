@@ -35,7 +35,7 @@ pub async fn get_by_id(
 #[post("/api/persons")]
 pub async fn new(
     pool: web::Data<PgPool>,
-    web::Path(item): web::Path<InputItem>,
+    web::Json(item): web::Json<InputItem>,
 ) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::new(&conn, Item::from_input(item)).unwrap();
