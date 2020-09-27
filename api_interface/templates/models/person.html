@@ -1,3 +1,4 @@
+{% from "bootstrap/form.html" import render_field %}
 {% extends "structure/api_layout.html" %}
 
 {% block title %} {{ title }} {% endblock title %}
@@ -52,32 +53,17 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="inputName">Name</label>
-            <input type="text" class="form-control" id="inputName" aria-labelledby="nameHelp">
-            <small id="nameHelp" class="form-text text-muted">Full Name or Nickname</small>
-          </div>
-          <div class="form-group">
-            <label for="inputEmail">Email</label>
-            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
-            <small id="emailHelp" class="form-text text-muted">We'll never share emails with others</small>
-          </div>
-          <div class="form-group">
-            <label for="inputPhone">Phone</label>
-            <input type="text" class="form-control" id="inputPhone" aria-describedby="phoneHelp">
-            <small id="phoneHelp" class="form-text text-muted">We'll never share phone-numbers with others</small>
-          </div>
-          <div class="form-group">
-            <label for="inputTags">Tags</label>
-            <input type="text" class="form-control" id="inputTags" aria-describedby="tagsHelp">
-            <small id="tagsHelp" class="form-text text-muted">Separate Tags with a Comma, Whitespaces are ignored</small>
+        <form method="post">
+          {{ form.csrf_token }}
+          {{ render_field(form.name) }}
+          {{ render_field(form.email) }}
+          {{ render_field(form.phone) }}
+          {{ render_field(form.tags) }}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="newPerson">Close</button>
+            <button type="submit" class="btn btn-primary" value="Create">Create Person</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Create Person</button>
       </div>
     </div>
   </div>
