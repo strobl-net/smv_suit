@@ -54,5 +54,12 @@ def persons():
     person_list = requests.get("http://localhost:8000/api/persons").json()
     return render_template('models/person.html', persons=person_list, title=title, form=form)
 
+
+@app.route("/api/persons/delete/<int:person_id>", methods=['POST'])
+def delete_person(person_id: int):
+    requests.delete("http://localhost:8000/api/persons/" + str(person_id))
+    return redirect('/api/persons')
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=debug, port=8001)

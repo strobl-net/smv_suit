@@ -5,7 +5,7 @@
 
 {% block content %}
 {{ super() }}
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-md-auto">
       <h2> Persons API </h2>
@@ -26,6 +26,7 @@
     <th scope="col">Tags</th>
     <th scope="col">Added</th>
     <th scope="col">Changed</th>
+    <th scope="col">Options</th>
   </tr>
   </thead>
   <tbody>
@@ -38,6 +39,11 @@
     <td>{{person.tags}}</td>
     <td>{{person.added}}</td>
     <td>{{person.changed}}</td>
+    <td>
+      <form method="post" action="{{ url_for('delete_person', person_id=person.id) }}">
+        <button type="submit" class="btn btn-danger" value="Delete">X</button>
+      </form>
+    </td>
   </tr>
   {% endfor %}
   </tbody>
