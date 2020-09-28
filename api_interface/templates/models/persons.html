@@ -1,0 +1,78 @@
+{% from "bootstrap/form.html" import render_field %}
+{% extends "structure/api_layout.html" %}
+
+{% block title %} {{ title }} {% endblock title %}
+
+{% block content %}
+{{ super() }}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-auto">
+      <h2> Persons API </h2>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newPerson">+</button>
+    </div>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Email</th>
+    <th scope="col">Phone</th>
+    <th scope="col">Tags</th>
+    <th scope="col">Added</th>
+    <th scope="col">Changed</th>
+    <th scope="col">Options</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for person in persons %}
+  <tr>
+    <td>{{person.id}}</td>
+    <td>{{person.name}}</td>
+    <td>{{person.email}}</td>
+    <td>{{person.phone}}</td>
+    <td>{{person.tags}}</td>
+    <td>{{person.added}}</td>
+    <td>{{person.changed}}</td>
+    <td>
+      <form method="post" action="{{ url_for('delete_person', person_id=person.id) }}">
+        <button type="submit" class="btn btn-danger" value="Delete">X</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class="modal fade" id="newPerson" tabindex="-1" aria-labelledby="newPersonLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newPersonLabel">New Person</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+          {{ form.csrf_token }}
+          {{ render_field(form.name) }}
+          {{ render_field(form.email) }}
+          {{ render_field(form.phone) }}
+          {{ render_field(form.tags) }}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="newPerson">Close</button>
+            <button type="submit" class="btn btn-primary" value="Create">Create Person</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

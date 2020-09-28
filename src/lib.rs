@@ -7,7 +7,7 @@ extern crate juniper;
 pub mod config;
 pub mod db;
 pub mod endpoints;
-pub mod graphql;
+// pub mod graphql;
 pub mod models;
 pub mod schema;
 

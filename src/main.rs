@@ -38,7 +38,7 @@ async fn main() -> std::io::Result<()> {
             .data(config.clone())
             .data(pool.clone())
             .wrap(middleware::Logger::default())
-            .configure(endpoints::graphql::endpoints)
+            // .configure(endpoints::graphql::endpoints)
             .configure(endpoints::rest::endpoints)
     })
     .bind(server_address)?
