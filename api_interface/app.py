@@ -36,7 +36,7 @@ def persons():
     form = PersonForm()
     if form.validate_on_submit():
         tags = form.tags.data
-        tags.replace(' ', '')
+        tags = tags.replace(' ', '')
         tags = tags.split(',')
         new_person = {
             'name': form.name.data,
