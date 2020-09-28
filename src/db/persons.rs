@@ -3,6 +3,7 @@ use crate::{
     schema::{persons, persons::dsl::persons as person_query},
 };
 use diesel::prelude::*;
+use crate::models::person::QueryPerson;
 
 pub fn all(conn: &PgConnection) -> QueryResult<Vec<Person>> {
     person_query.order(persons::id.asc()).load::<Person>(conn)
@@ -10,6 +11,33 @@ pub fn all(conn: &PgConnection) -> QueryResult<Vec<Person>> {
 
 pub fn by_id(conn: &PgConnection, id: i32) -> QueryResult<Person> {
     person_query.find(id).get_result::<Person>(conn)
+}
+
+pub fn by_query(conn: &PgConnection, query: QueryPerson) -> QueryResult<Vec<Person>> {
+    let mut persons: Vec<Person> = Vec::new();
+
+    if let Some(name) = query.name {
+        let results = person_query
+            .filter(persons::name.ilike(format!("%{}%", name)))
+            .load::<Person>(conn)?;
+
+        persons.extend(results);
+    }
+    if let Some(tags) = query.tags {
+        let results = person_query
+            .filter(persons::tags.contains(tags))
+            .load::<Person>(conn)?;
+
+        let mut tmp_vec: Vec<Person> = Vec::new();
+        for person in persons {
+            if results.contains(&person) {
+                tmp_vec.push(person);
+            }
+        }
+        persons = tmp_vec;
+    }
+
+    Ok(persons)
 }
 
 pub fn new(conn: &PgConnection, person: NewPerson) -> QueryResult<Person> {

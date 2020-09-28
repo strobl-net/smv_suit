@@ -1,10 +1,9 @@
 use crate::db::persons as db_items;
 use crate::db::PgPool;
-use crate::models::person::{
-    InputPerson as InputItem, NewPerson as Item, UpdatePerson as UpdateItem,
-};
+use crate::models::person::{InputPerson as InputItem, NewPerson as Item, UpdatePerson as UpdateItem, QueryPerson};
 use actix_web::web::ServiceConfig;
-use actix_web::{delete, get, patch, post, web, Error, HttpResponse};
+use actix_web::{delete, get, patch, post, web, Error, HttpResponse, HttpRequest};
+use serde_qs;
 
 pub fn endpoints(config: &mut ServiceConfig) {
     config
@@ -16,10 +15,22 @@ pub fn endpoints(config: &mut ServiceConfig) {
 }
 
 #[get("/api/persons")]
-pub async fn get_all(pool: web::Data<PgPool>) -> Result<HttpResponse, Error> {
+pub async fn get_all(pool: web::Data<PgPool>, request: HttpRequest) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
-    let item_list = db_items::all(&conn).unwrap();
-    Ok(HttpResponse::Ok().json(item_list))
+    if request.query_string().is_empty() {
+        let item_list = db_items::all(&conn).unwrap();
+        Ok(HttpResponse::Ok().json(item_list))
+    } else {
+        match serde_qs::from_str::<QueryPerson>(&request.query_string()) {
+            Ok(query) => {
+                let item_list = db_items::by_query(&conn, query).unwrap();
+                Ok(HttpResponse::Ok().json(item_list))
+            }
+            Err(e) => {
+                panic!("{}", e)
+            }
+        }
+    }
 }
 
 #[get("/api/persons/{id}")]

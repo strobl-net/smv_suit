@@ -2,7 +2,7 @@ use crate::schema::persons;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 
-#[derive(GraphQLObject, Queryable, Debug, Serialize, Deserialize)]
+#[derive(GraphQLObject, PartialEq, Queryable, Debug, Serialize, Deserialize)]
 pub struct Person {
     pub id: i32,
     pub name: String,
@@ -51,5 +51,11 @@ pub struct UpdatePerson {
     pub name: Option<String>,
     pub email: Option<String>,
     pub phone: Option<String>,
+    pub tags: Option<Vec<String>>,
+}
+
+#[derive(Queryable, Debug, Deserialize)]
+pub struct QueryPerson {
+    pub name: Option<String>,
     pub tags: Option<Vec<String>>,
 }
