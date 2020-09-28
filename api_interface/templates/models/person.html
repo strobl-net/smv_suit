@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% from "bootstrap/form.html" import render_field %}
+{% extends "structure/api_layout.html" %}
+
+{% block title %} Person {{ person.id }} {% endblock title %}
+
+{% block content %}
+{{ super() }}
+<div class="container">
+  <div class="row">
+    <div class="col-md-auto">
+      <h2> Persons / {{ person.id }} </h2>
+    </div>
+  </div>
+  <form method="post">
+    {{ form.csrf_token }}
+    {{ render_field(form.id) }}
+    {{ render_field(form.name) }}
+    {{ render_field(form.email) }}
+    {{ render_field(form.phone) }}
+    {{ render_field(form.tags) }}
+    {{ render_field(form.added) }}
+    {{ render_field(form.changed) }}
+      <div class="d-flex flex-row-reverse">
+        <div class="p-2">
+          <button type="submit" class="btn btn-primary" value="Update">Update Person</button>
+        </div>
+        <div class="p-2">
+          <a href="{{ url_for('persons') }}">
+            <button type="button" class="btn btn-secondary" value="Exit">Cancel</button>
+          </a>
+        </div>
+      </div>
+  </form>
+</div>
+
+{% endblock content %}

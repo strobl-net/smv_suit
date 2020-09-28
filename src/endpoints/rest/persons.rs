@@ -1,6 +1,6 @@
 use crate::db::persons as db_items;
 use crate::db::PgPool;
-use crate::models::person::{InputPerson as InputItem, NewPerson as Item, UpdatePerson as UpdateItem, QueryPerson};
+use crate::models::person::{InputPerson as InputItem, NewPerson as Item, InputUpdatePerson as UpdateInputItem, QueryPerson as QueryItem, UpdatePerson as UpdateItem};
 use actix_web::web::ServiceConfig;
 use actix_web::{delete, get, patch, post, web, Error, HttpResponse, HttpRequest};
 use serde_qs;
@@ -21,7 +21,7 @@ pub async fn get_all(pool: web::Data<PgPool>, request: HttpRequest) -> Result<Ht
         let item_list = db_items::all(&conn).unwrap();
         Ok(HttpResponse::Ok().json(item_list))
     } else {
-        match serde_qs::from_str::<QueryPerson>(&request.query_string()) {
+        match serde_qs::from_str::<QueryItem>(&request.query_string()) {
             Ok(query) => {
                 let item_list = db_items::by_query(&conn, query).unwrap();
                 Ok(HttpResponse::Ok().json(item_list))
@@ -56,10 +56,12 @@ pub async fn new(
 #[patch("/api/persons/{id}")]
 pub async fn update_by_id(
     pool: web::Data<PgPool>,
-    web::Path((item, id)): web::Path<(UpdateItem, i32)>,
+    web::Json(item): web::Json<UpdateInputItem>,
+    web::Path(id): web::Path<i32>,
 ) -> Result<HttpResponse, Error> {
+    println!("patch");
     let conn = pool.get().unwrap();
-    let item = db_items::update(&conn, item, id).unwrap();
+    let item = db_items::update(&conn, UpdateItem::from_input(item), id).unwrap();
     Ok(HttpResponse::Ok().json(item))
 }
 

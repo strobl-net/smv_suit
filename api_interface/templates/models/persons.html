@@ -1,7 +1,7 @@
 {% from "bootstrap/form.html" import render_field %}
 {% extends "structure/api_layout.html" %}
 
-{% block title %} {{ title }} {% endblock title %}
+{% block title %} Person {% endblock title %}
 
 {% block content %}
 {{ super() }}
@@ -40,9 +40,15 @@
     <td>{{person.added}}</td>
     <td>{{person.changed}}</td>
     <td>
-      <form method="post" action="{{ url_for('delete_person', person_id=person.id) }}">
-        <button type="submit" class="btn btn-danger" value="Delete">X</button>
-      </form>
+      <div class="row">
+          <a href="{{ url_for('delete_person', person_id=person.id) }}">
+            <button type="button" class="btn btn-danger" value="Delete">X</button>
+          </a>
+          <a href="{{ url_for('single_person', person_id=person.id) }}">
+            <button type="button" class="btn btn-success" value="Delete">E</button>
+          </a>
+        </form>
+      </div>
     </td>
   </tr>
   {% endfor %}

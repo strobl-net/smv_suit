@@ -45,9 +45,30 @@ pub struct InputPerson {
     pub tags: Vec<String>,
 }
 
-#[derive(GraphQLInputObject, AsChangeset, Deserialize)]
+#[derive(Debug, AsChangeset)]
 #[table_name = "persons"]
 pub struct UpdatePerson {
+    pub name: Option<String>,
+    pub email: Option<String>,
+    pub phone: Option<String>,
+    pub tags: Option<Vec<String>>,
+    pub changed: Option<NaiveDateTime>,
+}
+
+impl UpdatePerson {
+    pub fn from_input(input: InputUpdatePerson) -> Self {
+        Self {
+            name: input.name,
+            email: input.email.clone(),
+            phone: input.phone.clone(),
+            tags: input.tags,
+            changed: Some(chrono::Utc::now().naive_utc()),
+        }
+    }
+}
+
+#[derive(GraphQLInputObject, Debug, Deserialize)]
+pub struct InputUpdatePerson {
     pub name: Option<String>,
     pub email: Option<String>,
     pub phone: Option<String>,
