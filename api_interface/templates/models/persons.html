@@ -4,11 +4,18 @@
 {% block title %} Person {% endblock title %}
 
 {% block content %}
-{{ super() }}
-<div class="container-fluid">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Persons</li>
+  </ol>
+</nav>
+
+<div class="flex-row">
   <div class="row">
     <div class="col-md-auto">
-      <h2> Persons API </h2>
+      <h2> Persons | API </h2>
     </div>
     <div class="col">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newPerson">+</button>

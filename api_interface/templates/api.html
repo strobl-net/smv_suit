@@ -3,7 +3,20 @@
 {% block title %} API LIST {% endblock title %}
 
 {% block content %}
-<h1> API </h1>
-<h2> routes: </h2>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">API</li>
+  </ol>
+</nav>
+
+<div class="container">
+  <h1> API </h1>
+  <h2> routes: </h2>
+  <ul>
+    <li><a href="{{ url_for('persons') }}">Profiles</a></li>
+  </ul>
+</div>
+
 
 {% endblock content %}

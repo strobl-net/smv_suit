@@ -4,12 +4,28 @@
 {% block title %} Person {{ person.id }} {% endblock title %}
 
 {% block content %}
-{{ super() }}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('persons') }}">Persons</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ person.id }}</li>
+  </ol>
+</nav>
 <div class="container">
-  <div class="row">
-    <div class="col-md-auto">
-      <h2> Persons / {{ person.id }} </h2>
+  <div class="d-flex flex-row">
+    <div class="p-2">
+      <h2> Person | {{ person.id }} | API</h2>
     </div>
+    <div class="p-2">
+      <a href="{{ url_for('delete_person', person_id=person.id) }}">
+        <button type="button" class="btn btn-danger" value="Delete">Delete</button>
+      </a>
+    </div>
+    <div class="p-2">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#newTransactionEntity">Make Transaction Entity</button>
+    </div>
+
   </div>
   <form method="post">
     {{ form.csrf_token }}
@@ -20,17 +36,44 @@
     {{ render_field(form.tags) }}
     {{ render_field(form.added) }}
     {{ render_field(form.changed) }}
-      <div class="d-flex flex-row-reverse">
-        <div class="p-2">
-          <button type="submit" class="btn btn-primary" value="Update">Update Person</button>
-        </div>
-        <div class="p-2">
-          <a href="{{ url_for('persons') }}">
-            <button type="button" class="btn btn-secondary" value="Exit">Cancel</button>
-          </a>
-        </div>
+    <div class="d-flex flex-row-reverse">
+      <div class="p-2">
+        <button type="submit" class="btn btn-primary" value="Update">Update Person</button>
       </div>
+      <div class="p-2">
+        <a href="{{ url_for('persons') }}">
+          <button type="button" class="btn btn-secondary" value="Exit">Cancel</button>
+        </a>
+      </div>
+    </div>
   </form>
+</div>
+
+<div class="modal fade" id="newTransactionEntity" tabindex="-1" aria-labelledby="newTransactionEntityLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newTransactionEntityLabel">New Transaction Entity</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+          {{ form2.csrf_token }}
+          {{ render_field(form2.description) }}
+          {{ render_field(form2.organisation) }}
+          {{ render_field(form2.person) }}
+          {{ render_field(form2.iban) }}
+          {{ render_field(form2.bic) }}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="newPerson">Close</button>
+            <button type="submit" class="btn btn-primary" value="Create">Create Transaction Entity</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock content %}

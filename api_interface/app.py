@@ -33,18 +33,36 @@ class PersonForm(FlaskForm):
 
 
 class OrganisationForm(FlaskForm):
+    id = IntegerField("ID")
     name = StringField('Name', validators=[validators.DataRequired(message="Please enter a name")])
     description = TextAreaField('Description', validators=[validators.Optional()])
     site = StringField('Site', validators=[validators.Optional(), validators.URL("Invalid Address")])
     location = StringField('Site', validators=[validators.Optional()])
+    added = DateTimeField('Added', format="%Y-%m-%dT%H:%M:%S.%f")
+    changed = DateTimeField('Changed', format="%Y-%m-%dT%H:%M:%S.%f")
+
+    def __init__(self, *args, **kwargs):
+        super(OrganisationForm, self).__init__(*args, **kwargs)
+        read_only(self.id)
+        read_only(self.added)
+        read_only(self.changed)
 
 
 class TransactionEntityForm(FlaskForm):
+    id = IntegerField("ID")
     description = TextAreaField('Description', validators=[validators.Optional()])
-    organisation = TextAreaField('Organisation', validators=[validators.Optional()])
-    person = TextAreaField('Person', validators=[validators.Optional()])
-    iban = TextAreaField('iban', validators=[validators.Optional()])
-    bic = TextAreaField('nic', validators=[validators.Optional()])
+    organisation = StringField('Organisation', validators=[validators.Optional()])
+    person = StringField('Person', validators=[validators.Optional()])
+    iban = StringField('iban', validators=[validators.Optional()])
+    bic = StringField('bic', validators=[validators.Optional()])
+    added = DateTimeField('Added', format="%Y-%m-%dT%H:%M:%S.%f")
+    changed = DateTimeField('Changed', format="%Y-%m-%dT%H:%M:%S.%f")
+
+    def __init__(self, *args, **kwargs):
+        super(TransactionEntityForm, self).__init__(*args, **kwargs)
+        read_only(self.id)
+        read_only(self.added)
+        read_only(self.changed)
 
 
 @app.route("/")
@@ -80,18 +98,14 @@ def persons():
     return render_template('models/persons.html', persons=person_list, form=form)
 
 
-@app.route("/intern/api/persons/delete/<int:person_id>", methods=['POST'])
-def delete_person(person_id: int):
-    requests.delete("http://localhost:8000/api/persons/" + str(person_id))
-    return redirect('/api/persons')
-
-
 @app.route("/api/persons/<int:person_id>", methods=['GET', 'POST'])
 def single_person(person_id: int):
     person = requests.get("http://localhost:8000/api/persons/" + str(person_id)).json()
 
     person = Person(data=person)
+
     form = PersonForm(obj=person)
+    trent_form = TransactionEntityForm()
 
     form.id.data = person.id
     form.added.data = person.added
@@ -108,10 +122,18 @@ def single_person(person_id: int):
             'phone': form.phone.data,
             'tags': tags
         }
-        print(update_person)
         requests.patch("http://localhost:8000/api/persons/" + str(person_id), json=update_person)
 
-    return render_template("models/person.html", person=person, form=form)
+    if trent_form.validate_on_submit():
+        redirect('/api/persons/' + str(person_id))
+
+    return render_template("models/person.html", person=person, form=form, form2=trent_form)
+
+
+@app.route("/intern/api/persons/delete/<int:person_id>", methods=['GET', 'POST'])
+def delete_person(person_id: int):
+    requests.delete("http://localhost:8000/api/persons/" + str(person_id))
+    return redirect('/api/persons')
 
 
 if __name__ == "__main__":

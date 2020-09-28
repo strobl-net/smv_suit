@@ -24,3 +24,25 @@ class Person(object):
         self.added = datetime.strptime(data['added'], "%Y-%m-%dT%H:%M:%S.%f")
         if not data['changed'] is None:
             self.changed = datetime.strptime(data['changed'], "%Y-%m-%dT%H:%M:%S.%f")
+
+
+class TransactionEntity(object):
+    id = -1
+    description = ""
+    organisation: int
+    person: int
+    iban = ""
+    bic = ""
+    added = "-1"
+    changed = ""
+
+    def __init__(self, data: Dict):
+        self.id = data['id']
+        self.description = data['description']
+        self.organisation = data['organisation']
+        self.person = data['person']
+        self.iban = data['iban']
+        self.bic = data['bic']
+        self.added = datetime.strptime(data['added'], "%Y-%m-%dT%H:%M:%S.%f")
+        if not data['changed'] is None:
+            self.changed = datetime.strptime(data['changed'], "%Y-%m-%dT%H:%M:%S.%f")
