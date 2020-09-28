@@ -34,7 +34,6 @@ def api():
 @app.route("/api/persons", methods=['GET', 'POST'])
 def persons():
     form = PersonForm()
-    print(test(2))
     if form.validate_on_submit():
         tags = form.tags.data
         tags.replace(' ', '')
@@ -54,12 +53,6 @@ def persons():
     title = "Person"
     person_list = requests.get("http://localhost:8000/api/persons").json()
     return render_template('models/person.html', persons=person_list, title=title, form=form)
-
-
-def test(x: int) -> List[str]:
-    y: str = "test"
-    return [str(x), str(x), y]
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=debug, port=8001)
