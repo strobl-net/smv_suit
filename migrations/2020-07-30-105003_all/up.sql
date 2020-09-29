@@ -26,8 +26,8 @@ CREATE TABLE organisations (
 CREATE TABLE transaction_entities (
     id              SERIAL                  ,
     description     TEXT                    ,
-    organisation    INT                     ,
-    person          INT                     ,
+    organisation    INT         UNIQUE      ,
+    person          INT         UNIQUE      ,
     iban            VARCHAR(40)             ,
     bic             VARCHAR(15)             ,
     added           TIMESTAMP   NOT NULL    ,
