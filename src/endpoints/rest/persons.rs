@@ -3,7 +3,6 @@ use crate::db::PgPool;
 use crate::models::person::{InputPerson as InputItem, NewPerson as Item, InputUpdatePerson as UpdateInputItem, QueryPerson as QueryItem, UpdatePerson as UpdateItem};
 use actix_web::web::ServiceConfig;
 use actix_web::{delete, get, patch, post, web, Error, HttpResponse, HttpRequest};
-use serde_qs;
 
 pub fn endpoints(config: &mut ServiceConfig) {
     config
@@ -26,8 +25,8 @@ pub async fn get_all(pool: web::Data<PgPool>, request: HttpRequest) -> Result<Ht
                 let item_list = db_items::by_query(&conn, query).unwrap();
                 Ok(HttpResponse::Ok().json(item_list))
             }
-            Err(e) => {
-                panic!("{}", e)
+            Err(_) => {
+                Ok(HttpResponse::InternalServerError().finish())
             }
         }
     }
@@ -59,7 +58,6 @@ pub async fn update_by_id(
     web::Json(item): web::Json<UpdateInputItem>,
     web::Path(id): web::Path<i32>,
 ) -> Result<HttpResponse, Error> {
-    println!("patch");
     let conn = pool.get().unwrap();
     let item = db_items::update(&conn, UpdateItem::from_input(item), id).unwrap();
     Ok(HttpResponse::Ok().json(item))

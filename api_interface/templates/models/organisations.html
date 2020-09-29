@@ -1,24 +1,24 @@
 {% from "bootstrap/form.html" import render_field %}
 {% extends "structure/api_layout.html" %}
 
-{% block title %} Person {% endblock title %}
+{% block title %} Organisation {% endblock title %}
 
 {% block content %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
     <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Persons</li>
+    <li class="breadcrumb-item active" aria-current="page">Organisation</li>
   </ol>
 </nav>
 
 <div class="flex-row">
   <div class="row">
     <div class="col-md-auto">
-      <h2> Persons | API </h2>
+      <h2> Organisations | API </h2>
     </div>
     <div class="col">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newPerson">+</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newOrganisation">+</button>
     </div>
   </div>
 </div>
@@ -28,30 +28,30 @@
   <tr>
     <th scope="col">#</th>
     <th scope="col">Name</th>
-    <th scope="col">Email</th>
-    <th scope="col">Phone</th>
-    <th scope="col">Tags</th>
+    <th scope="col">Description</th>
+    <th scope="col">Site</th>
+    <th scope="col">Location</th>
     <th scope="col">Added</th>
     <th scope="col">Changed</th>
     <th scope="col">Options</th>
   </tr>
   </thead>
   <tbody>
-  {% for person in persons %}
+  {% for organisation in organisations %}
   <tr>
-    <td>{{person.id}}</td>
-    <td>{{person.name}}</td>
-    <td>{{person.email}}</td>
-    <td>{{person.phone}}</td>
-    <td>{{person.tags}}</td>
-    <td>{{person.added}}</td>
-    <td>{{person.changed}}</td>
+    <td>{{organisation.id}}</td>
+    <td>{{organisation.name}}</td>
+    <td>{{organisation.description}}</td>
+    <td>{{organisation.site}}</td>
+    <td>{{organisation.location}}</td>
+    <td>{{organisation.added}}</td>
+    <td>{{organisation.changed}}</td>
     <td>
       <div class="row">
-          <a href="{{ url_for('person_pages.delete_person', person_id=person.id) }}">
+          <a href="{{ url_for('organisation_pages.delete_organisation', organisation_id=organisation.id) }}">
             <button type="button" class="btn btn-danger" value="Delete">&times;</button>
           </a>
-          <a href="{{ url_for('person_pages.single_person', person_id=person.id) }}">
+          <a href="{{ url_for('organisation_pages.single_organisation', organisation_id=organisation.id) }}">
             <button type="button" class="btn btn-success" value="Delete">✎</button>
           </a>
         </form>
@@ -62,11 +62,11 @@
   </tbody>
 </table>
 
-<div class="modal fade" id="newPerson" tabindex="-1" aria-labelledby="newPersonLabel" aria-hidden="true">
+<div class="modal fade" id="newOrganisation" tabindex="-1" aria-labelledby="newOrganisationLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newPersonLabel">New Person</h5>
+        <h5 class="modal-title" id="newOrganisationLabel">New Organisation</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -75,12 +75,12 @@
         <form method="post">
           {{ form.csrf_token }}
           {{ render_field(form.name) }}
-          {{ render_field(form.email) }}
-          {{ render_field(form.phone) }}
-          {{ render_field(form.tags) }}
+          {{ render_field(form.description) }}
+          {{ render_field(form.site) }}
+          {{ render_field(form.location) }}
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="newPerson">Close</button>
-            <button type="submit" class="btn btn-primary" value="Create">Create Person</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="newOrganisation">Close</button>
+            <button type="submit" class="btn btn-primary" value="Create">Create Organisation</button>
           </div>
         </form>
       </div>

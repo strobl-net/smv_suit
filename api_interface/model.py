@@ -26,6 +26,26 @@ class Person(object):
             self.changed = datetime.strptime(data['changed'], "%Y-%m-%dT%H:%M:%S.%f")
 
 
+class Organisation(object):
+    id = -1
+    name = "error person"
+    description = ""
+    site: str
+    location: str
+    added = "-1"
+    changed = ""
+
+    def __init__(self, data: Dict):
+        self.id = data['id']
+        self.name = data['name']
+        self.description = data['description']
+        self.site = data['site']
+        self.location = data['location']
+        self.added = datetime.strptime(data['added'], "%Y-%m-%dT%H:%M:%S.%f")
+        if not data['changed'] is None:
+            self.changed = datetime.strptime(data['changed'], "%Y-%m-%dT%H:%M:%S.%f")
+
+
 class TransactionEntity(object):
     id = -1
     description = ""

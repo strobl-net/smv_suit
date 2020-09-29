@@ -1,24 +1,24 @@
 {% from "bootstrap/form.html" import render_field %}
 {% extends "structure/api_layout.html" %}
 
-{% block title %} Person {{ person.id }} {% endblock title %}
+{% block title %} Organisation {{ organisation.id }} {% endblock title %}
 
 {% block content %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
     <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
-    <li class="breadcrumb-item"><a href="{{ url_for('person_pages.persons') }}">Persons</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ person.id }}</li>
+    <li class="breadcrumb-item"><a href="{{ url_for('organisation_pages.organisations') }}">Organisations</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ organisation.id }}</li>
   </ol>
 </nav>
 <div class="container">
   <div class="d-flex flex-row">
     <div class="p-2">
-      <h2> Person | {{ person.id }} | API</h2>
+      <h2> Organisations | {{ organisation.id }} | API</h2>
     </div>
     <div class="p-2">
-      <a href="{{ url_for('person_pages.delete_person', person_id=person.id) }}">
+      <a href="{{ url_for('organisation_pages.delete_organisation', organisation_id=organisation.id) }}">
         <button type="button" class="btn btn-danger" value="Delete">Delete</button>
       </a>
     </div>
@@ -31,17 +31,17 @@
     {{ form.csrf_token }}
     {{ render_field(form.id) }}
     {{ render_field(form.name) }}
-    {{ render_field(form.email) }}
-    {{ render_field(form.phone) }}
-    {{ render_field(form.tags) }}
+    {{ render_field(form.description) }}
+    {{ render_field(form.site) }}
+    {{ render_field(form.location) }}
     {{ render_field(form.added) }}
     {{ render_field(form.changed) }}
     <div class="d-flex flex-row-reverse">
       <div class="p-2">
-        <button type="submit" class="btn btn-primary" value="Update">Update Person</button>
+        <button type="submit" class="btn btn-primary" value="Update">Update Organisation</button>
       </div>
       <div class="p-2">
-        <a href="{{ url_for('person_pages.persons') }}">
+        <a href="{{ url_for('organisation_pages.organisations') }}">
           <button type="button" class="btn btn-secondary" value="Exit">Cancel</button>
         </a>
       </div>
@@ -67,7 +67,7 @@
           {{ render_field(form2.iban) }}
           {{ render_field(form2.bic) }}
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="newTransactionEntity">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="newOrganisation">Close</button>
             <button type="submit" class="btn btn-primary" value="Create">Create Transaction Entity</button>
           </div>
         </form>
