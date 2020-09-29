@@ -1,7 +1,10 @@
 /target
+*/__pycache__/*
 
 .idea/
 
 .env
 
 output.log
+
+api_interface/__pycache__/
