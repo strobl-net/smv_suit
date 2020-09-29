@@ -18,7 +18,7 @@ pub struct ExpandedTransactionEntity {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(GraphQLObject, Queryable, Debug, Serialize, Deserialize)]
+#[derive(GraphQLObject, PartialEq, Queryable, Debug, Serialize, Deserialize)]
 pub struct TransactionEntity {
     pub id: i32,
     pub description: Option<String>,
@@ -92,12 +92,35 @@ pub struct InputTransactionEntity {
     pub bic: Option<String>,
 }
 
-#[derive(GraphQLInputObject, AsChangeset, Deserialize)]
+#[derive(Debug, AsChangeset)]
 #[table_name = "transaction_entities"]
 pub struct UpdateTransactionEntity {
     pub description: Option<String>,
     pub organisation: Option<i32>, // Organisation ID
     pub person: Option<i32>,       // Person ID
+    pub iban: Option<String>,
+    pub bic: Option<String>,
+    pub changed: Option<NaiveDateTime>,
+}
+
+impl UpdateTransactionEntity {
+    pub fn from_input(input: InputUpdateTransactionEntity) -> Self {
+        Self {
+            description: input.description,
+            organisation: input.organisation,
+            person: input.person,
+            iban: input.iban,
+            bic: input.bic,
+            changed: Some(chrono::Utc::now().naive_utc()),
+        }
+    }
+}
+
+#[derive(GraphQLInputObject, Debug, Deserialize)]
+pub struct InputUpdateTransactionEntity {
+    pub description: Option<String>,
+    pub organisation: Option<i32>,
+    pub person: Option<i32>,
     pub iban: Option<String>,
     pub bic: Option<String>,
 }

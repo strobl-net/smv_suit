@@ -1,10 +1,11 @@
 use crate::db::organisations as db_items;
 use crate::db::PgPool;
 use crate::models::organisation::{
-    InputOrganisation as NewItem, NewOrganisation as Item, InputUpdateOrganisation as UpdateInputItem, QueryOrganisation as QueryItem, UpdateOrganisation as UpdateItem,
+    InputOrganisation as NewItem, InputUpdateOrganisation as UpdateInputItem,
+    NewOrganisation as Item, QueryOrganisation as QueryItem, UpdateOrganisation as UpdateItem,
 };
 use actix_web::web::ServiceConfig;
-use actix_web::{delete, get, patch, post, web, Error, HttpResponse, HttpRequest};
+use actix_web::{delete, get, patch, post, web, Error, HttpRequest, HttpResponse};
 
 pub fn endpoints(config: &mut ServiceConfig) {
     config
@@ -27,8 +28,7 @@ pub async fn get_all(pool: web::Data<PgPool>, request: HttpRequest) -> Result<Ht
                 let item_list = db_items::by_query(&conn, query).unwrap();
                 Ok(HttpResponse::Ok().json(item_list))
             }
-            Err(_) => {
-                Ok(HttpResponse::InternalServerError().finish())            }
+            Err(_) => Ok(HttpResponse::InternalServerError().finish()),
         }
     }
 }

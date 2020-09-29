@@ -1,9 +1,9 @@
+use crate::models::person::QueryPerson;
 use crate::{
     models::person::{NewPerson, Person, UpdatePerson},
     schema::{persons, persons::dsl::persons as person_query},
 };
 use diesel::prelude::*;
-use crate::models::person::QueryPerson;
 
 pub fn all(conn: &PgConnection) -> QueryResult<Vec<Person>> {
     person_query.order(persons::id.asc()).load::<Person>(conn)

@@ -22,6 +22,15 @@ pub fn by_id(conn: &PgConnection, id: i32) -> QueryResult<TransactionEntity> {
         .get_result::<TransactionEntity>(conn)
 }
 
+pub fn all_expanded(conn: &PgConnection) -> Vec<ExpandedTransactionEntity> {
+    let transaction_entities = all(conn).unwrap();
+    let mut expanded_transaction_entities = Vec::new();
+    for transaction_entity in transaction_entities {
+        expanded_transaction_entities.push(transaction_entity.expand(&conn))
+    }
+    expanded_transaction_entities
+}
+
 pub fn by_id_expanded(conn: &PgConnection, id: i32) -> ExpandedTransactionEntity {
     let transaction_entity = by_id(conn, id).unwrap();
     transaction_entity.expand(&conn)

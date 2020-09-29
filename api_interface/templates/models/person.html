@@ -27,7 +27,7 @@
     </div>
 
   </div>
-  <form method="post">
+  <form method="post" action="{{ url_for('person_pages.single_person', person_id=person.id, form_id=0) }}">
     {{ form.csrf_token }}
     {{ render_field(form.id) }}
     {{ render_field(form.name) }}
@@ -38,7 +38,7 @@
     {{ render_field(form.changed) }}
     <div class="d-flex flex-row-reverse">
       <div class="p-2">
-        <button type="submit" class="btn btn-primary" value="Update">Update Person</button>
+        <button type="submit" class="btn btn-primary" value="update">Update</button>
       </div>
       <div class="p-2">
         <a href="{{ url_for('person_pages.persons') }}">
@@ -59,7 +59,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="post">
+        <form method="post" action="{{ url_for('person_pages.single_person', person_id=person.id, form_id=1) }}">
           {{ form2.csrf_token }}
           {{ render_field(form2.description) }}
           {{ render_field(form2.organisation) }}
@@ -68,7 +68,7 @@
           {{ render_field(form2.bic) }}
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="newTransactionEntity">Close</button>
-            <button type="submit" class="btn btn-primary" value="Create">Create Transaction Entity</button>
+            <button type="submit" class="btn btn-primary" value="create">Create Transaction Entity</button>
           </div>
         </form>
       </div>

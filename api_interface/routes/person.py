@@ -1,5 +1,5 @@
 import requests
-from flask import render_template, redirect, Blueprint
+from flask import render_template, redirect, Blueprint, request
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, StringField, DateTimeField, validators
 from wtforms_components import EmailField, read_only
@@ -51,11 +51,11 @@ def persons():
 
 @person_pages.route("/api/persons/<int:person_id>", methods=['GET', 'POST'])
 def single_person(person_id: int):
+    form_id = request.args.get('form_id', 1, type=int)
     person = requests.get("http://localhost:8000/api/persons/" + str(person_id)).json()
-
     person = Person(data=person)
-
     form = PersonForm(obj=person)
+
     trent_form = TransactionEntityForm()
 
     form.id.data = person.id
@@ -63,7 +63,7 @@ def single_person(person_id: int):
     if person.changed is not None:
         form.changed.data = person.changed
 
-    if form.validate_on_submit():
+    if form.validate_on_submit() and form_id == 0:
         tags = form.tags.data
         tags = tags.replace(' ', '')
         tags = tags.split(',')
@@ -73,10 +73,27 @@ def single_person(person_id: int):
             'phone': form.phone.data,
             'tags': tags
         }
-        requests.patch("http://localhost:8000/api/persons/" + str(person_id), json=update_person)
+        r = requests.patch("http://localhost:8000/api/persons/" + str(person_id), json=update_person)
+        if r.ok:
+            return redirect('/api/persons')
+        else:
+            print('?XD')
 
-    if trent_form.validate_on_submit():
-        redirect('/api/persons/' + str(person_id))
+    if trent_form.validate_on_submit() and form_id == 1:
+        new_trent = {
+            'description': trent_form.description.data,
+            'organisation': trent_form.organisation.data,
+            'person': trent_form.person.data,
+            'iban': trent_form.iban.data,
+            'bic': trent_form.bic.data,
+        }
+        r = requests.post("http://localhost:8000/api/transaction_entities", json=new_trent)
+        if r.ok:
+            trent = r.json()
+            print(trent)
+            return redirect('/api/trents/{}'.format(str(trent['id'])))
+        else:
+            print('?XD')
 
     return render_template("models/person.html", person=person, form=form, form2=trent_form)
 

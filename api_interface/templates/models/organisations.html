@@ -1,7 +1,7 @@
 {% from "bootstrap/form.html" import render_field %}
 {% extends "structure/api_layout.html" %}
 
-{% block title %} Organisation {% endblock title %}
+{% block title %} Organisations {% endblock title %}
 
 {% block content %}
 <nav aria-label="breadcrumb">
@@ -54,7 +54,6 @@
           <a href="{{ url_for('organisation_pages.single_organisation', organisation_id=organisation.id) }}">
             <button type="button" class="btn btn-success" value="Delete">✎</button>
           </a>
-        </form>
       </div>
     </td>
   </tr>
@@ -80,7 +79,7 @@
           {{ render_field(form.location) }}
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="newOrganisation">Close</button>
-            <button type="submit" class="btn btn-primary" value="Create">Create Organisation</button>
+            <button type="submit" class="btn btn-primary" value="Create">Create</button>
           </div>
         </form>
       </div>

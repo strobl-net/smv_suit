@@ -1,8 +1,11 @@
 use crate::db::persons as db_items;
 use crate::db::PgPool;
-use crate::models::person::{InputPerson as InputItem, NewPerson as Item, InputUpdatePerson as UpdateInputItem, QueryPerson as QueryItem, UpdatePerson as UpdateItem};
+use crate::models::person::{
+    InputPerson as InputItem, InputUpdatePerson as UpdateInputItem, NewPerson as Item,
+    QueryPerson as QueryItem, UpdatePerson as UpdateItem,
+};
 use actix_web::web::ServiceConfig;
-use actix_web::{delete, get, patch, post, web, Error, HttpResponse, HttpRequest};
+use actix_web::{delete, get, patch, post, web, Error, HttpRequest, HttpResponse};
 
 pub fn endpoints(config: &mut ServiceConfig) {
     config
@@ -25,9 +28,7 @@ pub async fn get_all(pool: web::Data<PgPool>, request: HttpRequest) -> Result<Ht
                 let item_list = db_items::by_query(&conn, query).unwrap();
                 Ok(HttpResponse::Ok().json(item_list))
             }
-            Err(_) => {
-                Ok(HttpResponse::InternalServerError().finish())
-            }
+            Err(_) => Ok(HttpResponse::InternalServerError().finish()),
         }
     }
 }

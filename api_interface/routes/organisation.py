@@ -1,5 +1,5 @@
 import requests
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, request
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, TextAreaField, StringField, validators, DateTimeField
 from wtforms_components import read_only
@@ -15,7 +15,7 @@ class OrganisationForm(FlaskForm):
     name = StringField('Name', validators=[validators.DataRequired(message="Please enter a name")])
     description = TextAreaField('Description', validators=[validators.Optional()])
     site = StringField('Site', validators=[validators.Optional(), validators.URL("Invalid Address")])
-    location = StringField('Site', validators=[validators.Optional()])
+    location = StringField('Location', validators=[validators.Optional()])
     added = DateTimeField('Added', format="%Y-%m-%dT%H:%M:%S.%f")
     changed = DateTimeField('Changed', format="%Y-%m-%dT%H:%M:%S.%f")
 
@@ -48,11 +48,11 @@ def organisations():
 
 @organisation_pages.route("/api/organisation/<int:organisation_id>", methods=['GET', 'POST'])
 def single_organisation(organisation_id: int):
+    form_id = request.args.get('form_id', 1, type=int)
     organisation = requests.get("http://localhost:8000/api/organisations/" + str(organisation_id)).json()
-
     organisation = Organisation(data=organisation)
-
     form = OrganisationForm(obj=organisation)
+
     trent_form = TransactionEntityForm()
 
     form.id.data = organisation.id
@@ -60,17 +60,34 @@ def single_organisation(organisation_id: int):
     if organisation.changed is not None:
         form.changed.data = organisation.changed
 
-    if form.validate_on_submit():
+    if form.validate_on_submit() and form_id == 0:
         update_organisation = {
             'name': form.name.data,
             'description': form.description.data,
             'site': form.site.data,
             'location': form.location.data
         }
-        requests.patch("http://localhost:8000/api/organisations/" + str(organisation_id), json=update_organisation)
+        r = requests.patch("http://localhost:8000/api/organisations/" + str(organisation_id), json=update_organisation)
+        if r.ok:
+            return redirect('/api/organisations')
+        else:
+            print('?XD')
 
-    if trent_form.validate_on_submit():
-        redirect('/api/organisations/' + str(organisation_id))
+    if trent_form.validate_on_submit() and form_id == 1:
+        new_trent = {
+            'description': trent_form.description.data,
+            'organisation': trent_form.organisation.data,
+            'person': trent_form.person.data,
+            'iban': trent_form.iban.data,
+            'bic': trent_form.bic.data,
+        }
+        r = requests.post("http://localhost:8000/api/transaction_entities", json=new_trent)
+        if r.ok:
+            trent = r.json()
+            print(trent)
+            return redirect('/api/trents/{}'.format(str(trent['id'])))
+        else:
+            print('?XD')
 
     return render_template("models/organisation.html", organisation=organisation, form=form, form2=trent_form)
 

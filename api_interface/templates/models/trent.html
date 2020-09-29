@@ -1,0 +1,48 @@
+{% from "bootstrap/form.html" import render_field %}
+{% extends "structure/api_layout.html" %}
+
+{% block title %} Trent {{ trent.id }} {% endblock title %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('trent_pages.trents') }}">Transaction Entities</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ trent.id }}</li>
+  </ol>
+</nav>
+<div class="container">
+  <div class="d-flex flex-row">
+    <div class="p-2">
+      <h2> Transaction Entity | {{ trent.id }} | API</h2>
+    </div>
+    <div class="p-2">
+      <a href="{{ url_for('trent_pages.delete_trent', trent_id=trent.id) }}">
+        <button type="button" class="btn btn-danger" value="Delete">Delete</button>
+      </a>
+    </div>
+  </div>
+  <form method="post">
+    {{ form.csrf_token }}
+    {{ render_field(form.id) }}
+    {{ render_field(form.description) }}
+    {{ render_field(form.organisation) }}
+    {{ render_field(form.person) }}
+    {{ render_field(form.iban) }}
+    {{ render_field(form.bic) }}
+    {{ render_field(form.added) }}
+    {{ render_field(form.changed) }}
+    <div class="d-flex flex-row-reverse">
+      <div class="p-2">
+        <button type="submit" class="btn btn-primary" value="Update">Update</button>
+      </div>
+      <div class="p-2">
+        <a href="{{ url_for('trent_pages.trents') }}">
+          <button type="button" class="btn btn-secondary" value="Exit">Cancel</button>
+        </a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content %}

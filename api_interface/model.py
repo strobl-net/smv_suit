@@ -1,15 +1,16 @@
 from datetime import datetime
 from typing import Dict
+from typing import Optional
 
 
 class Person(object):
     id = -1
-    name = "error person"
-    email = ""
-    phone = ""
+    name = "?XD"
+    email: Optional[str]
+    phone: Optional[str]
     tags = []
-    added = "-1"
-    changed = ""
+    added: datetime
+    changed: Optional[datetime]
 
     def __init__(self, data: Dict):
         tags = str(data['tags'])
@@ -24,16 +25,18 @@ class Person(object):
         self.added = datetime.strptime(data['added'], "%Y-%m-%dT%H:%M:%S.%f")
         if not data['changed'] is None:
             self.changed = datetime.strptime(data['changed'], "%Y-%m-%dT%H:%M:%S.%f")
+        else:
+            self.changed = None
 
 
 class Organisation(object):
     id = -1
-    name = "error person"
-    description = ""
-    site: str
-    location: str
-    added = "-1"
-    changed = ""
+    name = "?XD"
+    description: Optional[str]
+    site: Optional[str]
+    location: Optional[str]
+    added: datetime
+    changed: Optional[datetime]
 
     def __init__(self, data: Dict):
         self.id = data['id']
@@ -44,17 +47,19 @@ class Organisation(object):
         self.added = datetime.strptime(data['added'], "%Y-%m-%dT%H:%M:%S.%f")
         if not data['changed'] is None:
             self.changed = datetime.strptime(data['changed'], "%Y-%m-%dT%H:%M:%S.%f")
+        else:
+            self.changed = None
 
 
 class TransactionEntity(object):
     id = -1
-    description = ""
-    organisation: int
-    person: int
-    iban = ""
-    bic = ""
-    added = "-1"
-    changed = ""
+    description: Optional[str]
+    organisation: Optional[int]
+    person: Optional[int]
+    iban: Optional[str]
+    bic: Optional[str]
+    added: datetime
+    changed: Optional[datetime]
 
     def __init__(self, data: Dict):
         self.id = data['id']
@@ -66,3 +71,5 @@ class TransactionEntity(object):
         self.added = datetime.strptime(data['added'], "%Y-%m-%dT%H:%M:%S.%f")
         if not data['changed'] is None:
             self.changed = datetime.strptime(data['changed'], "%Y-%m-%dT%H:%M:%S.%f")
+        else:
+            self.changed = None

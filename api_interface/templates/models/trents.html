@@ -1,24 +1,24 @@
 {% from "bootstrap/form.html" import render_field %}
 {% extends "structure/api_layout.html" %}
 
-{% block title %} Persons {% endblock title %}
+{% block title %} Trents {% endblock title %}
 
 {% block content %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
     <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Persons</li>
+    <li class="breadcrumb-item active" aria-current="page">Transaction Entities</li>
   </ol>
 </nav>
 
 <div class="flex-row">
   <div class="row">
     <div class="col-md-auto">
-      <h2> Persons | API </h2>
+      <h2> Transaction Entities | API </h2>
     </div>
     <div class="col">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newPerson">+</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTrent">+</button>
     </div>
   </div>
 </div>
@@ -27,46 +27,47 @@
   <thead>
   <tr>
     <th scope="col">#</th>
-    <th scope="col">Name</th>
-    <th scope="col">Email</th>
-    <th scope="col">Phone</th>
-    <th scope="col">Tags</th>
+    <th scope="col">Description</th>
+    <th scope="col">Organisation</th>
+    <th scope="col">Person</th>
+    <th scope="col">Iban</th>
+    <th scope="col">Bic</th>
     <th scope="col">Added</th>
     <th scope="col">Changed</th>
     <th scope="col">Options</th>
   </tr>
   </thead>
   <tbody>
-  {% for person in persons %}
-  <tr>
-    <td>{{person.id}}</td>
-    <td>{{person.name}}</td>
-    <td>{{person.email}}</td>
-    <td>{{person.phone}}</td>
-    <td>{{person.tags}}</td>
-    <td>{{person.added}}</td>
-    <td>{{person.changed}}</td>
-    <td>
-      <div class="row">
-          <a href="{{ url_for('person_pages.delete_person', person_id=person.id) }}">
+  {% for trent in trents %}
+    <tr>
+      <td>{{trent.id}}</td>
+      <td>{{trent.description}}</td>
+      <td>{{trent.organisation}}</td>
+      <td>{{trent.person}}</td>
+      <td>{{trent.iban}}</td>
+      <td>{{trent.bic}}</td>
+      <td>{{trent.added}}</td>
+      <td>{{trent.changed}}</td>
+      <td>
+        <div class="row">
+          <a href="{{ url_for('trent_pages.delete_trent', trent_id=trent.id) }}">
             <button type="button" class="btn btn-danger" value="Delete">&times;</button>
           </a>
-          <a href="{{ url_for('person_pages.single_person', person_id=person.id) }}">
+          <a href="{{ url_for('trent_pages.single_trent', trent_id=trent.id) }}">
             <button type="button" class="btn btn-success" value="Delete">✎</button>
           </a>
-        </form>
-      </div>
-    </td>
-  </tr>
+        </div>
+      </td>
+    </tr>
   {% endfor %}
   </tbody>
 </table>
 
-<div class="modal fade" id="newPerson" tabindex="-1" aria-labelledby="newPersonLabel" aria-hidden="true">
+<div class="modal fade" id="newTrent" tabindex="-1" aria-labelledby="newTrentLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newPersonLabel">New Person</h5>
+        <h5 class="modal-title" id="newTrentLabel">New Transaction Entity</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -74,12 +75,13 @@
       <div class="modal-body">
         <form method="post">
           {{ form.csrf_token }}
-          {{ render_field(form.name) }}
-          {{ render_field(form.email) }}
-          {{ render_field(form.phone) }}
-          {{ render_field(form.tags) }}
+          {{ render_field(form.description) }}
+          {{ render_field(form.organisation) }}
+          {{ render_field(form.person) }}
+          {{ render_field(form.iban) }}
+          {{ render_field(form.bic) }}
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="newPerson">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="newTrent">Close</button>
             <button type="submit" class="btn btn-primary" value="Create">Create</button>
           </div>
         </form>

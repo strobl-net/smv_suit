@@ -1,8 +1,8 @@
 use crate::db::transaction_entities as db_items;
 use crate::db::PgPool;
 use crate::models::transaction_entity::{
-    InputTransactionEntity as NewItem, NewTransactionEntity as Item,
-    UpdateTransactionEntity as UpdateItem,
+    InputTransactionEntity as InputItem, InputUpdateTransactionEntity as UpdateInputItem,
+    NewTransactionEntity as Item, UpdateTransactionEntity as UpdateItem,
 };
 use actix_web::web::ServiceConfig;
 use actix_web::{delete, get, patch, post, web, Error, HttpResponse};
@@ -14,6 +14,7 @@ pub fn endpoints(config: &mut ServiceConfig) {
         .service(new)
         .service(update_by_id)
         .service(delete_by_id)
+        .service(get_all_expanded)
         .service(get_by_id_expanded);
 }
 
@@ -37,7 +38,7 @@ pub async fn get_by_id(
 #[post("/api/transaction_entities")]
 pub async fn new(
     pool: web::Data<PgPool>,
-    web::Path(item): web::Path<NewItem>,
+    web::Json(item): web::Json<InputItem>,
 ) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::new(&conn, Item::from_input(item)).unwrap();
@@ -48,10 +49,11 @@ pub async fn new(
 #[patch("/api/transaction_entities/{id}")]
 pub async fn update_by_id(
     pool: web::Data<PgPool>,
-    web::Path((item, id)): web::Path<(UpdateItem, i32)>,
+    web::Json(item): web::Json<UpdateInputItem>,
+    web::Path(id): web::Path<i32>,
 ) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
-    let item = db_items::update(&conn, item, id).unwrap();
+    let item = db_items::update(&conn, UpdateItem::from_input(item), id).unwrap();
     Ok(HttpResponse::Ok().json(item))
 }
 
@@ -63,6 +65,13 @@ pub async fn delete_by_id(
     let conn = pool.get().unwrap();
     let item = db_items::delete(&conn, id).unwrap();
     Ok(HttpResponse::Ok().json(item))
+}
+
+#[get("/api/e/transaction_entities")]
+pub async fn get_all_expanded(pool: web::Data<PgPool>) -> Result<HttpResponse, Error> {
+    let conn = pool.get().unwrap();
+    let item_list = db_items::all_expanded(&conn);
+    Ok(HttpResponse::Ok().json(item_list))
 }
 
 #[get("/api/e/transaction_entities/{id}")]

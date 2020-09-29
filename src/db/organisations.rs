@@ -1,9 +1,9 @@
+use crate::models::organisation::QueryOrganisation;
 use crate::{
     models::organisation::{NewOrganisation, Organisation, UpdateOrganisation},
     schema::{organisations, organisations::dsl::organisations as organisations_query},
 };
 use diesel::prelude::*;
-use crate::models::organisation::QueryOrganisation;
 
 pub fn all(conn: &PgConnection) -> QueryResult<Vec<Organisation>> {
     organisations_query

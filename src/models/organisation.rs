@@ -79,5 +79,5 @@ pub struct InputUpdateOrganisation {
 pub struct QueryOrganisation {
     pub name: Option<String>,
     pub description: Option<String>,
-    pub location: Option<String>
+    pub location: Option<String>,
 }
