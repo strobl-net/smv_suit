@@ -13,7 +13,9 @@ pub fn endpoints(config: &mut ServiceConfig) {
         .service(get_products_by_trent)
         .service(new)
         .service(update_by_id)
-        .service(delete_by_id);
+        .service(delete_by_id)
+        .service(get_all_expanded)
+        .service(get_by_id_expanded);
 }
 
 #[get("/api/products")]
@@ -70,5 +72,22 @@ pub async fn delete_by_id(
 ) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item = db_items::delete(&conn, id).unwrap();
+    Ok(HttpResponse::Ok().json(item))
+}
+
+#[get("/api/e/transaction_entities")]
+pub async fn get_all_expanded(pool: web::Data<PgPool>) -> Result<HttpResponse, Error> {
+    let conn = pool.get().unwrap();
+    let item_list = db_items::all_expanded(&conn);
+    Ok(HttpResponse::Ok().json(item_list))
+}
+
+#[get("/api/e/transaction_entities/{id}")]
+pub async fn get_by_id_expanded(
+    pool: web::Data<PgPool>,
+    web::Path(id): web::Path<i32>,
+) -> Result<HttpResponse, Error> {
+    let conn = pool.get().unwrap();
+    let item = db_items::by_id_expanded(&conn, id);
     Ok(HttpResponse::Ok().json(item))
 }

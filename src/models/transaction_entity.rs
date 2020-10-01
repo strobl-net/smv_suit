@@ -18,18 +18,6 @@ pub struct ExpandedTransactionEntity {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(GraphQLObject, PartialEq, Queryable, Debug, Serialize, Deserialize)]
-pub struct TransactionEntity {
-    pub id: i32,
-    pub description: Option<String>,
-    pub organisation: Option<i32>, // Organisation ID
-    pub person: Option<i32>,       // Person ID
-    pub iban: Option<String>,
-    pub bic: Option<String>,
-    pub added: NaiveDateTime,
-    pub changed: Option<NaiveDateTime>,
-}
-
 impl Expandable<ExpandedTransactionEntity> for TransactionEntity {
     fn expand(self, conn: &PgConnection) -> ExpandedTransactionEntity {
         let mut expanded_organisation = None;
@@ -55,6 +43,18 @@ impl Expandable<ExpandedTransactionEntity> for TransactionEntity {
             changed: self.changed,
         }
     }
+}
+
+#[derive(GraphQLObject, PartialEq, Queryable, Debug, Serialize, Deserialize)]
+pub struct TransactionEntity {
+    pub id: i32,
+    pub description: Option<String>,
+    pub organisation: Option<i32>, // Organisation ID
+    pub person: Option<i32>,       // Person ID
+    pub iban: Option<String>,
+    pub bic: Option<String>,
+    pub added: NaiveDateTime,
+    pub changed: Option<NaiveDateTime>,
 }
 
 #[derive(Insertable)]

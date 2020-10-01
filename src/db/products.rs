@@ -3,6 +3,8 @@ use crate::{
     schema::{products, products::dsl::products as products_query},
 };
 use diesel::prelude::*;
+use crate::models::product::ExpandedProduct;
+use crate::models::Expandable;
 
 pub fn all(conn: &PgConnection) -> QueryResult<Vec<Product>> {
     products_query
@@ -12,6 +14,20 @@ pub fn all(conn: &PgConnection) -> QueryResult<Vec<Product>> {
 
 pub fn by_id(conn: &PgConnection, id: i32) -> QueryResult<Product> {
     products_query.find(id).get_result::<Product>(conn)
+}
+
+pub fn all_expanded(conn: &PgConnection) -> Vec<ExpandedProduct> {
+    let products = all(conn).unwrap();
+    let mut expanded_products = Vec::new();
+    for product in products {
+        expanded_products.push(product.expand(&conn))
+    }
+    expanded_products
+}
+
+pub fn by_id_expanded(conn: &PgConnection, id: i32) -> ExpandedProduct {
+    let product = by_id(conn, id).unwrap();
+    product.expand(&conn)
 }
 
 pub fn by_trent_id(conn: &PgConnection, id: i32) -> QueryResult<Vec<Product>> {
