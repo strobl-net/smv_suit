@@ -16,7 +16,7 @@ pub fn endpoints(config: &mut ServiceConfig) {
         .service(delete_by_id_debug);
 }
 
-#[get("/money_nodes")]
+#[get("api/money_nodes")]
 pub async fn get_all(pool: web::Data<PgPool>) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
     let item_list = db_items::all(&conn).unwrap();
