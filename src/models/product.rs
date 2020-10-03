@@ -1,10 +1,10 @@
 use crate::db::types::Currency;
-use crate::schema::products;
-use chrono::NaiveDateTime;
-use serde::{Deserialize, Serialize};
 use crate::models::transaction_entity::ExpandedTransactionEntity;
 use crate::models::Expandable;
+use crate::schema::products;
+use chrono::NaiveDateTime;
 use diesel::PgConnection;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize)]
 pub struct ExpandedProduct {
@@ -24,8 +24,10 @@ impl Expandable<ExpandedProduct> for Product {
         let mut expanded_provider = None;
 
         if let Some(provider_id) = self.provider {
-            expanded_provider =
-                Some(crate::db::transaction_entities::by_id_expanded(conn, provider_id));
+            expanded_provider = Some(crate::db::transaction_entities::by_id_expanded(
+                conn,
+                provider_id,
+            ));
         }
 
         ExpandedProduct {
@@ -37,7 +39,7 @@ impl Expandable<ExpandedProduct> for Product {
             provider: expanded_provider,
             tags: self.tags,
             added: self.added,
-            changed: self.changed
+            changed: self.changed,
         }
     }
 }
@@ -102,7 +104,7 @@ pub struct UpdateProduct {
     pub currency: Option<Currency>,
     pub provider: Option<i32>, // Organisation ID
     pub tags: Option<Vec<String>>,
-    pub changed: Option<NaiveDateTime>
+    pub changed: Option<NaiveDateTime>,
 }
 
 impl UpdateProduct {

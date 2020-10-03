@@ -1,7 +1,8 @@
 use crate::db::products as db_items;
 use crate::db::PgPool;
 use crate::models::product::{
-    InputProduct as NewItem, NewProduct as Item, UpdateProduct as UpdateItem, InputUpdateProduct as UpdateInputItem
+    InputProduct as NewItem, InputUpdateProduct as UpdateInputItem, NewProduct as Item,
+    UpdateProduct as UpdateItem,
 };
 use actix_web::web::ServiceConfig;
 use actix_web::{delete, get, patch, post, web, Error, HttpResponse};

@@ -14,7 +14,7 @@ pub struct MoneyNode {
     pub changed: Option<NaiveDateTime>,
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Debug)]
 #[table_name = "money_nodes"]
 pub struct NewMoneyNode {
     pub branch: Branch,
@@ -46,9 +46,29 @@ pub struct InputMoneyNode {
     pub processed: bool,
 }
 
-#[derive(GraphQLInputObject, AsChangeset, Deserialize)]
+#[derive(Debug, AsChangeset)]
 #[table_name = "money_nodes"]
 pub struct UpdateMoneyNode {
+    pub branch: Option<Branch>,
+    pub change: Option<i32>,
+    pub currency: Option<Currency>,
+    pub processed: Option<bool>,
+    pub changed: Option<NaiveDateTime>,
+}
+
+impl UpdateMoneyNode {
+    pub fn from_input(input: InputUpdateMoneyNode) -> Self {
+        Self {
+            branch: input.branch,
+            change: input.change,
+            currency: input.currency,
+            processed: input.processed,
+            changed: Some(chrono::Utc::now().naive_utc()),
+        }
+    }
+}
+#[derive(GraphQLInputObject, Debug, Deserialize)]
+pub struct InputUpdateMoneyNode {
     pub branch: Option<Branch>,
     pub change: Option<i32>,
     pub currency: Option<Currency>,

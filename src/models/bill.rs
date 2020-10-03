@@ -1,10 +1,54 @@
 use crate::db::types::{Branch, Currency};
-use crate::models::transaction::NewInputTransaction;
+use crate::models::person::Person;
+use crate::models::product::ExpandedProduct;
+use crate::models::transaction::{ExpandedTransaction, NewInputTransaction, Transaction};
+use crate::models::Expandable;
 use crate::schema::bills;
 use chrono::NaiveDateTime;
+use diesel::PgConnection;
 use serde::{Deserialize, Serialize};
+use std::cmp::PartialEq;
 
-#[derive(GraphQLObject, Queryable, Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize)]
+pub struct ExpandedBill {
+    pub id: i32,
+    pub received: NaiveDateTime,
+    pub processed: Option<NaiveDateTime>,
+    pub products: Option<Vec<ExpandedProduct>>,
+    pub responsible: Option<Person>,
+    pub transaction: ExpandedTransaction,
+    pub added: NaiveDateTime,
+    pub changed: Option<NaiveDateTime>,
+}
+
+impl Expandable<ExpandedBill> for Bill {
+    fn expand(self, conn: &PgConnection) -> ExpandedBill {
+        let mut products = Vec::new();
+        let mut responsible = None;
+        let transaction = crate::db::transactions::by_id_expanded(conn, self.transaction);
+        if let Some(product_ids) = self.products {
+            for id in product_ids {
+                products.push(crate::db::products::by_id_expanded(conn, id))
+            }
+        }
+        if let Some(responsible_id) = self.responsible {
+            responsible = Some(crate::db::persons::by_id(conn, responsible_id).unwrap());
+        }
+        ExpandedBill {
+            id: self.id,
+            received: self.received,
+            processed: self.processed,
+            products: Some(products),
+            responsible,
+            transaction,
+            added: self.added,
+            changed: self.changed,
+        }
+    }
+}
+
+#[derive(GraphQLObject, Identifiable, Associations, Queryable, PartialEq, Debug, Serialize, Deserialize)]
+#[belongs_to(Transaction, foreign_key = "transaction")]
 pub struct Bill {
     pub id: i32,
     pub received: NaiveDateTime,
@@ -99,9 +143,32 @@ pub struct InputBill {
     pub transaction: i32,         // Transaction ID
 }
 
-#[derive(GraphQLInputObject, AsChangeset, Deserialize)]
+#[derive(Debug, AsChangeset)]
 #[table_name = "bills"]
 pub struct UpdateBill {
+    pub received: Option<NaiveDateTime>,
+    pub processed: Option<NaiveDateTime>,
+    pub products: Option<Vec<i32>>,
+    pub responsible: Option<i32>, // User ID
+    pub transaction: Option<i32>, // Transaction ID
+    pub changed: Option<NaiveDateTime>
+}
+
+impl UpdateBill {
+    pub fn from_input(input: InputUpdateBill) -> Self {
+        Self {
+            received: input.received,
+            processed: input.processed,
+            products: input.products,
+            responsible: input.responsible,
+            transaction: input.transaction,
+            changed: Some(chrono::Utc::now().naive_utc()),
+        }
+    }
+}
+
+#[derive(GraphQLInputObject, Debug, Deserialize)]
+pub struct InputUpdateBill {
     pub received: Option<NaiveDateTime>,
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,

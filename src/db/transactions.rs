@@ -1,5 +1,6 @@
 use crate::models::money_node::NewMoneyNode;
-use crate::models::transaction::NewInputTransaction;
+use crate::models::transaction::{ExpandedTransaction, NewInputTransaction};
+use crate::models::Expandable;
 use crate::{
     models::transaction::{NewTransaction, Transaction, UpdateTransaction},
     schema::{transactions, transactions::dsl::transactions as transactions_query},
@@ -14,6 +15,20 @@ pub fn all(conn: &PgConnection) -> QueryResult<Vec<Transaction>> {
 
 pub fn by_id(conn: &PgConnection, id: i32) -> QueryResult<Transaction> {
     transactions_query.find(id).get_result::<Transaction>(conn)
+}
+
+pub fn all_expanded(conn: &PgConnection) -> Vec<ExpandedTransaction> {
+    let transactions = all(conn).unwrap();
+    let mut expanded_transactions = Vec::new();
+    for transaction in transactions {
+        expanded_transactions.push(transaction.expand(conn))
+    }
+    expanded_transactions
+}
+
+pub fn by_id_expanded(conn: &PgConnection, id: i32) -> ExpandedTransaction {
+    let transaction = by_id(conn, id).unwrap();
+    transaction.expand(&conn)
 }
 
 pub fn new(conn: &PgConnection, transaction: NewInputTransaction) -> QueryResult<Transaction> {
@@ -45,6 +60,8 @@ pub fn update(
         .get_result::<Transaction>(conn)
 }
 
-pub fn delete(conn: &PgConnection, id: i32) -> QueryResult<Transaction> {
-    diesel::delete(transactions_query.find(id)).get_result::<Transaction>(conn)
+pub fn delete(conn: &PgConnection, id: i32) -> Transaction {
+    let transaction = diesel::delete(transactions_query.find(id)).get_result::<Transaction>(conn).unwrap();
+    super::money_nodes::delete(conn, transaction.money_node).unwrap();
+    transaction
 }

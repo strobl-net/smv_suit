@@ -1,10 +1,10 @@
+use crate::models::product::ExpandedProduct;
+use crate::models::Expandable;
 use crate::{
     models::product::{NewProduct, Product, UpdateProduct},
     schema::{products, products::dsl::products as products_query},
 };
 use diesel::prelude::*;
-use crate::models::product::ExpandedProduct;
-use crate::models::Expandable;
 
 pub fn all(conn: &PgConnection) -> QueryResult<Vec<Product>> {
     products_query
