@@ -152,12 +152,48 @@ INSERT INTO persons (name, email, phone, tags, added) VALUES ('Sebastian', 'Seba
 INSERT INTO persons (name, email, phone, tags, added) VALUES ('Max Mustermann', 'Max@Mustermann.de', '020-23436-123', '{smv}', NOW());
 INSERT INTO persons (name, email, phone, tags, added) VALUES ('Maxina Mustermann', 'Maxina@Mustermann.de', '020-76562-123', '{smv, party_leader}', NOW());
 
+INSERT INTO organisations (name, added) VALUES ('SMV Local', NOW());
+INSERT INTO organisations (name, added) VALUES ('SMV Digital', NOW());
 INSERT INTO organisations (name, site, added) VALUES ('Amazon', 'amazon.com', NOW());
 INSERT INTO organisations (name, description, site, location, added) VALUES ('Edika X', 'lebensmittel', 'edika.com', '032740 Munich Street X', NOW());
 
-INSERT INTO transaction_entities (description, organisation, added) VALUES ('amazon', 1, NOW());
-INSERT INTO transaction_entities (description, organisation, added) VALUES ('local supermarket', 2, NOW());
+INSERT INTO transaction_entities (description, organisation, added) VALUES ('smv local', 1, NOW());
+INSERT INTO transaction_entities (description, organisation, added) VALUES ('smv digital', 2, NOW());
+INSERT INTO transaction_entities (description, organisation, added) VALUES ('amazon', 3, NOW());
+INSERT INTO transaction_entities (description, organisation, added) VALUES ('local supermarket', 4, NOW());
 
-INSERT INTO products (name, description, change, currency, provider, added) VALUES ('Flat Screen TV', 'television in 2020 lul', '133372', 'eur', '1', NOW());
-INSERT INTO products (name, description, change, currency, provider, added) VALUES ('Banana', 'A delicious and long fruit', '99', 'eur', '2', NOW());
-INSERT INTO products (name, description, change, currency, provider, added) VALUES ('Apple', 'A round fruit', '69', 'eur', '2', NOW());
+INSERT INTO products (name, description, change, currency, provider, added) VALUES ('Flat Screen TV', 'television in 2020 lul', 133372, 'eur', 3, NOW());
+INSERT INTO products (name, description, change, currency, provider, added) VALUES ('Banana', 'A delicious and long fruit', 99, 'eur', 4, NOW());
+INSERT INTO products (name, description, change, currency, provider, added) VALUES ('Apple', 'A round fruit', 69, 'eur', 4, NOW());
+
+
+INSERT INTO money_nodes (branch, change, currency, processed, added)
+    VALUES ('digital', 8000, 'eur', true, now());
+
+INSERT INTO money_nodes (branch, change, currency, processed, added)
+    VALUES ('digital', -4000, 'eur', true, now());
+INSERT INTO money_nodes (branch, change, currency, processed, added)
+    VALUES ('cash', 4000, 'eur', true, now());
+
+INSERT INTO money_nodes (branch, change, currency, processed, added)
+    VALUES ('cash', -168, 'eur', true, now());
+
+
+INSERT INTO transactions (description, sender, sender_local, receiver, receiver_local, money_node, added)
+    VALUES ('starter money', 1, false, 1, true, 1, now());
+
+INSERT INTO transactions (description, sender, sender_local, receiver, receiver_local, money_node, added)
+    VALUES ('withdraw account side', 2, false, 1, true, 2, now());
+INSERT INTO transactions (description, sender, sender_local, receiver, receiver_local, money_node, added)
+    VALUES ('withdraw cash side', 2, false, 1, true, 3, now());
+
+INSERT INTO transactions (description, sender, sender_local, receiver, receiver_local, money_node, added)
+    VALUES ('test buy for Edika', 1, true, 4, true, 4, now());
+
+
+INSERT INTO depodraws (description, transaction_up, transaction_down, added)
+    VALUES ('first withdraw', 3, 2, now());
+
+
+INSERT INTO bills (received, processed, products, responsible, transaction, added)
+    VALUES (now(), now(), '{2, 3}', 1, 4, now())
