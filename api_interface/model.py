@@ -89,18 +89,22 @@ class Product(object):
     change: Optional[int]
     currency: Optional[Currency]
     provider: Optional[int]
-    tags: Optional[List[int]]
+    tags: []
     added: datetime
     changed: Optional[datetime]
 
     def __init__(self, data: Dict):
+        tags = str(data['tags'])
+        tags = tags.replace('[', '')
+        tags = tags.replace(']', '')
+        tags = tags.replace('\'', '')
         self.id = data['id']
         self.name = data['name']
         self.description = data['description']
         self.change = data['change']
         self.currency = data['currency']
         self.provider = data['provider']
-        self.tags = data['tags']
+        self.tags = tags
         self.added = datetime.strptime(data['added'], date_format)
         if not data['changed'] is None:
             self.changed = datetime.strptime(data['changed'], date_format)
