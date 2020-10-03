@@ -1,0 +1,50 @@
+{% from "bootstrap/form.html" import render_field %}
+{% extends "structure/api_layout.html" %}
+
+{% block title %} Product {{ product.id }} {% endblock title %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('product_pages.products') }}">Products</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ product.id }}</li>
+  </ol>
+</nav>
+<div class="container">
+  <div class="d-flex flex-row">
+    <div class="p-2">
+      <h2> Product | {{ product.id }} | API</h2>
+    </div>
+    <div class="p-2">
+      <a href="{{ url_for('product_pages.delete_product', product_id=product.id) }}">
+        <button type="button" class="btn btn-danger" value="Delete">Delete</button>
+      </a>
+    </div>
+  </div>
+
+  <form method="post" action="{{ url_for('product_pages.single_product', product_id=product.id, form_id=0) }}">
+    {{ form.csrf_token }}
+    {{ render_field(form.id) }}
+    {{ render_field(form.name) }}
+    {{ render_field(form.description) }}
+    {{ render_field(form.change) }}
+    {{ render_field(form.currency) }}
+    {{ render_field(form.provider) }}
+    {{ render_field(form.tags) }}
+    {{ render_field(form.added) }}
+    {{ render_field(form.changed) }}
+    <div class="d-flex flex-row-reverse">
+      <div class="p-2">
+        <button type="submit" class="btn btn-primary" value="update">Update</button>
+      </div>
+      <div class="p-2">
+        <a href="{{ url_for('product_pages.products') }}">
+          <button type="button" class="btn btn-secondary" value="Exit">Cancel</button>
+        </a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content %}

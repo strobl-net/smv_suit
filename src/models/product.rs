@@ -83,7 +83,7 @@ impl NewProduct {
     }
 }
 
-#[derive(GraphQLInputObject, Deserialize)]
+#[derive(GraphQLInputObject, Debug, Deserialize)]
 pub struct InputProduct {
     pub name: String,
     pub description: Option<String>,
@@ -93,9 +93,34 @@ pub struct InputProduct {
     pub tags: Option<Vec<String>>,
 }
 
-#[derive(GraphQLInputObject, AsChangeset, Deserialize)]
+#[derive(AsChangeset, Debug)]
 #[table_name = "products"]
 pub struct UpdateProduct {
+    pub name: Option<String>,
+    pub description: Option<String>,
+    pub change: Option<i32>,
+    pub currency: Option<Currency>,
+    pub provider: Option<i32>, // Organisation ID
+    pub tags: Option<Vec<String>>,
+    pub changed: Option<NaiveDateTime>
+}
+
+impl UpdateProduct {
+    pub fn from_input(input: InputUpdateProduct) -> Self {
+        Self {
+            name: input.name,
+            description: input.description,
+            change: input.change,
+            currency: input.currency,
+            provider: input.provider,
+            tags: input.tags,
+            changed: Some(chrono::Utc::now().naive_utc()),
+        }
+    }
+}
+
+#[derive(GraphQLInputObject, Debug, Deserialize)]
+pub struct InputUpdateProduct {
     pub name: Option<String>,
     pub description: Option<String>,
     pub change: Option<i32>,
