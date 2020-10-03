@@ -1,0 +1,40 @@
+{% from "bootstrap/form.html" import render_field %}
+{% extends "structure/api_layout.html" %}
+
+{% block title %} MoneyNode {{ money_node.id }} {% endblock title %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('money_node_pages.money_nodes') }}">MoneyNodes</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ money_node.id }}</li>
+  </ol>
+</nav>
+<div class="container">
+  <div class="d-flex flex-row">
+    <div class="p-2">
+      <h2> MoneyNode | {{ money_node.id }} | API</h2>
+    </div>
+  </div>
+
+  <form>
+    {{ form.csrf_token }}
+    {{ render_field(form.id) }}
+    {{ render_field(form.branch) }}
+    {{ render_field(form.change) }}
+    {{ render_field(form.currency) }}
+    {{ render_field(form.processed) }}
+    {{ render_field(form.added) }}
+    {{ render_field(form.changed) }}
+    <div class="d-flex flex-row-reverse">
+      <div class="p-2">
+        <a href="{{ url_for('money_node_pages.money_nodes') }}">
+          <button type="button" class="btn btn-secondary" value="Exit">Exit</button>
+        </a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content %}

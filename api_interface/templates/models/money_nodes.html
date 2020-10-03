@@ -1,0 +1,57 @@
+{% from "bootstrap/form.html" import render_field %}
+{% extends "structure/api_layout.html" %}
+
+{% block title %} MoneyNodes {% endblock title %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
+    <li class="breadcrumb-item active" aria-current="page">MoneyNodes</li>
+  </ol>
+</nav>
+
+<div class="flex-row">
+  <div class="row">
+    <div class="col-md-auto">
+      <h2> MoneyNodes | API </h2>
+    </div>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Branch</th>
+    <th scope="col">Change</th>
+    <th scope="col">Currency</th>
+    <th scope="col">Processed</th>
+    <th scope="col">Added</th>
+    <th scope="col">Changed</th>
+    <th scope="col">Options</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for money_node in money_nodes %}
+  <tr>
+    <td>{{money_node.id}}</td>
+    <td>{{money_node.branch}}</td>
+    <td>{{money_node.change}}</td>
+    <td>{{money_node.currency}}</td>
+    <td>{{money_node.processed}}</td>
+    <td>{{money_node.added}}</td>
+    <td>{{money_node.changed}}</td>
+    <td>
+      <div class="row">
+        <a href="{{ url_for('money_node_pages.single_money_node', money_node_id=money_node.id) }}">
+          <button type="button" class="btn btn-success" value="Delete">✎</button>
+        </a>
+      </div>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}

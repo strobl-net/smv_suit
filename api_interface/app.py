@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 
+from api_interface.routes.money_nodes import money_node_pages
 from api_interface.routes.organisation import organisation_pages
 from api_interface.routes.person import person_pages
 from api_interface.routes.product import product_pages
@@ -15,6 +16,7 @@ app.register_blueprint(person_pages)
 app.register_blueprint(organisation_pages)
 app.register_blueprint(trent_pages)
 app.register_blueprint(product_pages)
+app.register_blueprint(money_node_pages)
 
 bootstrap = Bootstrap(app)
 
