@@ -6,6 +6,7 @@ use crate::models::transaction::{
 };
 use actix_web::web::ServiceConfig;
 use actix_web::{delete, get, patch, post, web, Error, HttpResponse};
+use crate::models::money_node::UpdateMoneyNode;
 
 pub fn endpoints(config: &mut ServiceConfig) {
     config
@@ -51,9 +52,11 @@ pub async fn update_by_id(
     web::Json(item): web::Json<UpdateInputItem>,
     web::Path(id): web::Path<i32>,
 ) -> Result<HttpResponse, Error> {
+    println!("{:?}", item);
     let conn = pool.get().unwrap();
-    let item = db_items::update(&conn, UpdateItem::from_input(item), id).unwrap();
-    Ok(HttpResponse::Ok().json(item))
+    let transaction = db_items::update(&conn, UpdateItem::from_input(item.clone()), id).unwrap();
+    let money_node = crate::db::money_nodes::update(&conn,UpdateMoneyNode::from_input_transaction(item), transaction.money_node).unwrap();
+    Ok(HttpResponse::Ok().json((transaction, money_node)))
 }
 
 #[delete("/api/transactions/{id}")]

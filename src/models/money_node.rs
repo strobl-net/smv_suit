@@ -2,6 +2,7 @@ use crate::db::types::{Branch, Currency};
 use crate::schema::money_nodes;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
+use crate::models::transaction::InputUpdateTransaction;
 
 #[derive(GraphQLObject, Queryable, Debug, Serialize, Deserialize)]
 pub struct MoneyNode {
@@ -63,6 +64,16 @@ impl UpdateMoneyNode {
             change: input.change,
             currency: input.currency,
             processed: input.processed,
+            changed: Some(chrono::Utc::now().naive_utc()),
+        }
+    }
+
+    pub fn from_input_transaction(input: InputUpdateTransaction) -> Self {
+        Self {
+            branch: input.money_branch,
+            change: input.money_change,
+            currency: input.money_currency,
+            processed: input.money_processed,
             changed: Some(chrono::Utc::now().naive_utc()),
         }
     }

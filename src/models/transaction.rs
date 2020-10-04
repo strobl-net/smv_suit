@@ -167,17 +167,25 @@ impl UpdateTransaction {
             sender_local: input.sender_local,
             receiver: input.receiver,
             receiver_local: input.receiver_local,
-            money_node: input.money_node,
+            money_node: input.money_node_id,
             changed: Some(chrono::Utc::now().naive_utc()),
         }
     }
 }
 
-#[derive(GraphQLInputObject, Debug, Deserialize)]
+#[derive(GraphQLInputObject, Clone, Debug, Deserialize)]
 pub struct InputUpdateTransaction {
     pub description: Option<String>,
     pub sender: Option<i32>,
+    // TransactionEntity ID
     pub sender_local: Option<bool>,
     pub receiver: Option<i32>,
+    // TransactionEntity ID
     pub receiver_local: Option<bool>,
+    // MoneyNode ID
+    pub money_node_id: Option<i32>,
+    pub money_branch: Option<Branch>,
+    pub money_change: Option<i32>,
+    pub money_currency: Option<Currency>,
+    pub money_processed: Option<bool>,
 }
