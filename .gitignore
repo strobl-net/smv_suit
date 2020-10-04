@@ -8,3 +8,5 @@
 output.log
 
 api_interface/__pycache__/
+
+api_interface/routes/__pycache__/

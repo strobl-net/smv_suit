@@ -180,7 +180,7 @@ INSERT INTO money_nodes (branch, change, currency, processed, added)
 
 
 INSERT INTO transactions (description, sender, sender_local, receiver, receiver_local, money_node, added)
-    VALUES ('starter money', 1, false, 1, true, 1, now());
+    VALUES ('starter money', 2, false, 2, false, 1, now());
 
 INSERT INTO transactions (description, sender, sender_local, receiver, receiver_local, money_node, added)
     VALUES ('withdraw account side', 2, false, 1, true, 2, now());

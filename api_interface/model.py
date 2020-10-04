@@ -160,6 +160,32 @@ class Transaction:
             self.changed = None
 
 
+class ExpandedTransaction:
+    id: int
+    description: Optional[str]
+    sender: TransactionEntity
+    sender_local: bool
+    receiver: TransactionEntity
+    receiver_local: bool
+    money_node: MoneyNode
+    added: datetime
+    changed: Optional[datetime]
+
+    def __init__(self, data: Dict):
+        self.id = data['id']
+        self.description = data['description']
+        self.sender = TransactionEntity(data=data['sender'])
+        self.sender_local = data['sender_local']
+        self.receiver = TransactionEntity(data=data['receiver'])
+        self.receiver_local = data['receiver_local']
+        self.money_node = MoneyNode(data=data['money_node'])
+        self.added = datetime.strptime(data['added'], date_format)
+        if not data['changed'] is None:
+            self.changed = datetime.strptime(data['changed'], date_format)
+        else:
+            self.changed = None
+
+
 class Bill:
     id: int
     received: datetime

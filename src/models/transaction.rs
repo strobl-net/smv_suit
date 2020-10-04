@@ -180,5 +180,4 @@ pub struct InputUpdateTransaction {
     pub sender_local: Option<bool>,
     pub receiver: Option<i32>,
     pub receiver_local: Option<bool>,
-    pub money_node: Option<i32>,
 }

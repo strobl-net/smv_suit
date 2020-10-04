@@ -6,6 +6,7 @@ from api_interface.routes.organisation import organisation_pages
 from api_interface.routes.person import person_pages
 from api_interface.routes.product import product_pages
 from api_interface.routes.transaction_entity import trent_pages
+from api_interface.routes.transactions import transaction_pages
 
 debug = True
 app = Flask(__name__)
@@ -17,6 +18,7 @@ app.register_blueprint(organisation_pages)
 app.register_blueprint(trent_pages)
 app.register_blueprint(product_pages)
 app.register_blueprint(money_node_pages)
+app.register_blueprint(transaction_pages)
 
 bootstrap = Bootstrap(app)
 

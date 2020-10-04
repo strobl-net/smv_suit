@@ -1,0 +1,66 @@
+{% from "bootstrap/form.html" import render_field %}
+{% extends "structure/api_layout.html" %}
+
+{% block title %} Transaction {{ transaction.id }} {% endblock title %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('transaction_pages.transactions') }}">Transactions</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ transaction.id }}</li>
+  </ol>
+</nav>
+<div class="container-fluid">
+  <div class="d-flex flex-row">
+    <div class="p-2">
+      <h2> Transaction | {{ transaction.id }} | API</h2>
+    </div>
+    <div class="p-2">
+      <a href="{{ url_for('transaction_pages.delete_transaction', transaction_id=transaction.id) }}">
+        <button type="button" class="btn btn-danger" value="Delete">Delete</button>
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm">
+      <form method="post">
+        {{ form1.csrf_token }}
+        {{ render_field(form1.id) }}
+        {{ render_field(form1.description) }}
+        {{ render_field(form1.sender) }}
+        {{ render_field(form1.sender_local) }}
+        {{ render_field(form1.receiver) }}
+        {{ render_field(form1.receiver_local) }}
+        {{ render_field(form1.money_node) }}
+        {{ render_field(form1.added) }}
+        {{ render_field(form1.changed) }}
+        <div class="d-flex flex-row-reverse">
+          <div class="p-2">
+            <button type="submit" class="btn btn-primary" value="update">Update</button>
+          </div>
+          <div class="p-2">
+            <a href="{{ url_for('transaction_pages.transactions') }}">
+              <button type="button" class="btn btn-secondary" value="Exit">Cancel</button>
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm">
+      <form method="post">
+        {{ form2.csrf_token }}
+        {{ render_field(form2.id) }}
+        {{ render_field(form2.branch) }}
+        {{ render_field(form2.change) }}
+        {{ render_field(form2.currency) }}
+        {{ render_field(form2.processed) }}
+        {{ render_field(form2.added) }}
+        {{ render_field(form2.changed) }}
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
