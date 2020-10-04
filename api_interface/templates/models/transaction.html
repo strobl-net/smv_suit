@@ -24,19 +24,29 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm">
-      <form method="post">
-        {{ form1.csrf_token }}
-        {{ render_field(form1.id) }}
-        {{ render_field(form1.description) }}
-        {{ render_field(form1.sender) }}
-        {{ render_field(form1.sender_local) }}
-        {{ render_field(form1.receiver) }}
-        {{ render_field(form1.receiver_local) }}
-        {{ render_field(form1.money_node) }}
-        {{ render_field(form1.added) }}
-        {{ render_field(form1.changed) }}
+
+  <form method="post">
+    <div class="row">
+      <div class="col-sm">
+        {{ form.csrf_token }}
+        {{ render_field(form.id) }}
+        {{ render_field(form.description) }}
+        {{ render_field(form.sender) }}
+        {{ render_field(form.sender_local) }}
+        {{ render_field(form.receiver) }}
+        {{ render_field(form.receiver_local) }}
+        {{ render_field(form.money_node_id) }}
+        {{ render_field(form.added) }}
+        {{ render_field(form.changed) }}
+      </div>
+      <div class="col-sm">
+        {{ render_field(form.money_branch) }}
+        {{ render_field(form.money_change) }}
+        {{ render_field(form.money_currency) }}
+        {{ render_field(form.money_processed) }}
+        {{ render_field(form.money_added) }}
+        {{ render_field(form.money_changed) }}
+
         <div class="d-flex flex-row-reverse">
           <div class="p-2">
             <button type="submit" class="btn btn-primary" value="update">Update</button>
@@ -47,20 +57,8 @@
             </a>
           </div>
         </div>
-      </form>
+      </div>
     </div>
-    <div class="col-sm">
-      <form method="post">
-        {{ form2.csrf_token }}
-        {{ render_field(form2.id) }}
-        {{ render_field(form2.branch) }}
-        {{ render_field(form2.change) }}
-        {{ render_field(form2.currency) }}
-        {{ render_field(form2.processed) }}
-        {{ render_field(form2.added) }}
-        {{ render_field(form2.changed) }}
-      </form>
-    </div>
-  </div>
+  </form>
 </div>
 {% endblock content %}

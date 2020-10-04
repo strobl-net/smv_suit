@@ -186,6 +186,52 @@ class ExpandedTransaction:
             self.changed = None
 
 
+class UpdateTransaction:
+    id: int
+    description: Optional[str]
+    sender: int
+    sender_local: bool
+    receiver: int
+    receiver_local: bool
+    money_node_id: int
+    money_branch: Branch
+    money_change: int
+    money_currency: Currency
+    money_processed: bool
+    money_added: datetime
+    money_changed: Optional[datetime]
+    added: datetime
+    changed: Optional[datetime]
+
+    def __str__(self):
+        return str(self.__class__) + ": " + str(self.__dict__)
+
+    def __init__(self, data: Dict):
+        self.id = data['id']
+        self.description = data['description']
+        self.sender = data['sender']['id']
+        self.sender_local = data['sender_local']
+        self.receiver = data['receiver']['id']
+        self.receiver_local = data['receiver_local']
+        self.money_node_id = data['money_node']['id']
+        self.money_branch = data['money_node']['branch']
+        self.money_change = data['money_node']['change']
+        self.money_currency = data['money_node']['currency']
+        self.money_processed = data['money_node']['processed']
+
+        self.money_added = datetime.strptime(data['money_node']['added'], date_format)
+        if not data['money_node']['changed'] is None:
+            self.money_changed = datetime.strptime(data['money_node']['changed'], date_format)
+        else:
+            self.money_changed = None
+
+        self.added = datetime.strptime(data['added'], date_format)
+        if not data['changed'] is None:
+            self.changed = datetime.strptime(data['changed'], date_format)
+        else:
+            self.changed = None
+
+
 class Bill:
     id: int
     received: datetime

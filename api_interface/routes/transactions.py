@@ -4,7 +4,8 @@ from flask_wtf import FlaskForm
 from wtforms import IntegerField, BooleanField, DateTimeField, TextAreaField, validators, SelectField
 from wtforms_components import read_only
 
-from api_interface.model import Transaction, ExpandedTransaction, MoneyNode
+from api_interface.model import Transaction, ExpandedTransaction, MoneyNode, UpdateTransaction
+
 transaction_pages = Blueprint('transaction_pages', __name__, template_folder='templates')
 
 
@@ -38,20 +39,32 @@ class NewTransactionForm(FlaskForm):
     processed = BooleanField('Processed', validators=[validators.DataRequired()])
 
 
-class MoneyForm(FlaskForm):
+class UpdateTransactionForm(FlaskForm):
     id = IntegerField("ID")
-    branch = SelectField('Branch', choices=['Digital', 'Cash'], validators=[validators.DataRequired()])
-    change = IntegerField('Change', validators=[validators.DataRequired()])
-    currency = SelectField('Currency', choices=['EUR', 'USD'], validators=[validators.DataRequired()])
-    processed = BooleanField('Processed')
+    description = TextAreaField('Description', validators=[validators.Optional()])
+    sender = IntegerField('Sender', validators=[validators.DataRequired()])
+    sender_local = BooleanField('Is Local Sender')
+    receiver = IntegerField('Receiver', validators=[validators.DataRequired()])
+    receiver_local = BooleanField('Is Local Receiver')
+    money_node_id = IntegerField('Money Node', default=0)
+    money_branch = SelectField('Branch', choices=['Digital', 'Cash'], validators=[validators.DataRequired()])
+    money_change = IntegerField('Change', validators=[validators.DataRequired()])
+    money_currency = SelectField('Currency', choices=['EUR', 'USD'], validators=[validators.DataRequired()])
+    money_processed = BooleanField('Processed')
+    money_added = DateTimeField('Added', format="%Y-%m-%dT%H:%M:%S.%f")
+    money_changed = DateTimeField('Changed', format="%Y-%m-%dT%H:%M:%S.%f")
     added = DateTimeField('Added', format="%Y-%m-%dT%H:%M:%S.%f")
     changed = DateTimeField('Changed', format="%Y-%m-%dT%H:%M:%S.%f")
 
     def __init__(self, *args, **kwargs):
-        super(MoneyForm, self).__init__(*args, **kwargs)
+        super(UpdateTransactionForm, self).__init__(*args, **kwargs)
         read_only(self.id)
         read_only(self.added)
         read_only(self.changed)
+
+        read_only(self.money_node_id)
+        read_only(self.money_added)
+        read_only(self.money_changed)
 
 
 @transaction_pages.route("/api/transactions", methods=['GET', 'POST'])
@@ -63,7 +76,7 @@ def transactions():
             'sender': form.sender.data,
             'sender_local': form.sender_local.data,
             'receiver': form.receiver.data,
-            'receiver_local': form.receiver.data,
+            'receiver_local': form.receiver_local.data,
             'branch': form.branch.data,
             'change': form.change.data,
             'currency': form.currency.data,
@@ -81,49 +94,36 @@ def transactions():
 
 @transaction_pages.route("/api/transactions/<int:transaction_id>", methods=['GET', 'POST'])
 def single_transaction(transaction_id: int):
-    transaction = requests.get("http://localhost:8000/api/transactions/" + str(transaction_id)).json()
-    transaction_exp = requests.get("http://localhost:8000/api/e/transactions/" + str(transaction_id)).json()
+    transaction = requests.get("http://localhost:8000/api/e/transactions/" + str(transaction_id)).json()
+    transaction = UpdateTransaction(data=transaction)
+    form = UpdateTransactionForm(obj=transaction)
 
-    transaction = Transaction(data=transaction)
-    transaction_exp = ExpandedTransaction(data=transaction_exp)
-    money: MoneyNode = transaction_exp.money_node
-
-    form1 = TransactionForm(obj=transaction)
-    form2 = MoneyForm(obj=money)
-
-    form1.id.data = transaction.id
-    form1.added.data = transaction.added
+    form.id.data = transaction.id
+    form.added.data = transaction.added
+    form.money_added.data = transaction.money_added
     if transaction.changed is not None:
-        form1.changed.data = transaction.changed
+        form.changed.data = transaction.changed
 
-    form2.id.data = money.id
-    if money.changed is not None:
-        form2.changed.data = money.changed
-
-    if form1.validate_on_submit() and form2.validate_on_submit():
+    if form.validate_on_submit():
         update_transaction = {
-            'description': form1.description.data,
-            'sender': form1.sender.data,
-            'sender_local': form1.sender_local.data,
-            'receiver': form1.receiver.data,
-            'receiver_local': form1.receiver_local.data
+            'description': form.description.data,
+            'sender': form.sender.data,
+            'sender_local': form.sender_local.data,
+            'receiver': form.receiver.data,
+            'receiver_local': form.receiver_local.data,
+            'money_branch': form.money_branch.data,
+            'money_change': form.money_change.data,
+            'money_currency': form.money_currency.data,
+            'money_processed': form.money_processed.data
         }
-        update_money_node = {
-            'branch': form2.branch.data,
-            'change': form2.change.data,
-            'currency': form2.currency.data,
-            'processed': form2.processed.data,
-        }
-        print(update_money_node)
-        requests.patch("http://localhost:8000/api/transactions/" + str(transaction_id), json=update_transaction)
-        r = requests.patch("http://localhost:8000/api/d/money_nodes/" + str(transaction_id), json=update_money_node)
+        print(update_transaction)
+        r = requests.patch("http://localhost:8000/api/transactions/" + str(transaction_id), json=update_transaction)
         if r.ok:
             return redirect('/api/transactions')
         else:
             print('?XD')
 
-    return render_template("models/transaction.html", transaction=transaction,
-                           form1=form1, form2=form2)
+    return render_template("models/transaction.html", transaction=transaction, form=form)
 
 
 @transaction_pages.route("/intern/api/transactions/delete/<int:transaction_id>", methods=['GET', 'POST'])
