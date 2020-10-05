@@ -47,7 +47,9 @@ impl Expandable<ExpandedBill> for Bill {
     }
 }
 
-#[derive(GraphQLObject, Identifiable, Associations, Queryable, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(
+    GraphQLObject, Identifiable, Associations, Queryable, PartialEq, Debug, Serialize, Deserialize,
+)]
 #[belongs_to(Transaction, foreign_key = "transaction")]
 pub struct Bill {
     pub id: i32,
@@ -151,7 +153,7 @@ pub struct UpdateBill {
     pub products: Option<Vec<i32>>,
     pub responsible: Option<i32>, // User ID
     pub transaction: Option<i32>, // Transaction ID
-    pub changed: Option<NaiveDateTime>
+    pub changed: Option<NaiveDateTime>,
 }
 
 impl UpdateBill {
@@ -161,17 +163,29 @@ impl UpdateBill {
             processed: input.processed,
             products: input.products,
             responsible: input.responsible,
-            transaction: input.transaction,
+            transaction: input.transaction_id,
             changed: Some(chrono::Utc::now().naive_utc()),
         }
     }
 }
 
-#[derive(GraphQLInputObject, Debug, Deserialize)]
+#[derive(GraphQLInputObject, Clone, Debug, Deserialize)]
 pub struct InputUpdateBill {
     pub received: Option<NaiveDateTime>,
     pub processed: Option<NaiveDateTime>,
     pub products: Option<Vec<i32>>,
-    pub responsible: Option<i32>, // User ID
-    pub transaction: Option<i32>, // Transaction ID
+    pub responsible: Option<i32>,
+
+    pub transaction_id: Option<i32>,
+    pub transaction_description: Option<String>,
+    pub transaction_sender: Option<i32>,
+    pub transaction_sender_local: Option<bool>,
+    pub transaction_receiver: Option<i32>,
+    pub transaction_receiver_local: Option<bool>,
+
+    pub money_node_id: Option<i32>,
+    pub money_branch: Option<Branch>,
+    pub money_change: Option<i32>,
+    pub money_currency: Option<Currency>,
+    pub money_processed: Option<bool>,
 }

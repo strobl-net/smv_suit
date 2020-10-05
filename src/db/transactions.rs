@@ -1,5 +1,7 @@
-use crate::models::money_node::NewMoneyNode;
-use crate::models::transaction::{ExpandedTransaction, NewInputTransaction};
+use crate::models::money_node::{NewMoneyNode, UpdateMoneyNode};
+use crate::models::transaction::{
+    ExpandedTransaction, InputUpdateTransaction, NewInputTransaction,
+};
 use crate::models::Expandable;
 use crate::{
     models::transaction::{NewTransaction, Transaction, UpdateTransaction},
@@ -52,16 +54,26 @@ pub fn new_debug(conn: &PgConnection, transaction: NewTransaction) -> QueryResul
 
 pub fn update(
     conn: &PgConnection,
-    transaction: UpdateTransaction,
+    input_transaction: InputUpdateTransaction,
     id: i32,
-) -> QueryResult<Transaction> {
-    diesel::update(transactions_query.find(id))
-        .set(transaction)
+) -> Transaction {
+    let transaction = diesel::update(transactions_query.find(id))
+        .set(UpdateTransaction::from_input(input_transaction.clone()))
         .get_result::<Transaction>(conn)
+        .unwrap();
+    super::money_nodes::update(
+        conn,
+        UpdateMoneyNode::from_input_transaction(input_transaction),
+        transaction.money_node,
+    )
+    .unwrap();
+    transaction
 }
 
 pub fn delete(conn: &PgConnection, id: i32) -> Transaction {
-    let transaction = diesel::delete(transactions_query.find(id)).get_result::<Transaction>(conn).unwrap();
+    let transaction = diesel::delete(transactions_query.find(id))
+        .get_result::<Transaction>(conn)
+        .unwrap();
     super::money_nodes::delete(conn, transaction.money_node).unwrap();
     transaction
 }

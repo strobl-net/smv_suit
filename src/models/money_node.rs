@@ -1,8 +1,8 @@
 use crate::db::types::{Branch, Currency};
+use crate::models::transaction::InputUpdateTransaction;
 use crate::schema::money_nodes;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
-use crate::models::transaction::InputUpdateTransaction;
 
 #[derive(GraphQLObject, Queryable, Debug, Serialize, Deserialize)]
 pub struct MoneyNode {

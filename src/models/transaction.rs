@@ -1,4 +1,5 @@
 use crate::db::types::{Branch, Currency};
+use crate::models::bill::InputUpdateBill;
 use crate::models::money_node::{InputMoneyNode, MoneyNode};
 use crate::models::transaction_entity::ExpandedTransactionEntity;
 use crate::models::Expandable;
@@ -44,7 +45,9 @@ impl Expandable<ExpandedTransaction> for Transaction {
     }
 }
 
-#[derive(GraphQLObject, Identifiable, Associations, Queryable, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(
+    GraphQLObject, Identifiable, Associations, Queryable, PartialEq, Debug, Serialize, Deserialize,
+)]
 #[belongs_to(MoneyNode, foreign_key = "money_node")]
 pub struct Transaction {
     pub id: i32,
@@ -188,4 +191,21 @@ pub struct InputUpdateTransaction {
     pub money_change: Option<i32>,
     pub money_currency: Option<Currency>,
     pub money_processed: Option<bool>,
+}
+
+impl InputUpdateTransaction {
+    pub fn from_bill(input: InputUpdateBill) -> InputUpdateTransaction {
+        InputUpdateTransaction {
+            description: input.transaction_description,
+            sender: input.transaction_sender,
+            sender_local: input.transaction_sender_local,
+            receiver: input.transaction_receiver,
+            receiver_local: input.transaction_receiver_local,
+            money_node_id: input.money_node_id,
+            money_branch: input.money_branch,
+            money_change: input.money_change,
+            money_currency: input.money_currency,
+            money_processed: input.money_processed,
+        }
+    }
 }

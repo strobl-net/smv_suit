@@ -1,6 +1,8 @@
 use crate::db::bills as db_items;
 use crate::db::PgPool;
-use crate::models::bill::{NewInputBill as NewItem, UpdateBill as UpdateItem, InputUpdateBill as UpdateInputItem};
+use crate::models::bill::{
+    InputUpdateBill as UpdateInputItem, NewInputBill as NewItem,
+};
 use actix_web::web::ServiceConfig;
 use actix_web::{delete, get, patch, post, web, Error, HttpResponse};
 
@@ -66,8 +68,8 @@ pub async fn update_by_id(
     web::Path(id): web::Path<i32>,
 ) -> Result<HttpResponse, Error> {
     let conn = pool.get().unwrap();
-    let item = db_items::update(&conn, UpdateItem::from_input(item), id).unwrap();
-    Ok(HttpResponse::Ok().json(item))
+    let bill = db_items::update(&conn, item, id);
+    Ok(HttpResponse::Ok().json(bill))
 }
 
 #[delete("/api/bills/{id}")]
