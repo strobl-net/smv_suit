@@ -256,6 +256,96 @@ class Bill:
             self.changed = None
 
 
+class ExpandedBill:
+    id: int
+    received: datetime
+    processed: Optional[datetime]
+    products: Optional[List[Product]]
+    responsible: Person
+    transaction: ExpandedTransaction
+    added: datetime
+    changed: Optional[datetime]
+
+    def __init__(self, data: Dict):
+        self.id = data['id']
+        self.received = data['received']
+        self.processed = data['processed']
+        self.products = [Product(data=product) for product in data['products']]
+        self.responsible = Person(data=data['responsible'])
+        self.transaction = ExpandedTransaction(data['transaction'])
+        self.added = datetime.strptime(data['added'], date_format)
+        if not data['changed'] is None:
+            self.changed = datetime.strptime(data['changed'], date_format)
+        else:
+            self.changed = None
+
+
+class UpdateBill:
+    id: int
+    received: datetime
+    processed: Optional[datetime]
+    products: Optional[List[Product]]
+    responsible: Person
+    transaction: ExpandedTransaction
+    added: datetime
+    changed: Optional[datetime]
+    transaction_id: int
+    transaction_description: Optional[str]
+    transaction_sender: int
+    transaction_sender_local: bool
+    transaction_receiver: int
+    transaction_receiver_local: bool
+    transaction_added: datetime
+    transaction_changed: Optional[datetime]
+    transaction_money_node_id: int
+    money_branch: Branch
+    money_change: int
+    money_currency: Currency
+    money_processed: bool
+    money_added: datetime
+    money_changed: Optional[datetime]
+
+    def __init__(self, data: Dict):
+        self.id = data['id']
+        self.changed = datetime.strptime(data['received'], date_format)
+        if not data['processed'] is None:
+            self.processed = datetime.strptime(data['processed'], date_format)
+        else:
+            self.processed = None
+        self.products = [Product(data=product) for product in data['products']]
+        self.responsible = Person(data=data['responsible'])
+        self.transaction = ExpandedTransaction(data['transaction'])
+        self.added = datetime.strptime(data['added'], date_format)
+        if not data['changed'] is None:
+            self.changed = datetime.strptime(data['changed'], date_format)
+        else:
+            self.changed = None
+
+        self.transaction_id = data['transaction']['id']
+        self.transaction_description = data['transaction']['description']
+        self.transaction_sender = data['transaction']['sender']['id']
+        self.transaction_sender_local = data['transaction']['sender_local']
+        self.transaction_receiver = data['transaction']['receiver']['id']
+        self.transaction_receiver_local = data['transaction']['receiver_local']
+        self.transaction_money_node_id = data['transaction']['money_node']['id']
+        self.money_branch = data['transaction']['money_node']['branch']
+        self.money_change = data['transaction']['money_node']['change']
+        self.money_currency = data['transaction']['money_node']['currency']
+        self.money_processed = data['transaction']['money_node']['processed']
+
+        self.transaction_added = datetime.strptime(data['transaction']['added'], date_format)
+        if not data['transaction']['changed'] is None:
+            self.transaction_changed = datetime.strptime(data['transaction']['changed'], date_format)
+        else:
+            self.transaction_changed = None
+
+        self.money_added = datetime.strptime(data['transaction']['money_node']['added'], date_format)
+        if not data['transaction']['money_node']['changed'] is None:
+            self.money_changed = datetime.strptime(data['transaction']['money_node']['changed'], date_format)
+        else:
+            self.money_changed = None
+
+
 class Depodraw:
     id: int
     description: Optional[Branch]

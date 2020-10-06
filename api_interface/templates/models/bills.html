@@ -1,0 +1,107 @@
+{% from "bootstrap/form.html" import render_field %}
+{% extends "structure/api_layout.html" %}
+
+{% block title %} Bills {% endblock title %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Bills</li>
+  </ol>
+</nav>
+
+<div class="flex-row">
+  <div class="row">
+    <div class="col-md-auto">
+      <h2> Bills | API </h2>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newBill">+</button>
+    </div>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Received</th>
+    <th scope="col">Processed</th>
+    <th scope="col">Products</th>
+    <th scope="col">Responsible</th>
+    <th scope="col">Transaction</th>
+    <th scope="col">Added</th>
+    <th scope="col">Changed</th>
+    <th scope="col">Options</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for bill in bills %}
+  <tr>
+    <td>{{bill.id}}</td>
+    <td>{{bill.description}}</td>
+    <td>
+      {{transaction.sender}}
+      {% if transaction.sender_local %}
+        (local)
+      {% endif %}
+    </td>
+    <td>
+      {{transaction.receiver}}
+      {% if transaction.receiver_local %}
+        (local)
+      {% endif %}
+    </td>
+    <td>{{transaction.money_node}}</td>
+    <td>{{transaction.added}}</td>
+    <td>{{transaction.changed}}</td>
+    <td>
+      <div class="row">
+          <a href="{{ url_for('transaction_pages.delete_transaction', transaction_id=transaction.id) }}">
+            <button type="button" class="btn btn-danger" value="Delete">&times;</button>
+          </a>
+          <a href="{{ url_for('transaction_pages.single_transaction', transaction_id=transaction.id) }}">
+            <button type="button" class="btn btn-success" value="Delete">✎</button>
+          </a>
+        </form>
+      </div>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class="modal fade" id="newTransaction" tabindex="-1" aria-labelledby="newTransactionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newTransactionLabel">New Transaction</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+          {{ form.csrf_token }}
+          {{ render_field(form.description) }}
+          {{ render_field(form.sender) }}
+          {{ render_field(form.sender_local) }}
+          {{ render_field(form.receiver) }}
+          {{ render_field(form.receiver_local) }}
+          {{ render_field(form.branch) }}
+          {{ render_field(form.change) }}
+          {{ render_field(form.currency) }}
+          {{ render_field(form.processed) }}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="newTransaction">Close</button>
+            <button type="submit" class="btn btn-primary" value="Create">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import IntegerField, BooleanField, DateTimeField, TextAreaField, validators, SelectField
 from wtforms_components import read_only
 
-from api_interface.model import Transaction, ExpandedTransaction, MoneyNode, UpdateTransaction
+from api_interface.model import UpdateTransaction
 
 transaction_pages = Blueprint('transaction_pages', __name__, template_folder='templates')
 

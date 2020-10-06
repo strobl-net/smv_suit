@@ -1,0 +1,71 @@
+{% from "bootstrap/form.html" import render_field %}
+{% extends "structure/api_layout.html" %}
+
+{% block title %} Transaction {{ transaction.id }} {% endblock title %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('bill_pages.bills') }}">Bills</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ bill.id }}</li>
+  </ol>
+</nav>
+<div class="container-fluid">
+  <div class="d-flex flex-row">
+    <div class="p-2">
+      <h2> Bill | {{ bill.id }} | API</h2>
+    </div>
+    <div class="p-2">
+      <a href="{{ url_for('bill_pages.delete_bill', bill_id=bill.id) }}">
+        <button type="button" class="btn btn-danger" value="Delete">Delete</button>
+      </a>
+    </div>
+  </div>
+
+
+  <form method="post">
+    <div class="row">
+      <div class="col-sm">
+        {{ form.csrf_token }}
+        {{ render_field(form.id) }}
+        {{ render_field(form.received }}
+        {{ render_field(form.products }}
+        {{ render_field(form.responsible }}
+        {{ render_field(form.transaction_id }}
+        {{ render_field(form.added) }}
+        {{ render_field(form.changed) }}
+
+      </div>
+      <div class="col-sm">
+        {{ render_field(form.transaction_description) }}
+        {{ render_field(form.transaction_sender) }}
+        {{ render_field(form.transaction_sender_local) }}
+        {{ render_field(form.transaction_receiver) }}
+        {{ render_field(form.transaction_receiver_local) }}
+        {{ render_field(form.transaction_money_node_id }}
+        {{ render_field(form.transaction_added) }}
+        {{ render_field(form.transaction_changed) }}
+        <p>-------------------</p>
+        {{ render_field(form.money_branch) }}
+        {{ render_field(form.money_change) }}
+        {{ render_field(form.money_currency) }}
+        {{ render_field(form.money_processed) }}
+        {{ render_field(form.money_added) }}
+        {{ render_field(form.money_changed) }}
+        <div class="d-flex flex-row-reverse">
+          <div class="p-2">
+            <button type="submit" class="btn btn-primary" value="update">Update</button>
+          </div>
+          <div class="p-2">
+            <a href="{{ url_for('bill_pages.bills') }}">
+              <button type="button" class="btn btn-secondary" value="Exit">Cancel</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content %}
