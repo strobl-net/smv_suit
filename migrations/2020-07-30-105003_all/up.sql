@@ -178,10 +178,6 @@ INSERT INTO money_nodes (branch, change, currency, processed, added)
 INSERT INTO money_nodes (branch, change, currency, processed, added)
     VALUES ('cash', -168, 'eur', true, now());
 
-
-INSERT INTO transactions (description, sender, sender_local, receiver, receiver_local, money_node, added)
-    VALUES ('starter money', 2, false, 2, false, 1, now());
-
 INSERT INTO transactions (description, sender, sender_local, receiver, receiver_local, money_node, added)
     VALUES ('withdraw account side', 2, false, 1, true, 2, now());
 INSERT INTO transactions (description, sender, sender_local, receiver, receiver_local, money_node, added)
@@ -192,8 +188,8 @@ INSERT INTO transactions (description, sender, sender_local, receiver, receiver_
 
 
 INSERT INTO depodraws (description, transaction_up, transaction_down, added)
-    VALUES ('first withdraw', 3, 2, now());
+    VALUES ('first withdraw', 2, 1, now());
 
 
 INSERT INTO bills (received, processed, products, responsible, transaction, added)
-    VALUES (now(), now(), '{2, 3}', 1, 4, now())
+    VALUES (now(), now(), '{2, 3}', 1, 3, now())

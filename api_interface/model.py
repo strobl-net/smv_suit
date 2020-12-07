@@ -284,9 +284,8 @@ class UpdateBill:
     id: int
     received: datetime
     processed: Optional[datetime]
-    products: Optional[List[Product]]
+    product_ids: Optional[List[int]]
     responsible: Person
-    transaction: ExpandedTransaction
     added: datetime
     changed: Optional[datetime]
     transaction_id: int
@@ -297,7 +296,7 @@ class UpdateBill:
     transaction_receiver_local: bool
     transaction_added: datetime
     transaction_changed: Optional[datetime]
-    transaction_money_node_id: int
+    money_node_id: int
     money_branch: Branch
     money_change: int
     money_currency: Currency
@@ -307,14 +306,13 @@ class UpdateBill:
 
     def __init__(self, data: Dict):
         self.id = data['id']
-        self.changed = datetime.strptime(data['received'], date_format)
+        self.received = datetime.strptime(data['received'], date_format)
         if not data['processed'] is None:
             self.processed = datetime.strptime(data['processed'], date_format)
         else:
             self.processed = None
-        self.products = [Product(data=product) for product in data['products']]
-        self.responsible = Person(data=data['responsible'])
-        self.transaction = ExpandedTransaction(data['transaction'])
+        self.products = [Product(data=product).id for product in data['products']]
+        self.responsible_id = Person(data=data['responsible']).id
         self.added = datetime.strptime(data['added'], date_format)
         if not data['changed'] is None:
             self.changed = datetime.strptime(data['changed'], date_format)
@@ -327,7 +325,7 @@ class UpdateBill:
         self.transaction_sender_local = data['transaction']['sender_local']
         self.transaction_receiver = data['transaction']['receiver']['id']
         self.transaction_receiver_local = data['transaction']['receiver_local']
-        self.transaction_money_node_id = data['transaction']['money_node']['id']
+        self.money_node_id = data['transaction']['money_node']['id']
         self.money_branch = data['transaction']['money_node']['branch']
         self.money_change = data['transaction']['money_node']['change']
         self.money_currency = data['transaction']['money_node']['currency']

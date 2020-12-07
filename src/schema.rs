@@ -1,8 +1,5 @@
-#![allow(unused)]
-
 table! {
     use diesel::sql_types::*;
-    use crate::db::types::exports::*;
 
     bills (id) {
         id -> Int4,
@@ -18,7 +15,6 @@ table! {
 
 table! {
     use diesel::sql_types::*;
-    use crate::db::types::exports::*;
 
     depodraws (id) {
         id -> Int4,
@@ -47,7 +43,6 @@ table! {
 
 table! {
     use diesel::sql_types::*;
-    use crate::db::types::exports::*;
 
     organisations (id) {
         id -> Int4,
@@ -62,7 +57,6 @@ table! {
 
 table! {
     use diesel::sql_types::*;
-    use crate::db::types::exports::*;
 
     persons (id) {
         id -> Int4,
@@ -94,7 +88,6 @@ table! {
 
 table! {
     use diesel::sql_types::*;
-    use crate::db::types::exports::*;
 
     statement_of_accounts (id) {
         id -> Int4,
@@ -108,7 +101,6 @@ table! {
 
 table! {
     use diesel::sql_types::*;
-    use crate::db::types::exports::*;
 
     transaction_entities (id) {
         id -> Int4,
@@ -124,7 +116,6 @@ table! {
 
 table! {
     use diesel::sql_types::*;
-    use crate::db::types::exports::*;
 
     transactions (id) {
         id -> Int4,

@@ -41,28 +41,19 @@
   {% for bill in bills %}
   <tr>
     <td>{{bill.id}}</td>
-    <td>{{bill.description}}</td>
-    <td>
-      {{transaction.sender}}
-      {% if transaction.sender_local %}
-        (local)
-      {% endif %}
-    </td>
-    <td>
-      {{transaction.receiver}}
-      {% if transaction.receiver_local %}
-        (local)
-      {% endif %}
-    </td>
-    <td>{{transaction.money_node}}</td>
-    <td>{{transaction.added}}</td>
-    <td>{{transaction.changed}}</td>
+    <td>{{bill.received}}</td>
+    <td>{{bill.processed}}</td>
+    <td>{{bill.products}}</td>
+    <td>{{bill.responsible}}</td>
+    <td>{{bill.transaction}}</td>
+    <td>{{bill.added}}</td>
+    <td>{{bill.changed}}</td>
     <td>
       <div class="row">
-          <a href="{{ url_for('transaction_pages.delete_transaction', transaction_id=transaction.id) }}">
+          <a href="{{ url_for('bill_pages.delete_bill', bill_id=bill.id) }}">
             <button type="button" class="btn btn-danger" value="Delete">&times;</button>
           </a>
-          <a href="{{ url_for('transaction_pages.single_transaction', transaction_id=transaction.id) }}">
+          <a href="{{ url_for('bill_pages.single_bill', bill_id=bill.id) }}">
             <button type="button" class="btn btn-success" value="Delete">✎</button>
           </a>
         </form>
@@ -73,11 +64,11 @@
   </tbody>
 </table>
 
-<div class="modal fade" id="newTransaction" tabindex="-1" aria-labelledby="newTransactionLabel" aria-hidden="true">
+<div class="modal fade" id="newBill" tabindex="-1" aria-labelledby="newBillLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newTransactionLabel">New Transaction</h5>
+        <h5 class="modal-title" id="NewBillLabel">New Bill</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -85,17 +76,21 @@
       <div class="modal-body">
         <form method="post">
           {{ form.csrf_token }}
-          {{ render_field(form.description) }}
-          {{ render_field(form.sender) }}
-          {{ render_field(form.sender_local) }}
-          {{ render_field(form.receiver) }}
-          {{ render_field(form.receiver_local) }}
-          {{ render_field(form.branch) }}
-          {{ render_field(form.change) }}
-          {{ render_field(form.currency) }}
+          {{ render_field(form.received) }}
           {{ render_field(form.processed) }}
+          {{ render_field(form.products) }}
+          {{ render_field(form.responsible) }}
+          {{ render_field(form.transaction_description) }}
+          {{ render_field(form.transaction_sender) }}
+          {{ render_field(form.transaction_sender_local) }}
+          {{ render_field(form.transaction_receiver) }}
+          {{ render_field(form.transaction_receiver_local) }}
+          {{ render_field(form.money_branch) }}
+          {{ render_field(form.money_change) }}
+          {{ render_field(form.money_currency) }}
+          {{ render_field(form.money_processed) }}
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="newTransaction">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="newBill">Close</button>
             <button type="submit" class="btn btn-primary" value="Create">Create</button>
           </div>
         </form>

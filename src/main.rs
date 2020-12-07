@@ -34,7 +34,7 @@ async fn main() -> std::io::Result<()> {
     // Edit Cors for production
     HttpServer::new(move || {
         App::new()
-            .wrap(Cors::new().supports_credentials().max_age(3600).finish())
+            .wrap(Cors::permissive().max_age(3600))
             .data(config.clone())
             .data(pool.clone())
             .wrap(middleware::Logger::default())
