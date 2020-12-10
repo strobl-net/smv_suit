@@ -1,0 +1,101 @@
+{% from "bootstrap/form.html" import render_field %}
+{% extends "structure/api_layout.html" %}
+
+{% block title %} Depodraws {% endblock title %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Depodraws</li>
+  </ol>
+</nav>
+
+<div class="flex-row">
+  <div class="row">
+    <div class="col-md-auto">
+      <h2> Depodraws | API </h2>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newDepodraw">+</button>
+    </div>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Description</th>
+    <th scope="col">Sender</th>
+    <th scope="col">Receiver</th>
+    <th scope="col">Added</th>
+    <th scope="col">Changed</th>
+    <th scope="col">Options</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for depodraw in depodraws %}
+  <tr>
+    <td>{{depodraw.id}}</td>
+    <td>{{depodraw.description}}</td>
+    <td>
+      {% if depodraw.transaction_up == 0 %}
+        SMV Account
+      {% else %}
+        SMV Cash Register
+      {% endif %}
+    </td>
+    <td>
+      {% if depodraw.transaction_up == 0 %}
+        SMV Account
+      {% else %}
+        SMV Cash Register
+      {% endif %}
+    </td>
+    <td>{{depodraw.added}}</td>
+    <td>{{depodraw.changed}}</td>
+    <td>
+      <div class="row">
+          <a href="{{ url_for('depodraw_pages.delete_depodraw', depodraw_id=depodraw.id) }}">
+            <button type="button" class="btn btn-danger" value="Delete">&times;</button>
+          </a>
+          <a href="{{ url_for('depodraw_pages.single_depodraw', depodraw_id=depodraw.id) }}">
+            <button type="button" class="btn btn-success" value="Delete">✎</button>
+          </a>
+        </form>
+      </div>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class="modal fade" id="newDepodraw" tabindex="-1" aria-labelledby="newDepodrawLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newDepodrawLabel">New Depodraw</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+          {{ form.csrf_token }}
+          {{ render_field(form.description) }}
+          {{ render_field(form.from_bank) }}
+          {{ render_field(form.change) }}
+          {{ render_field(form.currency) }}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="newDepodraw">Close</button>
+            <button type="submit" class="btn btn-primary" value="Create">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

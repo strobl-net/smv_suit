@@ -29,8 +29,7 @@ pub fn all_expanded(conn: &PgConnection) -> Vec<ExpandedTransaction> {
 }
 
 pub fn by_id_expanded(conn: &PgConnection, id: i32) -> ExpandedTransaction {
-    let transaction = by_id(conn, id).unwrap();
-    transaction.expand(&conn)
+    by_id(conn, id).unwrap().expand(conn)
 }
 
 pub fn new(conn: &PgConnection, transaction: NewInputTransaction) -> QueryResult<Transaction> {

@@ -348,7 +348,7 @@ class Depodraw:
     id: int
     description: Optional[Branch]
     transaction_up: int
-    transaction_down: Currency
+    transaction_down: int
     added: datetime
     changed: Optional[datetime]
 
@@ -363,6 +363,38 @@ class Depodraw:
             self.changed = datetime.strptime(data['changed'], date_format)
         else:
             self.changed = None
+
+
+class UpdateDepodraw:
+    id: int
+    description: Optional[str]
+    transaction_up_name: str
+    transaction_down_name: str
+    transaction_up: int
+    transaction_down: int
+    change: int
+    currency: Currency
+    processed: bool
+    is_bank_up: bool
+    added: datetime
+    changed: Optional[datetime]
+
+    def __init__(self, data: Dict):
+        self.id = data['id']
+        self.description = data['description']
+        self.transaction_up = data['transaction_up']['id']
+        self.transaction_down = data['transaction_down']['id']
+        self.change = data['transaction_down']['money_node']['change']
+        self.currency = data['transaction_down']['money_node']['currency']
+        self.added = datetime.strptime(data['added'], date_format)
+        self.changed = data['changed']
+
+        if data['transaction_up']['id'] == 1:
+            self.transaction_up_name = "SMV Account"
+            self.transaction_down_name = "SMV Register"
+        else:
+            self.transaction_up_name = "SMV Cash Register"
+            self.transaction_down_name = "SMV Account"
 
 
 class StatementOfAccount:

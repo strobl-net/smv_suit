@@ -1,0 +1,55 @@
+{% from "bootstrap/form.html" import render_field %}
+{% extends "structure/api_layout.html" %}
+
+{% block title %} Depodraw {{ depodraw.id }} {% endblock title %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('depodraw_pages.depodraws') }}">Depodraws</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ depodraw.id }}</li>
+  </ol>
+</nav>
+<div class="container-fluid">
+  <div class="d-flex flex-row">
+    <div class="p-2">
+      <h2> Depodraw | {{ depodraw.id }} | API</h2>
+    </div>
+    <div class="p-2">
+      <a href="{{ url_for('depodraw_pages.delete_depodraw', depodraw_id=depodraw.id) }}">
+        <button type="button" class="btn btn-danger" value="Delete">Delete</button>
+      </a>
+    </div>
+  </div>
+
+
+  <form method="post">
+    <div class="row">
+      <div class="col-sm">
+        {{ form.csrf_token }}
+        {{ render_field(form.id) }}
+        {{ render_field(form.description) }}
+        {{ render_field(form.transaction_up_name) }}
+        {{ render_field(form.transaction_down_name) }}
+        {{ render_field(form.change) }}
+        {{ render_field(form.currency) }}
+        {{ render_field(form.added) }}
+        {{ render_field(form.changed) }}
+
+        <div class="d-flex flex-row-reverse">
+          <div class="p-2">
+            <button type="submit" class="btn btn-primary" value="update">Update</button>
+          </div>
+          <div class="p-2">
+            <a href="{{ url_for('depodraw_pages.depodraws') }}">
+              <button type="button" class="btn btn-secondary" value="Exit">Cancel</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content %}

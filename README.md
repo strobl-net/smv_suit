@@ -3,16 +3,17 @@ A finance and team management software for the SMV
 
 ## Roadmap (changes possible)
 - [x] Simple Backend
-- [ ] Simple API Interface
+- [x] Simple API Interface
 - [x] Simple Frontend
 - [ ] Finance Calculations (Backend)
 - [ ] Display and Filter Finance Calculations (Frontend, API Interface)
 - [ ] User and Auth System
 - [ ] Login and Auth Secured Routes
-- [ ] Schools Auth API Integration
 - [ ] re-add Projects
 - [ ] TODO tables to Projects
+- [ ] Add Image support for Projects, Account Statements and other
 - [ ] User Group and Project chats
+- [ ] Schools Auth API Integration
 - [ ] Secured Chats?
 - [ ] Role locked Projects
 - [ ] `Technik` Items
