@@ -13,6 +13,7 @@ pub mod statement_of_accounts;
 pub mod transaction_entities;
 pub mod transactions;
 pub mod types;
+pub mod finance;
 
 // no one wants to write a type out this long
 pub type PgPool = Pool<ConnectionManager<PgConnection>>;

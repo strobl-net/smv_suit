@@ -30,22 +30,22 @@ class TransactionForm(FlaskForm):
 class NewTransactionForm(FlaskForm):
     description = TextAreaField('Description', validators=[validators.Optional()])
     sender = IntegerField('Sender', validators=[validators.DataRequired()])
-    sender_local = BooleanField('Is Local Sender', validators=[validators.DataRequired()])
+    sender_local = BooleanField('Is Local Sender', validators=[validators.Optional()])
     receiver = IntegerField('Receiver', validators=[validators.DataRequired()])
-    receiver_local = BooleanField('Is Local Receiver', validators=[validators.DataRequired()])
+    receiver_local = BooleanField('Is Local Receiver', validators=[validators.Optional()])
     branch = SelectField('Name', choices=['Digital', 'Cash'], validators=[validators.DataRequired()])
     change = IntegerField('Change', validators=[validators.DataRequired()])
     currency = SelectField('Currency', choices=['EUR', 'USD'], validators=[validators.DataRequired()])
-    processed = BooleanField('Processed', validators=[validators.DataRequired()])
+    processed = BooleanField('Processed', validators=[validators.Optional()])
 
 
 class UpdateTransactionForm(FlaskForm):
     id = IntegerField("ID")
     description = TextAreaField('Description', validators=[validators.Optional()])
     sender = IntegerField('Sender', validators=[validators.DataRequired()])
-    sender_local = BooleanField('Is Local Sender')
+    sender_local = BooleanField('Is Local Sender', validators=[validators.Optional()])
     receiver = IntegerField('Receiver', validators=[validators.DataRequired()])
-    receiver_local = BooleanField('Is Local Receiver')
+    receiver_local = BooleanField('Is Local Receiver', validators=[validators.Optional()])
     money_node_id = IntegerField('Money Node', default=0)
     money_branch = SelectField('Branch', choices=['Digital', 'Cash'], validators=[validators.DataRequired()])
     money_change = IntegerField('Change', validators=[validators.DataRequired()])

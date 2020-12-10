@@ -1,0 +1,32 @@
+{% extends "structure/layout.html" %}
+
+{% block title %} Finance {% endblock title %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('api') }}">API</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Finance</li>
+  </ol>
+</nav>
+
+<div class="container">
+  <h1> General Overview </h1>
+  <ul>
+    <li>Overall Standing: {{ values.all }}</li>
+    <li>Digital Standing: {{ values.digital_all }}</li>
+    <li>Cash Standing: {{ values.cash_all }}</li>
+
+    <li>Only Processed: {{ values.processed_all }}</li>
+    <li>Digital Processed: {{ values.processed_digital }}</li>
+    <li>Cash Processed: {{ values.processed_cash }}</li>
+
+    <li>Not Processed: {{ values.not_processed_all }}</li>
+    <li>Digital Not Processed: {{ values.not_processed_digital }}</li>
+    <li>Cash Not Processed: {{ values.not_processed_cash }}</li>
+  </ul>
+  <h2>Custom:</h2>
+  <p>coming soon</p>
+</div>
+{% endblock content %}
