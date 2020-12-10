@@ -1,6 +1,31 @@
 # SMV SUIT
 A finance and team management software for the SMV
 
+## Installation
+
+- Install the newest version of Rust https://www.rust-lang.org/tools/install
+- Install the newest version of Python3 / Anaconda
+- Other required programs (docker-compose.yml in extras) :
+    - Postgres 12 (with PostGis)
+    - Diesel CLI `cargo install diesel_cli --no-default-features --features postgres`
+    - (Optional) PGAdmin4
+- Required Python Packages (all newest):
+    - flask
+    - flask_wtf
+    - flask_bootstrap
+    - wtforms
+    - requests
+    - datetime
+    - typing
+    - aenum
+    
+- fill out a `.env` file (take the `.env.example` as the template) 
+- compile the Rust Project with `cargo build`
+- add/remove data in `migrations/<date>_all`
+- run `diesel setup` and `diesel migration run`
+- start the API with `cargo run`
+- start the API Interface with `python api_interface/app.py`
+
 ## Roadmap sorted by priority (changes possible)
 - [x] Simple Backend
 - [x] Simple API Interface
