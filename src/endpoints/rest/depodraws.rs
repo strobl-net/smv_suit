@@ -1,6 +1,9 @@
 use crate::db::depodraws as db_items;
 use crate::db::PgPool;
-use crate::models::depodraw::{NewInputDepodraw as NewItem, UpdateDepodraw as UpdateItem, InputUpdateDepodraw as InputUpdateItem, NewInputDepodraw};
+use crate::models::depodraw::{
+    InputUpdateDepodraw as InputUpdateItem, NewInputDepodraw as NewItem, NewInputDepodraw,
+    UpdateDepodraw as UpdateItem,
+};
 use actix_web::web::ServiceConfig;
 use actix_web::{delete, get, patch, post, web, Error, HttpResponse};
 

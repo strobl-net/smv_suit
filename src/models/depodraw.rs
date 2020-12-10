@@ -1,10 +1,10 @@
-use crate::schema::depodraws;
-use chrono::NaiveDateTime;
-use serde::{Deserialize, Serialize};
 use crate::db::types::Currency;
 use crate::models::transaction::ExpandedTransaction;
 use crate::models::Expandable;
+use crate::schema::depodraws;
+use chrono::NaiveDateTime;
 use diesel::PgConnection;
+use serde::{Deserialize, Serialize};
 
 #[derive(GraphQLObject, Queryable, Debug, Serialize, Deserialize, Clone)]
 pub struct Depodraw {
@@ -32,8 +32,10 @@ pub struct ExpandedDepodraw {
 
 impl Expandable<ExpandedDepodraw> for Depodraw {
     fn expand(self, conn: &PgConnection) -> ExpandedDepodraw {
-        let expanded_transaction_up =  crate::db::transactions::by_id_expanded(conn, self.transaction_up);
-        let expanded_transaction_down =  crate::db::transactions::by_id_expanded(conn, self.transaction_down);
+        let expanded_transaction_up =
+            crate::db::transactions::by_id_expanded(conn, self.transaction_up);
+        let expanded_transaction_down =
+            crate::db::transactions::by_id_expanded(conn, self.transaction_down);
 
         ExpandedDepodraw {
             id: self.id,
@@ -41,7 +43,7 @@ impl Expandable<ExpandedDepodraw> for Depodraw {
             transaction_up: expanded_transaction_up,
             transaction_down: expanded_transaction_down,
             added: self.added,
-            changed: self.changed
+            changed: self.changed,
         }
     }
 }
@@ -65,7 +67,7 @@ impl NewDepodraw {
             transaction_up: up_id,
             transaction_down: down_id,
             added: chrono::Utc::now().naive_utc(),
-            changed: None
+            changed: None,
         }
     }
 }
@@ -78,7 +80,6 @@ pub struct NewInputDepodraw {
     pub currency: Currency,
 }
 
-
 #[derive(Debug, AsChangeset, GraphQLInputObject)]
 #[table_name = "depodraws"]
 pub struct UpdateDepodraw {
@@ -90,12 +91,12 @@ impl UpdateDepodraw {
     pub fn from_input(input: InputUpdateDepodraw) -> Self {
         Self {
             description: input.description,
-            changed: Some(chrono::Utc::now().naive_utc())
+            changed: Some(chrono::Utc::now().naive_utc()),
         }
     }
 }
 
 #[derive(Debug, Deserialize)]
 pub struct InputUpdateDepodraw {
-    pub description: Option<String>
+    pub description: Option<String>,
 }
