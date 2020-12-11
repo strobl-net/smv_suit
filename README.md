@@ -20,7 +20,7 @@ A finance and team management software for the SMV
     - aenum
     
 - fill out a `.env` file (take the `.env.example` as the template) 
-- compile the Rust Project with `cargo build`
+- compile the Rust Project with `cargo build --release`
 - add/remove data in `migrations/<date>_all`
 - run `diesel setup` and `diesel migration run`
 - start the API with `cargo run`

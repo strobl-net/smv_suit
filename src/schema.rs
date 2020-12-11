@@ -137,12 +137,27 @@ table! {
     }
 }
 
+table! {
+    use diesel::sql_types::*;
+    use crate::db::types::exports::*;
+
+    users (id) {
+        id -> Int4,
+        username -> Varchar,
+        email -> Nullable<Varchar>,
+        profile -> Nullable<Int4>,
+        password -> Varchar,
+        login_session -> Varchar,
+    }
+}
+
 joinable!(bills -> persons (responsible));
 joinable!(bills -> transactions (transaction));
 joinable!(products -> transaction_entities (provider));
 joinable!(transaction_entities -> organisations (organisation));
 joinable!(transaction_entities -> persons (person));
 joinable!(transactions -> money_nodes (money_node));
+joinable!(users -> persons (profile));
 
 allow_tables_to_appear_in_same_query!(
     bills,
@@ -154,4 +169,5 @@ allow_tables_to_appear_in_same_query!(
     statement_of_accounts,
     transaction_entities,
     transactions,
+    users,
 );

@@ -12,6 +12,20 @@ CREATE TABLE persons (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE users (
+    id              SERIAL                          ,
+    username        VARCHAR     NOT NULL UNIQUE     ,
+    email           VARCHAR     UNIQUE              ,
+    profile         INT         UNIQUE              ,
+    password        VARCHAR     NOT NULL            ,
+    login_session   VARCHAR NOT NULL DEFAULT ''     ,
+    PRIMARY KEY (id)                                ,
+    CONSTRAINT fk_profile
+        FOREIGN KEY (profile)
+                   REFERENCES persons(id)
+                   ON DELETE SET NULL
+);
+
 CREATE TABLE organisations (
     id              SERIAL                  ,
     name            TEXT        NOT NULL    ,

@@ -1,5 +1,6 @@
 use actix_web::web::ServiceConfig;
 
+mod auth;
 mod bills;
 mod depodraws;
 mod money_nodes;
@@ -12,6 +13,7 @@ mod transactions;
 mod finance;
 
 pub fn endpoints(config: &mut ServiceConfig) {
+    auth::endpoints(config);
     persons::endpoints(config);
     organisations::endpoints(config);
     transaction_entities::endpoints(config);

@@ -6,6 +6,7 @@ DROP TABLE money_nodes;
 DROP TABLE products;
 DROP TABLE transaction_entities;
 DROP TABLE organisations;
+DROP TABLE users;
 DROP TABLE persons;
 
 DROP TYPE currency;

@@ -9,7 +9,7 @@ edition = "2018"
 [dependencies]
 actix-web = "3.3.2"
 actix-cors = "0.5.3"
-juniper = "0.14.2"
+juniper = "0.15.0"
 diesel = { git = "https://github.com/diesel-rs/diesel", features = ["postgres", "r2d2", "chrono"] }
 r2d2 = "0.8.9"
 chrono = { version = "0.4.15", features = ["serde"] }
@@ -18,3 +18,5 @@ fern = "0.6.0"
 serde = "1.0.118"
 serde_json = "1.0.60"
 serde_qs = "0.8.1"
+futures = "0.3.8"
+jsonwebtoken = "7.2.0"

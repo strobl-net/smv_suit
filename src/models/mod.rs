@@ -9,6 +9,7 @@
 use diesel::PgConnection;
 use serde::Serialize;
 
+pub mod user;
 pub mod bill;
 pub mod depodraw;
 pub mod money_node;
@@ -18,6 +19,7 @@ pub mod product;
 pub mod statement_of_account;
 pub mod transaction;
 pub mod transaction_entity;
+pub mod tech;
 
 pub trait Expandable<T: Serialize> {
     fn expand(self, conn: &PgConnection) -> T;
