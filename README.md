@@ -1,4 +1,4 @@
-# SMV SUIT
+# SMV SUITE
 A finance and team management software for the SMV
 
 ## Installation
